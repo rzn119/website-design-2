@@ -515,7 +515,7 @@ section[id], footer[id] {
   top: -12%;
   right: -8%;
   width: clamp(220px, 44vw, 640px);
-  opacity: 0.5;
+  opacity: 0.18;
   pointer-events: none;
   z-index: 0;
 }
@@ -530,7 +530,7 @@ section[id], footer[id] {
   .hero__mark {
     top: -6%;
     right: -22%;
-    opacity: 0.3;
+    opacity: 0.15;
   }
 }
 
