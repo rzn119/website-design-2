@@ -518,6 +518,7 @@ section[id], footer[id] {
   opacity: 0.2;
   pointer-events: none;
   z-index: 0;
+  clip-path: polygon(0% 100%, 0% 100%, 0% 100%, 0% 100%);
 }
 
 .hero__inner {
@@ -534,41 +535,29 @@ section[id], footer[id] {
   }
 }
 
-/* Hero mark — drawn-on entrance. Each stroke starts fully hidden
-   (dashoffset 100, paired with pathLength="100" on the element so the
-   same values work regardless of the shape's real geometry) and reveals
-   left-to-right along its own path, circle by circle, then the
-   connecting line, then the crosshair ticks — the order you'd actually
-   draft the mark in. Runs once on load; never loops. */
-.hero-mark__draw {
-  stroke-dasharray: 100;
-  stroke-dashoffset: 100;
-  animation: hero-mark-draw 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+/* Hero mark — wipe-reveal entrance, re-triggered by JS (main.js) each
+   time the hero scrolls into view. logo.png is a photo, not stroke
+   paths, so a true per-stroke dashoffset "draw-on" isn't possible here;
+   this sweeps the mark in from the bottom-left corner along the same
+   diagonal the mark's own line runs, which reads as "drawing itself"
+   without needing separable strokes. */
+.hero__mark.is-revealing {
+  animation: hero-mark-reveal 4.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
-.hero-mark__circle-1 { animation-delay: 0.1s; }
-.hero-mark__circle-2 { animation-delay: 0.75s; }
-
-.hero-mark__line {
-  animation-delay: 1.45s;
-  animation-duration: 0.55s;
-}
-
-.hero-mark__cross {
-  animation-delay: 1.95s;
-  animation-duration: 0.4s;
-}
-
-@keyframes hero-mark-draw {
+@keyframes hero-mark-reveal {
   to {
-    stroke-dashoffset: 0;
+    clip-path: polygon(0% 100%, -20% -20%, 120% -20%, 120% 100%);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero-mark__draw {
+  .hero__mark {
+    clip-path: none;
+  }
+
+  .hero__mark.is-revealing {
     animation: none;
-    stroke-dashoffset: 0;
   }
 }
 

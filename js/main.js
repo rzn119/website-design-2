@@ -15,3 +15,23 @@
     });
   });
 })();
+
+(function () {
+  var hero = document.getElementById('hero');
+  var mark = document.getElementById('hero-mark');
+  if (!hero || !mark || !('IntersectionObserver' in window)) return;
+
+  // Observe the hero section, not the mark itself — the mark is hidden via
+  // clip-path between reveals, and a fully-clipped (zero-area) target never
+  // reports as intersecting, so it could never re-trigger its own reveal.
+  var observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (!entry.isIntersecting) return;
+      mark.classList.remove('is-revealing');
+      void mark.offsetWidth; // force reflow so the animation restarts
+      mark.classList.add('is-revealing');
+    });
+  }, { threshold: 0.3 });
+
+  observer.observe(hero);
+})();
