@@ -695,6 +695,125 @@ section[id], footer[id] {
   margin-top: -0.5rem;
 }
 
+/* Gallery wall — products float on a flat background with a cast shadow
+   (filter: drop-shadow follows the object's silhouette, unlike a boxed
+   card border, so it reads as a physical object rather than a thumbnail).
+   This is the one place in the system that uses a drop shadow; it stays
+   scoped to the shop display and isn't used anywhere else. */
+.shop-wall {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--gutter);
+  align-items: start;
+}
+
+.shop-wall--preview {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.shop-wall > a:nth-child(1) { margin-top: 0; }
+.shop-wall > a:nth-child(2) { margin-top: 3.25rem; }
+.shop-wall > a:nth-child(3) { margin-top: 1rem; }
+
+.shop-item {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+
+.shop-item__figure {
+  padding: 1.5rem 1rem 0;
+}
+
+.shop-item__figure svg {
+  width: 100%;
+  height: auto;
+  filter:
+    drop-shadow(5px 8px 7px rgba(27, 27, 27, 0.20))
+    drop-shadow(14px 30px 26px rgba(27, 27, 27, 0.14));
+  transition: filter 0.25s ease, transform 0.25s ease;
+}
+
+.shop-item__shelf {
+  display: block;
+  width: 56%;
+  height: 1px;
+  margin: 1.5rem auto 1.35rem;
+  background-image: var(--dash-soft);
+}
+
+.shop-item:hover .shop-item__figure svg,
+.shop-item:focus-visible .shop-item__figure svg {
+  transform: translateY(-3px);
+  filter:
+    drop-shadow(7px 12px 9px rgba(27, 27, 27, 0.24))
+    drop-shadow(18px 38px 32px rgba(27, 27, 27, 0.18));
+}
+
+.shop-item:focus-visible {
+  outline: 2px solid var(--navy);
+  outline-offset: 6px;
+  border-radius: 2px;
+}
+
+@media (max-width: 640px) {
+  .shop-wall,
+  .shop-wall--preview {
+    grid-template-columns: 1fr;
+  }
+
+  .shop-wall > a {
+    margin-top: 0 !important;
+  }
+}
+
+/* -------------------------------------------------------------------------
+   Product detail page
+   ------------------------------------------------------------------------- */
+.product-detail {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  gap: calc(var(--gutter) * 1.5);
+  align-items: center;
+}
+
+.product-detail__figure {
+  padding: 1rem 2rem;
+}
+
+.product-detail__figure svg {
+  width: 100%;
+  height: auto;
+  filter:
+    drop-shadow(8px 14px 10px rgba(27, 27, 27, 0.20))
+    drop-shadow(22px 44px 38px rgba(27, 27, 27, 0.15));
+}
+
+.product-detail__shelf {
+  display: block;
+  width: 70%;
+  height: 1px;
+  margin: 2rem auto 0;
+  background-image: var(--dash-soft);
+}
+
+.product-detail__price {
+  margin-top: 0.5rem;
+  font-size: 1.15rem;
+  color: var(--ink-soft);
+}
+
+.product-detail__description {
+  margin-top: 1.5rem;
+  max-width: 46ch;
+}
+
+@media (max-width: 760px) {
+  .product-detail {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* -------------------------------------------------------------------------
    Pull quote section
    ------------------------------------------------------------------------- */
