@@ -515,7 +515,7 @@ section[id], footer[id] {
   top: -12%;
   right: -8%;
   width: clamp(220px, 44vw, 640px);
-  opacity: 0.18;
+  opacity: 0.2;
   pointer-events: none;
   z-index: 0;
 }
@@ -530,7 +530,45 @@ section[id], footer[id] {
   .hero__mark {
     top: -6%;
     right: -22%;
-    opacity: 0.15;
+    opacity: 0.17;
+  }
+}
+
+/* Hero mark — drawn-on entrance. Each stroke starts fully hidden
+   (dashoffset 100, paired with pathLength="100" on the element so the
+   same values work regardless of the shape's real geometry) and reveals
+   left-to-right along its own path, circle by circle, then the
+   connecting line, then the crosshair ticks — the order you'd actually
+   draft the mark in. Runs once on load; never loops. */
+.hero-mark__draw {
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  animation: hero-mark-draw 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.hero-mark__circle-1 { animation-delay: 0.1s; }
+.hero-mark__circle-2 { animation-delay: 0.75s; }
+
+.hero-mark__line {
+  animation-delay: 1.45s;
+  animation-duration: 0.55s;
+}
+
+.hero-mark__cross {
+  animation-delay: 1.95s;
+  animation-duration: 0.4s;
+}
+
+@keyframes hero-mark-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-mark__draw {
+    animation: none;
+    stroke-dashoffset: 0;
   }
 }
 
