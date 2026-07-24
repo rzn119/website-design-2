@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Design System — Adjectif Creation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<style>
+  /* Styling scoped to this reference page only — not part of the design system itself */
+  .ds-header {
+    border-bottom: 1px solid var(--navy-faint);
+    padding-block: 2rem;
+  }
+  .ds-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+    font-size: var(--size-small);
+  }
+  .ds-nav a { color: var(--ink-soft); border-bottom: 1px solid transparent; }
+  .ds-nav a:hover { color: var(--navy); border-bottom-color: var(--navy); }
+  .ds-block { margin-bottom: 1.75rem; }
+  .ds-row { display: flex; align-items: flex-end; gap: 2rem; flex-wrap: wrap; margin-bottom: 1.25rem; }
+  .ds-label-tag {
+    font-family: var(--font-body);
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--navy);
+    background: var(--navy-faint);
+    padding: 0.2rem 0.5rem;
+    border-radius: 2px;
+  }
+  .swatch-grid { grid-template-columns: repeat(2, 1fr); }
+  @media (min-width: 720px) { .swatch-grid { grid-template-columns: repeat(4, 1fr); } }
+  .divider-demo { margin-block: 1rem; }
+  .btn-row, .pill-row { display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; }
+  code {
+    font-family: 'Space Grotesk', monospace;
+    background: var(--navy-faint);
+    padding: 0.1rem 0.35rem;
+    border-radius: 2px;
+    font-size: 0.85em;
+  }
+</style>
+</head>
+<body>
+
+<header class="ds-header">
+  <div class="container">
+    <a href="index.html" class="logo">
+      <img src="assets/logo-mark.svg" alt="" class="logo__mark">
+      <span class="logo__word">ADJECTIF CREATION</span>
+    </a>
+    <nav class="ds-nav">
+      <a href="#color">Color</a>
+      <a href="#type">Typography</a>
+      <a href="#motif">Signature motif</a>
+      <a href="#buttons">Buttons &amp; pills</a>
+      <a href="#cards">Cards</a>
+      <a href="#grid">Grid</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <section class="section container">
+    <span class="eyebrow">Design system — v1</span>
+    <h1 style="margin-top:0.75rem; font-size: clamp(2rem, 4vw, 3rem);">Adjectif Creation</h1>
+    <p class="text-soft" style="max-width:46ch; margin-top:1rem;">A working reference for color, type, and the signature motif — derived from the studio mark — before either is applied to the homepage.</p>
+  </section>
+
+  <hr class="divider">
+
+  <!-- COLOR -->
+  <section id="color" class="section container">
+    <span class="eyebrow">01 — Color</span>
+    <h2 style="margin-top:0.75rem; margin-bottom:2.5rem;">Palette</h2>
+    <div class="grid swatch-grid">
+      <div class="swatch">
+        <div class="swatch__block" style="background:var(--cream);"></div>
+        <div class="swatch__meta"><span class="name">Cream</span><span class="value">--cream · #ECE7DA</span></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch__block" style="background:var(--paper);"></div>
+        <div class="swatch__meta"><span class="name">Paper</span><span class="value">--paper · #F7F3EA</span></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch__block" style="background:var(--navy);"></div>
+        <div class="swatch__meta"><span class="name">Navy</span><span class="value">--navy · #2B3A6B</span></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch__block" style="background:var(--ink);"></div>
+        <div class="swatch__meta"><span class="name">Ink</span><span class="value">--ink · #1B1B1B</span></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch__block" style="background:var(--cream);"><div style="height:100%;background:var(--navy-faint);"></div></div>
+        <div class="swatch__meta"><span class="name">Navy faint</span><span class="value">--navy-faint · 15%</span></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch__block" style="background:var(--cream);"><div style="height:100%;background:var(--navy-soft);"></div></div>
+        <div class="swatch__meta"><span class="name">Navy soft</span><span class="value">--navy-soft · 45%</span></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch__block" style="background:var(--cream); display:flex; align-items:center; justify-content:center;"><span style="color:var(--ink-soft); font-size:0.8rem;">Aa</span></div>
+        <div class="swatch__meta"><span class="name">Ink soft</span><span class="value">--ink-soft · 60%</span></div>
+      </div>
+    </div>
+    <p class="text-soft" style="margin-top:1rem; max-width:60ch;">Navy is the single accent — used for the logo, dividers, buttons, and marks. It never competes with a second color; contrast comes from ink, weight, and space instead.</p>
+  </section>
+
+  <hr class="divider divider--soft">
+
+  <!-- TYPE -->
+  <section id="type" class="section container">
+    <span class="eyebrow">02 — Typography</span>
+    <h2 style="margin-top:0.75rem; margin-bottom:2.5rem;">Type scale</h2>
+
+    <div class="ds-block">
+      <span class="ds-label-tag">Display / Fraunces</span>
+      <h1 style="margin-top:0.75rem;">We draw the line.</h1>
+      <p class="text-soft" style="margin-top:0.5rem;"><code>--size-h1</code> · clamp(44px → 76px) · used for hero h1 and h2</p>
+    </div>
+
+    <div class="ds-block">
+      <span class="ds-label-tag">Section heading / Fraunces</span>
+      <h2 style="margin-top:0.75rem;">Selected work</h2>
+      <p class="text-soft" style="margin-top:0.5rem;"><code>--size-h2</code> · clamp(30px → 44px)</p>
+    </div>
+
+    <div class="ds-block">
+      <span class="ds-label-tag">Eyebrow / label · Space Grotesk</span>
+      <p class="eyebrow" style="margin-top:0.75rem;">Multidisciplinary Design &amp; Research Studio</p>
+      <p class="text-soft" style="margin-top:0.5rem;"><code>--size-label</code> · 12.8px · uppercase · 0.16em tracking</p>
+    </div>
+
+    <div class="ds-block">
+      <span class="ds-label-tag">Body / Space Grotesk</span>
+      <p style="margin-top:0.75rem; max-width:60ch;">Adjectif Creation works across spatial design, product design, and an integrated shop for the studio's own objects. We move fluidly between disciplines, treating each project as a research question first and a design answer second.</p>
+      <p class="text-soft" style="margin-top:0.5rem;"><code>--size-body</code> · 16px · 1.6 line-height</p>
+    </div>
+
+    <div class="ds-block">
+      <span class="ds-label-tag">Pull quote / Fraunces italic</span>
+      <p class="pull-quote" style="margin-top:0.75rem; max-width:38ch;">"Space is the first object. Everything else is furniture inside it."</p>
+      <p class="text-soft" style="margin-top:0.5rem;"><code>.pull-quote</code> · clamp(26px → 42px) · italic</p>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- MOTIF -->
+  <section id="motif" class="section container">
+    <span class="eyebrow">03 — Signature motif</span>
+    <h2 style="margin-top:0.75rem; margin-bottom:2.5rem;">Logo, dashed lines &amp; crosshair marks</h2>
+
+    <div class="grid grid--2" style="margin-bottom:3rem;">
+      <div>
+        <p class="small-caps" style="margin-bottom:1rem;">Logo mark</p>
+        <div style="background:var(--paper); border:1px solid var(--navy-faint); padding:2.5rem; display:flex; align-items:center; justify-content:center;">
+          <img src="assets/logo-mark.svg" alt="Adjectif Creation logo mark" style="width:96px; height:96px;">
+        </div>
+        <p class="text-soft" style="margin-top:0.75rem; max-width:48ch;">Two overlapping circles connected by a diagonal line, with dashed crosshair guides marking each center — the source for every dashed rule and ring mark in the system.</p>
+      </div>
+      <div>
+        <p class="small-caps" style="margin-bottom:1rem;">Nav scale</p>
+        <div style="background:var(--paper); border:1px solid var(--navy-faint); padding:2.5rem; display:flex; align-items:center; gap:0.65rem;">
+          <img src="assets/logo-mark.svg" alt="" style="width:34px; height:34px;">
+          <span class="logo__word">ADJECTIF CREATION</span>
+        </div>
+        <p class="text-soft" style="margin-top:0.75rem; max-width:48ch;">At 34px, paired with the wordmark in Space Grotesk, medium weight, tight tracking — used in the nav bar.</p>
+      </div>
+    </div>
+
+    <div class="ds-block">
+      <p class="small-caps" style="margin-bottom:1rem;">Dashed dividers — replace solid rules everywhere</p>
+      <div class="divider-demo"><hr class="divider"></div>
+      <p class="text-soft" style="margin-bottom:1.5rem;"><code>.divider</code> · navy · dash 4 / gap 6</p>
+      <div class="divider-demo"><hr class="divider divider--soft"></div>
+      <p class="text-soft"><code>.divider--soft</code> · navy-soft 45% · dash 3 / gap 5 · for secondary divisions</p>
+    </div>
+
+    <div class="ds-block">
+      <p class="small-caps" style="margin-bottom:1rem;">Ring / crosshair marks — replace generic icons</p>
+      <ul class="list-marks" style="max-width:40ch; margin-bottom:1.5rem;">
+        <li>Spatial design — pop-ups &amp; retail environments</li>
+        <li>Product design — furniture &amp; digital objects</li>
+        <li>Studio shop — the studio's own products</li>
+      </ul>
+      <div class="caption">
+        <span class="mark"></span>
+        <span>Project Name — Discipline / Year</span>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider divider--soft">
+
+  <!-- BUTTONS / PILLS -->
+  <section id="buttons" class="section container">
+    <span class="eyebrow">04 — Buttons &amp; pills</span>
+    <h2 style="margin-top:0.75rem; margin-bottom:2.5rem;">Interactive elements</h2>
+
+    <p class="small-caps" style="margin-bottom:1rem;">Buttons</p>
+    <div class="btn-row" style="margin-bottom:2.5rem;">
+      <a href="#" class="btn btn--primary">Inquire</a>
+      <a href="#" class="btn btn--outline">Start a project</a>
+      <a href="#" class="btn btn--text">View project</a>
+    </div>
+
+    <p class="small-caps" style="margin-bottom:1rem;">Tag pills</p>
+    <div class="pill-row">
+      <span class="pill"><span class="mark mark--sm"></span>Spatial design</span>
+      <span class="pill"><span class="mark mark--sm"></span>Product design</span>
+      <span class="pill"><span class="mark mark--sm"></span>Research</span>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- CARDS -->
+  <section id="cards" class="section container">
+    <span class="eyebrow">05 — Cards</span>
+    <h2 style="margin-top:0.75rem; margin-bottom:2.5rem;">Project &amp; product frames</h2>
+    <p class="text-soft" style="max-width:60ch; margin-bottom:2rem;">Placeholder imagery is drawn, not photographed — navy line work on paper, in the same technical register as the logo.</p>
+
+    <div class="grid grid--3">
+      <div class="card">
+        <div class="card__frame">
+          <svg viewBox="0 0 200 150" width="100%" height="100%">
+            <rect x="20" y="20" width="160" height="110" fill="none" stroke="#2B3A6B" stroke-width="1"/>
+            <line x1="20" y1="20" x2="180" y2="130" stroke="#2B3A6B" stroke-width="1"/>
+            <circle cx="140" cy="55" r="26" fill="none" stroke="#2B3A6B" stroke-width="1"/>
+          </svg>
+        </div>
+        <div class="card__caption"><span class="mark mark--sm"></span><strong>Fold Table</strong> — Furniture / 2025</div>
+      </div>
+      <div class="card">
+        <div class="card__frame">
+          <svg viewBox="0 0 200 150" width="100%" height="100%">
+            <line x1="10" y1="140" x2="190" y2="10" stroke="#2B3A6B" stroke-width="1"/>
+            <line x1="10" y1="10" x2="190" y2="140" stroke="#2B3A6B" stroke-width="1"/>
+            <rect x="60" y="45" width="80" height="60" fill="none" stroke="#2B3A6B" stroke-width="1"/>
+          </svg>
+        </div>
+        <div class="card__caption"><span class="mark mark--sm"></span><strong>Pavilion 04</strong> — Spatial / 2024</div>
+      </div>
+      <div class="card">
+        <div class="card__frame">
+          <svg viewBox="0 0 200 150" width="100%" height="100%">
+            <circle cx="70" cy="75" r="40" fill="none" stroke="#2B3A6B" stroke-width="1"/>
+            <circle cx="120" cy="75" r="40" fill="none" stroke="#2B3A6B" stroke-width="1"/>
+          </svg>
+        </div>
+        <div class="card__caption"><span class="mark mark--sm"></span><strong>Studio Vase</strong> — Object / 2025</div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider divider--soft">
+
+  <!-- GRID -->
+  <section id="grid" class="section container">
+    <span class="eyebrow">06 — Layout</span>
+    <h2 style="margin-top:0.75rem; margin-bottom:2rem;">Grid &amp; spacing</h2>
+    <ul class="list-marks" style="max-width:56ch;">
+      <li>Asymmetric editorial grid — sections avoid centered, boxed layouts in favor of offset columns.</li>
+      <li>Max content width <code>1180px</code>, generous outer gutter that scales with viewport.</li>
+      <li>No drop shadows, no gradients, corners flat or 2px at most — precise and drafted, not soft.</li>
+    </ul>
+  </section>
+
+</main>
+
+<footer class="hairline">
+  <div class="container" style="padding-block:2rem;">
+    <p class="text-soft" style="font-size:var(--size-small);">Adjectif Creation — Design System v1</p>
+  </div>
+</footer>
+
+</body>
+</html>

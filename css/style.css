@@ -1,0 +1,383 @@
+/* ==========================================================================
+   Adjectif Creation — Design System
+   Multidisciplinary design & research studio.
+   Motif: two overlapping circles + diagonal line + dashed crosshair guides,
+   drawn from the studio mark. Dashed rules and ring/crosshair marks carry
+   that language through dividers, list markers, and captions.
+   ========================================================================== */
+
+:root {
+  /* Color */
+  --cream: #ECE7DA;
+  --paper: #F7F3EA;
+  --navy: #2B3A6B;
+  --navy-faint: rgba(43, 58, 107, 0.15);
+  --navy-soft: rgba(43, 58, 107, 0.45);
+  --ink: #1B1B1B;
+  --ink-soft: rgba(27, 27, 27, 0.6);
+
+  /* Type */
+  --font-display: 'Fraunces', 'Iowan Old Style', serif;
+  --font-body: 'Space Grotesk', 'Helvetica Neue', sans-serif;
+
+  --size-h1: clamp(2.75rem, 6vw + 1rem, 4.75rem); /* ~44px -> ~76px */
+  --size-h2: clamp(1.9rem, 3.2vw + 1rem, 2.75rem);
+  --size-h3: clamp(1.35rem, 1.4vw + 1rem, 1.75rem);
+  --size-label: 0.8rem;   /* 12-14px small-caps style labels */
+  --size-body: 1rem;      /* 15-16px */
+  --size-small: 0.875rem;
+
+  /* Spacing / layout */
+  --content-width: 1180px;
+  --gutter: clamp(1.25rem, 4vw, 3rem);
+  --section-space: clamp(4rem, 9vw, 7.5rem);
+  --radius: 2px;
+
+  /* Motif */
+  --dash-hairline: repeating-linear-gradient(
+    to right, var(--navy) 0 4px, transparent 4px 10px
+  );
+  --dash-soft: repeating-linear-gradient(
+    to right, var(--navy-soft) 0 3px, transparent 3px 8px
+  );
+}
+
+/* -------------------------------------------------------------------------
+   Reset
+   ------------------------------------------------------------------------- */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--cream);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: var(--size-body);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+img, svg { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+ul, ol { margin: 0; padding: 0; }
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+h1, h2, h3, h4, p, figure { margin: 0; }
+
+/* -------------------------------------------------------------------------
+   Typography
+   ------------------------------------------------------------------------- */
+h1, h2, h3, .font-display {
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
+h1, .h1 {
+  font-size: var(--size-h1);
+  line-height: 1.03;
+  font-weight: 460;
+  letter-spacing: -0.015em;
+}
+
+h2, .h2 {
+  font-size: var(--size-h2);
+  line-height: 1.1;
+}
+
+h3, .h3 {
+  font-size: var(--size-h3);
+  line-height: 1.2;
+}
+
+.eyebrow, .label {
+  display: block;
+  font-family: var(--font-body);
+  font-size: var(--size-label);
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.label--navy { color: var(--navy); }
+
+p, .body-text {
+  font-size: var(--size-body);
+  line-height: 1.6;
+  color: var(--ink);
+}
+
+.text-soft { color: var(--ink-soft); }
+
+.pull-quote {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(1.6rem, 3.2vw, 2.6rem);
+  line-height: 1.35;
+  letter-spacing: -0.005em;
+  color: var(--ink);
+}
+
+.small-caps {
+  font-family: var(--font-body);
+  font-size: var(--size-label);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+/* -------------------------------------------------------------------------
+   Layout
+   ------------------------------------------------------------------------- */
+.container {
+  max-width: var(--content-width);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.section {
+  padding-block: var(--section-space);
+}
+
+.bg-cream { background: var(--cream); }
+.bg-paper { background: var(--paper); }
+
+/* -------------------------------------------------------------------------
+   Signature motif — dashed dividers
+   ------------------------------------------------------------------------- */
+.divider {
+  height: 1px;
+  width: 100%;
+  background-image: var(--dash-hairline);
+  border: 0;
+}
+
+.divider--soft {
+  background-image: var(--dash-soft);
+}
+
+.divider--vertical {
+  width: 1px;
+  height: 100%;
+  background-image: repeating-linear-gradient(
+    to bottom, var(--navy-soft) 0 3px, transparent 3px 8px
+  );
+}
+
+.hairline {
+  border: 0;
+  border-top: 1px solid var(--navy-faint);
+}
+
+/* -------------------------------------------------------------------------
+   Signature motif — ring / crosshair marks
+   ------------------------------------------------------------------------- */
+.mark {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  background: url('../assets/mark-crosshair.svg') no-repeat center / contain;
+  flex-shrink: 0;
+}
+
+.mark--lg {
+  width: 22px;
+  height: 22px;
+}
+
+.mark--sm {
+  width: 10px;
+  height: 10px;
+}
+
+.list-marks {
+  list-style: none;
+}
+
+.list-marks li {
+  position: relative;
+  padding-left: 1.85rem;
+  margin-bottom: 0.6rem;
+}
+
+.list-marks li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.28em;
+  width: 14px;
+  height: 14px;
+  background: url('../assets/mark-crosshair.svg') no-repeat center / contain;
+}
+
+.caption {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-body);
+  font-size: var(--size-small);
+  color: var(--ink-soft);
+}
+
+/* -------------------------------------------------------------------------
+   Logo mark
+   ------------------------------------------------------------------------- */
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.logo__mark {
+  width: 34px;
+  height: 34px;
+}
+
+.logo__word {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: 0.02em;
+  color: var(--ink);
+}
+
+.logo-bleed {
+  position: absolute;
+  width: clamp(320px, 34vw, 560px);
+  height: auto;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* -------------------------------------------------------------------------
+   Buttons
+   ------------------------------------------------------------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-body);
+  font-size: var(--size-small);
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.85rem 1.6rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--navy);
+  transition: background-color 0.18s ease, color 0.18s ease;
+}
+
+.btn--primary {
+  background: var(--navy);
+  color: var(--cream);
+}
+
+.btn--primary:hover {
+  background: transparent;
+  color: var(--navy);
+}
+
+.btn--outline {
+  background: transparent;
+  color: var(--navy);
+}
+
+.btn--outline:hover {
+  background: var(--navy);
+  color: var(--cream);
+}
+
+.btn--text {
+  border: 0;
+  padding: 0;
+  color: var(--navy);
+  text-decoration: underline;
+  text-decoration-color: var(--navy-faint);
+  text-underline-offset: 4px;
+}
+
+/* -------------------------------------------------------------------------
+   Pills / tags
+   ------------------------------------------------------------------------- */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--navy-faint);
+  border-radius: var(--radius);
+  font-family: var(--font-body);
+  font-size: var(--size-small);
+  letter-spacing: 0.03em;
+  color: var(--ink);
+}
+
+/* -------------------------------------------------------------------------
+   Cards
+   ------------------------------------------------------------------------- */
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.card__frame {
+  background: var(--paper);
+  border: 1px solid var(--navy-faint);
+  aspect-ratio: 4 / 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.card__frame svg { width: 100%; height: 100%; }
+
+.card__caption {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  font-size: var(--size-small);
+  color: var(--ink-soft);
+}
+
+.card__caption strong {
+  font-weight: 500;
+  color: var(--ink);
+}
+
+/* -------------------------------------------------------------------------
+   Color swatch (design-system reference only)
+   ------------------------------------------------------------------------- */
+.swatch {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.swatch__block {
+  height: 96px;
+  border: 1px solid var(--navy-faint);
+}
+
+.swatch__meta {
+  font-size: var(--size-small);
+}
+
+.swatch__meta .name { display: block; font-weight: 500; }
+.swatch__meta .value { display: block; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+
+/* -------------------------------------------------------------------------
+   Grid utilities
+   ------------------------------------------------------------------------- */
+.grid {
+  display: grid;
+  gap: var(--gutter);
+}
+
+@media (min-width: 720px) {
+  .grid--2 { grid-template-columns: repeat(2, 1fr); }
+  .grid--3 { grid-template-columns: repeat(3, 1fr); }
+  .grid--4 { grid-template-columns: repeat(4, 1fr); }
+}
