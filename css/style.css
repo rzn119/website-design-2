@@ -610,6 +610,17 @@ section[id], footer[id] {
 .work-grid > .card:nth-child(3) { grid-column: 1 / 6; margin-top: 1.5rem; }
 .work-grid > .card:nth-child(4) { grid-column: 6 / 13; }
 
+/* homepage teaser: 3 items instead of the full 4, own asymmetric composition */
+.work-grid--preview {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: var(--gutter);
+}
+
+.work-grid--preview > .card:nth-child(1) { grid-column: 1 / 8; }
+.work-grid--preview > .card:nth-child(2) { grid-column: 8 / 13; margin-top: 3.5rem; }
+.work-grid--preview > .card:nth-child(3) { grid-column: 1 / 13; margin-top: 2rem; }
+
 .card--tall .card__frame { aspect-ratio: 3 / 4; }
 .card--wide .card__frame { aspect-ratio: 16 / 9; }
 
@@ -621,14 +632,54 @@ section[id], footer[id] {
 }
 
 @media (max-width: 760px) {
-  .work-grid {
+  .work-grid,
+  .work-grid--preview {
     grid-template-columns: 1fr;
   }
 
-  .work-grid > .card {
+  .work-grid > .card,
+  .work-grid--preview > .card {
     grid-column: 1 / -1 !important;
     margin-top: 0 !important;
   }
+}
+
+/* -------------------------------------------------------------------------
+   "View all" links — teaser sections point to their full page
+   ------------------------------------------------------------------------- */
+.view-all {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 2.25rem;
+  font-size: var(--size-small);
+  letter-spacing: 0.04em;
+  color: var(--navy);
+  border-bottom: 1px solid var(--navy-faint);
+  padding-bottom: 3px;
+}
+
+.view-all:hover {
+  border-bottom-color: var(--navy);
+}
+
+/* -------------------------------------------------------------------------
+   Subpage header — Studio / Work / Shop / Contact
+   ------------------------------------------------------------------------- */
+.page-header {
+  padding-block: var(--section-space);
+}
+
+.page-header h1 {
+  margin-top: 0.75rem;
+  font-size: var(--size-h2);
+}
+
+.page-header p {
+  margin-top: 1.25rem;
+  max-width: 56ch;
+  font-size: 1.05rem;
+  color: var(--ink-soft);
 }
 
 /* -------------------------------------------------------------------------
