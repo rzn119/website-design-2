@@ -42,9 +42,16 @@
   var STROKE_HALF_WIDTH = 3.6;
   var STEP_SPACING = 1.1;
   var MAX_STEPS_PER_SEGMENT = 80;
+  var LIFT_GAP = 14; /* px the pointer must travel before a new stroke starts marking, so it never touches the previous one */
+  var FADE_DISTANCE = 260; /* px of drawn stroke over which opacity tapers from full to MIN_FADE */
+  var MIN_FADE = 0.26;
 
   var hasDrawn = false;
   var strokeActive = false;
+  var liftPending = false;
+  var originX = 0;
+  var originY = 0;
+  var strokeDistance = 0;
   var currentColor = null;
   var lastX = 0;
   var lastY = 0;
@@ -73,7 +80,7 @@
     ctx.stroke();
   }
 
-  function stampCluster(px, py, nx, ny) {
+  function stampCluster(px, py, nx, ny, fade) {
     // Dense core near the centerline (solid wax coverage) plus a sparser
     // scatter out toward the edges (the rough, grainy fringe of a real
     // crayon mark) — spread uses two summed randoms so it clusters toward
@@ -81,14 +88,22 @@
     var core = 5 + Math.floor(Math.random() * 3);
     for (var k = 0; k < core; k++) {
       var s = (Math.random() + Math.random() - 1) * STROKE_HALF_WIDTH * 0.55;
-      stampGrain(px + nx * s, py + ny * s, 1);
+      stampGrain(px + nx * s, py + ny * s, fade);
     }
     var fringe = 3 + Math.floor(Math.random() * 3);
     for (var m = 0; m < fringe; m++) {
       var sign = Math.random() < 0.5 ? -1 : 1;
       var s2 = sign * (STROKE_HALF_WIDTH * 0.5 + Math.random() * STROKE_HALF_WIDTH * 0.6);
-      stampGrain(px + nx * s2, py + ny * s2, 0.6);
+      stampGrain(px + nx * s2, py + ny * s2, fade * 0.6);
     }
+  }
+
+  // Real crayon pressure is heaviest where the stroke lands and tapers off
+  // as it's dragged out, so opacity fades from full at the start of each
+  // stroke down to MIN_FADE by FADE_DISTANCE, tracked as distance drawn
+  // since this stroke's first mark (reset per-stroke, not per-segment).
+  function fadeAt(distanceSoFar) {
+    return Math.max(MIN_FADE, 1 - distanceSoFar / FADE_DISTANCE);
   }
 
   function drawSegment(x0, y0, x1, y1) {
@@ -98,19 +113,22 @@
     var nx = -dy / dist;
     var ny = dx / dist;
     var steps = Math.min(MAX_STEPS_PER_SEGMENT, Math.max(1, Math.round(dist / STEP_SPACING)));
+    var stepDist = dist / steps;
 
     for (var i = 1; i <= steps; i++) {
       var t = i / steps;
       var px = x0 + dx * t + nx * (Math.random() - 0.5) * 0.6;
       var py = y0 + dy * t + ny * (Math.random() - 0.5) * 0.6;
-      stampCluster(px, py, nx, ny);
+      strokeDistance += stepDist;
+      stampCluster(px, py, nx, ny, fadeAt(strokeDistance));
     }
     ctx.globalAlpha = 1;
   }
 
   function stampStart(x, y) {
-    stampCluster(x, y, 1, 0);
-    stampCluster(x, y, 0, 1);
+    strokeDistance = 0;
+    stampCluster(x, y, 1, 0, 1);
+    stampCluster(x, y, 0, 1, 1);
     ctx.globalAlpha = 1;
   }
 
@@ -133,14 +151,17 @@
     currentColor = pickColor();
     ctx.strokeStyle = currentColor;
     crayon.style.setProperty('--crayon-color', currentColor);
+    originX = x;
+    originY = y;
     lastX = x;
     lastY = y;
     strokeActive = true;
-    stampStart(x, y);
+    liftPending = true;
   }
 
   function endStroke() {
     strokeActive = false;
+    liftPending = false;
     if (stopTimer) {
       window.clearTimeout(stopTimer);
       stopTimer = null;
@@ -153,6 +174,17 @@
 
     if (!strokeActive) {
       beginStroke(x, y);
+    } else if (liftPending) {
+      // Pointer is still inside the lift gap since this stroke began —
+      // follow the cursor but don't mark yet, so the new stroke never
+      // touches wherever the previous one ended.
+      var travelled = Math.sqrt((x - originX) * (x - originX) + (y - originY) * (y - originY));
+      if (travelled >= LIFT_GAP) {
+        liftPending = false;
+        lastX = x;
+        lastY = y;
+        stampStart(x, y);
+      }
     } else {
       drawSegment(lastX, lastY, x, y);
       lastX = x;
