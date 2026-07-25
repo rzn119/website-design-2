@@ -275,20 +275,25 @@
 
     var vw = window.innerWidth;
     var vh = window.innerHeight;
-    var scatterRadiusX = Math.min(vw * 0.42, 560);
-    var scatterRadiusY = Math.min(vh * 0.34, 340);
     var margin = 16;
 
+    // Scatter magnitude is tied to each letter's own rendered size rather
+    // than the viewport, so the pile reads as an overlapping jumble of
+    // letters close to their word (like a dropped stencil-lettering set)
+    // instead of pieces flung to the far corners of the screen — and it
+    // scales naturally with the responsive font-size on small viewports.
     letters.forEach(function (letter, i) {
       var rect = rects[i];
       var finalX = rect.left;
       var finalY = rect.top;
+      var scatterRadiusX = rect.height * 1.7;
+      var scatterRadiusY = rect.height * 1.15;
 
       var scatterX = finalX + (Math.random() - 0.5) * 2 * scatterRadiusX;
       var scatterY = finalY + (Math.random() - 0.5) * 2 * scatterRadiusY;
       scatterX = Math.min(Math.max(scatterX, margin), Math.max(margin, vw - margin - rect.width));
       scatterY = Math.min(Math.max(scatterY, margin), Math.max(margin, vh - margin - rect.height));
-      var scatterRot = (Math.random() * 40 - 20).toFixed(1);
+      var scatterRot = (Math.random() * 64 - 32).toFixed(1);
 
       letter.style.position = 'fixed';
       letter.style.left = '0px';
@@ -301,8 +306,8 @@
       letter.animate(
         [{ transform: startTransform }, { transform: endTransform }],
         {
-          duration: 900,
-          delay: 200 + i * 60,
+          duration: 1500,
+          delay: 300 + i * 170,
           easing: 'cubic-bezier(0.34, 1.56, 0.64, 1)',
           fill: 'both'
         }

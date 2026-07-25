@@ -100,17 +100,18 @@ html, body {
   margin: 0;
   text-align: center;
   pointer-events: none;
-  font-family: var(--font-display);
-  font-size: clamp(1.9rem, 6.4vw, 4rem);
-  font-weight: 500;
-  letter-spacing: -0.01em;
+  font-family: 'Big Shoulders Stencil Display', var(--font-display);
+  font-size: clamp(2.6rem, 11.5vw, 7.5rem);
+  font-weight: 800;
+  line-height: 0.92;
+  letter-spacing: 0;
   color: var(--navy);
 }
 
 .cover__word {
   display: inline-block;
   white-space: nowrap;
-  margin-right: 0.32em;
+  margin-right: 0.18em;
 }
 
 .cover__word:last-child {
