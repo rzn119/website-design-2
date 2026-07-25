@@ -78,40 +78,56 @@ html, body {
 
 .fabric__shape {
   display: block;
-  /* No CSS blur here — it would smooth away the fine SVG grain filter
-     applied to each path. The grain's own irregular alpha falloff at
-     the shape boundary already reads as a soft, non-mechanical edge. */
+  width: 100%;
+  height: auto;
+  opacity: 0.7;
+  transform-origin: center;
+  /* The source photo is a cropped detail shot — the fabric bleeds off
+     several sides of the frame itself, so those edges are a hard photo
+     boundary rather than the organic silhouette. Feather just the outer
+     margin so that boundary fades instead of cutting off as a visible
+     rectangle; the already-transparent organic edges are unaffected
+     since they're near-zero alpha before the mask's fade zone starts. */
+  mask-image: radial-gradient(ellipse 58% 58% at 50% 50%, black 8%, transparent 88%);
+  -webkit-mask-image: radial-gradient(ellipse 58% 58% at 50% 50%, black 8%, transparent 88%);
 }
 
+/* Same source photo, reused 4 times — rotation/flip per instance is what
+   creates variety rather than 4 separate assets. */
+.fabric__shape--a { transform: rotate(-104deg); }
+.fabric__shape--b { transform: rotate(78deg) scaleX(-1); }
+.fabric__shape--c { transform: rotate(-14deg); }
+.fabric__shape--d { transform: rotate(158deg) scaleX(-1); }
+
 .fabric__drift--a {
-  width: 62vw;
-  min-width: 480px;
-  top: -6vh;
-  left: -8vw;
+  width: 44vw;
+  min-width: 360px;
+  top: -4vh;
+  left: -10vw;
   animation: drift-a 22s ease-in-out infinite alternate;
 }
 
 .fabric__drift--b {
-  width: 58vw;
-  min-width: 440px;
-  top: 30vh;
-  right: -10vw;
+  width: 40vw;
+  min-width: 320px;
+  top: 26vh;
+  right: -8vw;
   animation: drift-b 26s ease-in-out infinite alternate;
 }
 
 .fabric__drift--c {
-  width: 34vw;
-  min-width: 280px;
-  bottom: -10vh;
-  left: 6vw;
+  width: 26vw;
+  min-width: 220px;
+  bottom: -6vh;
+  left: 4vw;
   animation: drift-c 30s ease-in-out infinite alternate;
 }
 
 .fabric__drift--d {
   width: 30vw;
   min-width: 240px;
-  bottom: 4vh;
-  right: 12vw;
+  bottom: 2vh;
+  right: 8vw;
   animation: drift-d 19s ease-in-out infinite alternate;
 }
 
@@ -204,8 +220,8 @@ html, body {
     padding-inline: 1.75rem;
   }
 
-  .fabric__drift--a { width: 90vw; min-width: 0; }
-  .fabric__drift--b { width: 85vw; min-width: 0; }
-  .fabric__drift--c { width: 60vw; min-width: 0; }
-  .fabric__drift--d { width: 55vw; min-width: 0; }
+  .fabric__drift--a { width: 64vw; min-width: 0; }
+  .fabric__drift--b { width: 60vw; min-width: 0; }
+  .fabric__drift--c { width: 40vw; min-width: 0; }
+  .fabric__drift--d { width: 38vw; min-width: 0; }
 }
