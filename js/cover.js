@@ -240,4 +240,73 @@
     e.stopPropagation();
     clearCanvas();
   });
+
+  // -------------------------------------------------------------------------
+  // Scattered-letters title reveal — "ADJECTIF CREATION" starts as loose,
+  // randomly-placed/rotated letters and animates into its normal typeset
+  // position. Each letter keeps its real inline layout (so word spacing is
+  // exactly what the stylesheet says) and is measured there first; only
+  // then does it switch to position:fixed and fly in from a random point,
+  // landing on that measured spot.
+  // -------------------------------------------------------------------------
+  (function runTitleReveal() {
+    var title = document.getElementById('cover-title');
+    if (!title) return;
+    var letters = Array.prototype.slice.call(title.querySelectorAll('.cover__letter'));
+    if (!letters.length) return;
+
+    if (reducedMotion) {
+      title.classList.add('is-reduced');
+      window.requestAnimationFrame(function () {
+        window.requestAnimationFrame(function () {
+          title.classList.add('is-settled');
+        });
+      });
+      return;
+    }
+
+    // Measure every letter's real resting position first, in one pass —
+    // switching a letter to position:fixed removes it from the inline flow,
+    // which would shift the still-unmeasured letters after it if the two
+    // passes were interleaved.
+    var rects = letters.map(function (letter) {
+      return letter.getBoundingClientRect();
+    });
+
+    var vw = window.innerWidth;
+    var vh = window.innerHeight;
+    var scatterRadiusX = Math.min(vw * 0.42, 560);
+    var scatterRadiusY = Math.min(vh * 0.34, 340);
+    var margin = 16;
+
+    letters.forEach(function (letter, i) {
+      var rect = rects[i];
+      var finalX = rect.left;
+      var finalY = rect.top;
+
+      var scatterX = finalX + (Math.random() - 0.5) * 2 * scatterRadiusX;
+      var scatterY = finalY + (Math.random() - 0.5) * 2 * scatterRadiusY;
+      scatterX = Math.min(Math.max(scatterX, margin), Math.max(margin, vw - margin - rect.width));
+      scatterY = Math.min(Math.max(scatterY, margin), Math.max(margin, vh - margin - rect.height));
+      var scatterRot = (Math.random() * 40 - 20).toFixed(1);
+
+      letter.style.position = 'fixed';
+      letter.style.left = '0px';
+      letter.style.top = '0px';
+      letter.style.opacity = '1';
+
+      var startTransform = 'translate(' + scatterX.toFixed(1) + 'px,' + scatterY.toFixed(1) + 'px) rotate(' + scatterRot + 'deg)';
+      var endTransform = 'translate(' + finalX.toFixed(1) + 'px,' + finalY.toFixed(1) + 'px) rotate(0deg)';
+
+      letter.animate(
+        [{ transform: startTransform }, { transform: endTransform }],
+        {
+          duration: 900,
+          delay: 200 + i * 60,
+          easing: 'cubic-bezier(0.34, 1.56, 0.64, 1)',
+          fill: 'both'
+        }
+      );
+    });
+  })();
 })();

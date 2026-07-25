@@ -79,14 +79,65 @@ html, body {
 }
 
 /* -------------------------------------------------------------------------
-   First-visit prompt — dead center. No title on the page to avoid now, so
-   it can sit where the eye lands first.
+   Studio title — "ADJECTIF CREATION" as individually-animated letters.
+   The container is centered via fixed positioning so its layout (and the
+   real, correctly-spaced gap between the two words) is computed once by
+   the browser; js/cover.js measures each letter's resting position from
+   that layout, then flies it in from a random scattered start. Letters
+   stay in --navy, no color change, matching the rest of the site.
+   ------------------------------------------------------------------------- */
+/* No transform here on purpose: a CSS transform on this element would make
+   it the containing block for its position:fixed letter children below,
+   so their fixed coordinates would resolve against this (small, collapsed
+   once letters detach from flow) box instead of the real viewport.
+   Centering is done with left/right + text-align instead. */
+.cover__title {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 40%;
+  z-index: 3;
+  margin: 0;
+  text-align: center;
+  pointer-events: none;
+  font-family: var(--font-display);
+  font-size: clamp(1.9rem, 6.4vw, 4rem);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--navy);
+}
+
+.cover__word {
+  display: inline-block;
+  white-space: nowrap;
+  margin-right: 0.32em;
+}
+
+.cover__word:last-child {
+  margin-right: 0;
+}
+
+.cover__letter {
+  display: inline-block;
+  opacity: 0;
+}
+
+.cover__title.is-reduced .cover__letter {
+  transition: opacity 0.6s ease;
+}
+
+.cover__title.is-reduced.is-settled .cover__letter {
+  opacity: 1;
+}
+
+/* -------------------------------------------------------------------------
+   First-visit prompt — bottom-center, clear of the centered title above.
    ------------------------------------------------------------------------- */
 .cover__prompt {
   position: fixed;
   left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
+  bottom: 11%;
+  transform: translateX(-50%);
   text-align: center;
   pointer-events: none;
   z-index: 2;
