@@ -78,7 +78,9 @@ html, body {
 
 .fabric__shape {
   display: block;
-  filter: blur(19px);
+  /* No CSS blur here — it would smooth away the fine SVG grain filter
+     applied to each path. The grain's own irregular alpha falloff at
+     the shape boundary already reads as a soft, non-mechanical edge. */
 }
 
 .fabric__drift--a {

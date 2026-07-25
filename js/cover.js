@@ -7,12 +7,10 @@
   var reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   var advanced = false;
-  var autoAdvanceTimer = window.setTimeout(advance, 4800);
 
   function advance() {
     if (advanced) return;
     advanced = true;
-    window.clearTimeout(autoAdvanceTimer);
     try {
       sessionStorage.setItem('adjectif-cover-seen', '1');
     } catch (e) {
@@ -24,8 +22,10 @@
     }, reducedMotion ? 60 : 480);
   }
 
+  // Only a deliberate click/tap moves on — no auto-advance timer, and no
+  // generic keydown trigger (the sr-only "Skip intro" link already covers
+  // keyboard-only navigation without an accidental keystroke advancing it).
   cover.addEventListener('click', advance);
-  document.addEventListener('keydown', advance);
 
   if (respondEls.length === 0 || reducedMotion) return;
 
@@ -48,11 +48,11 @@
     pointerY = -9999;
   });
 
-  var MAX_DISTANCE = 520;
-  var PULL_STRENGTH = 22; // px at full influence
-  var ROTATE_STRENGTH = 3; // deg at full influence
-  var SCALE_STRENGTH = 0.025;
-  var EASE = 0.045;
+  var MAX_DISTANCE = 640;
+  var PULL_STRENGTH = 80; // px at full influence
+  var ROTATE_STRENGTH = 12; // deg at full influence
+  var SCALE_STRENGTH = 0.11;
+  var EASE = 0.06;
 
   function tick() {
     // Batch all geometry reads before any writes, so applying a transform

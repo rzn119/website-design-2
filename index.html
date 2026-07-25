@@ -25,10 +25,24 @@
 <div class="cover" id="cover">
 
   <div class="fabric" aria-hidden="true">
+    <svg width="0" height="0" style="position:absolute">
+      <defs>
+        <filter id="fabric-grain" x="-15%" y="-15%" width="130%" height="130%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" seed="6" stitchTiles="stitch" result="noise"/>
+          <feColorMatrix in="noise" type="luminanceToAlpha" result="noiseAlpha"/>
+          <feComponentTransfer in="noiseAlpha" result="noiseAlphaBoost">
+            <feFuncA type="linear" slope="2.4" intercept="-0.35"/>
+          </feComponentTransfer>
+          <feComposite in="SourceGraphic" in2="noiseAlphaBoost" operator="in"/>
+        </filter>
+      </defs>
+    </svg>
+
     <div class="fabric__drift fabric__drift--a">
       <div class="fabric__respond" data-shape="a">
         <svg class="fabric__shape" viewBox="0 0 500 220" fill="none">
-          <path d="M0,110 C60,20 160,0 220,60 C280,120 320,180 400,160 C460,150 490,120 500,100 C470,160 420,200 350,190 C260,175 200,110 120,120 C60,128 20,150 0,110 Z" fill="var(--navy)" opacity="0.28"/>
+          <path d="M0,110 C60,20 160,0 220,60 C280,120 320,180 400,160 C460,150 490,120 500,100 C470,160 420,200 350,190 C260,175 200,110 120,120 C60,128 20,150 0,110 Z" fill="var(--navy)" opacity="0.55" filter="url(#fabric-grain)"/>
+          <path d="M60,100 C140,50 220,70 280,110 C340,150 400,140 460,120 C400,160 340,175 270,150 C190,120 120,130 60,100 Z" fill="var(--navy)" opacity="0.45" filter="url(#fabric-grain)"/>
         </svg>
       </div>
     </div>
@@ -36,7 +50,8 @@
     <div class="fabric__drift fabric__drift--b">
       <div class="fabric__respond" data-shape="b">
         <svg class="fabric__shape" viewBox="0 0 500 220" fill="none">
-          <path d="M20,40 C100,110 140,180 240,150 C320,125 360,60 460,80 C500,90 500,120 480,140 C420,170 360,110 280,130 C180,155 140,60 60,90 C40,98 10,80 20,40 Z" fill="var(--navy)" opacity="0.24"/>
+          <path d="M20,40 C100,110 140,180 240,150 C320,125 360,60 460,80 C500,90 500,120 480,140 C420,170 360,110 280,130 C180,155 140,60 60,90 C40,98 10,80 20,40 Z" fill="var(--navy)" opacity="0.5" filter="url(#fabric-grain)"/>
+          <path d="M60,70 C140,110 200,140 280,120 C360,100 420,90 470,110 C410,130 350,120 290,140 C210,165 140,120 60,70 Z" fill="var(--navy)" opacity="0.42" filter="url(#fabric-grain)"/>
         </svg>
       </div>
     </div>
@@ -44,7 +59,8 @@
     <div class="fabric__drift fabric__drift--c">
       <div class="fabric__respond" data-shape="c">
         <svg class="fabric__shape" viewBox="0 0 400 400" fill="none">
-          <path d="M40,20 C140,60 100,160 180,200 C260,240 220,320 300,360 C340,380 360,340 380,380 C340,400 280,370 240,330 C180,270 220,190 140,150 C80,120 60,60 40,20 Z" fill="var(--navy)" opacity="0.32"/>
+          <path d="M40,20 C140,60 100,160 180,200 C260,240 220,320 300,360 C340,380 360,340 380,380 C340,400 280,370 240,330 C180,270 220,190 140,150 C80,120 60,60 40,20 Z" fill="var(--navy)" opacity="0.6" filter="url(#fabric-grain)"/>
+          <path d="M80,60 C140,110 120,180 180,220 C240,260 230,320 290,350 C240,340 210,290 170,250 C120,200 130,130 80,60 Z" fill="var(--navy)" opacity="0.48" filter="url(#fabric-grain)"/>
         </svg>
       </div>
     </div>
@@ -52,7 +68,8 @@
     <div class="fabric__drift fabric__drift--d">
       <div class="fabric__respond" data-shape="d">
         <svg class="fabric__shape" viewBox="0 0 300 150" fill="none">
-          <path d="M10,90 C60,30 120,20 170,60 C210,92 240,110 290,100 C260,130 210,140 160,120 C110,100 60,130 10,90 Z" fill="var(--navy)" opacity="0.22"/>
+          <path d="M10,90 C60,30 120,20 170,60 C210,92 240,110 290,100 C260,130 210,140 160,120 C110,100 60,130 10,90 Z" fill="var(--navy)" opacity="0.5" filter="url(#fabric-grain)"/>
+          <path d="M40,80 C90,50 140,45 190,70 C230,90 250,95 270,95 C230,110 190,105 150,90 C110,75 70,90 40,80 Z" fill="var(--navy)" opacity="0.4" filter="url(#fabric-grain)"/>
         </svg>
       </div>
     </div>
