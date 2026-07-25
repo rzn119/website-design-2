@@ -125,6 +125,17 @@ strong, b, .font-semibold, .card__caption strong {
    own. The actual sentence moves to the subhead so the complete meaning
    is still on the page, just not carried by the h1 itself.
    ------------------------------------------------------------------------- */
+
+/* The bleeding background mark was sized/positioned for the old shorter
+   h1 — "SPACE & OBJECT" runs wide enough at display scale that the
+   mark's default size now overlaps the second line. Shrunk and pushed
+   further toward the corner so it clears the text instead. */
+.hero__mark {
+  width: clamp(160px, 26vw, 340px);
+  top: -6%;
+  right: -6%;
+}
+
 .hero__row {
   display: flex;
   align-items: flex-end;
