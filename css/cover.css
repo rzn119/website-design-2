@@ -1,0 +1,171 @@
+/* ==========================================================================
+   Cover page — blank paper + pencil cursor
+   Scoped entirely to index.html. Deliberately has no nav/footer chrome:
+   it's meant to read as a bare sheet of paper, not another site page.
+   ========================================================================== */
+
+html, body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  background: var(--cream);
+  cursor: none;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.sr-only:focus {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  width: auto;
+  height: auto;
+  padding: 0.75rem 1.25rem;
+  margin: 0;
+  clip: auto;
+  overflow: visible;
+  white-space: normal;
+  background: var(--cream);
+  border: 1px solid var(--navy);
+  color: var(--navy);
+  font-family: var(--font-body);
+  font-size: var(--size-small);
+  z-index: 20;
+}
+
+.cover {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  background: var(--cream);
+}
+
+.cover__canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+}
+
+/* Custom pencil cursor — follows the pointer via transform, tip anchored
+   at its own origin so translate(x, y) lands the point exactly on the
+   real cursor position. */
+.cover__pencil {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 30px;
+  height: 30px;
+  pointer-events: none;
+  z-index: 5;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  will-change: transform;
+}
+
+.cover__pencil.is-active {
+  opacity: 1;
+}
+
+.cover__prompt {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  pointer-events: none;
+  z-index: 2;
+  transition: opacity 0.5s ease;
+}
+
+.cover__prompt.is-hidden {
+  opacity: 0;
+}
+
+.cover__prompt-label {
+  display: block;
+  font-family: var(--font-body);
+  font-size: var(--size-label);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--navy-soft);
+}
+
+.cover__prompt-label--touch {
+  display: none;
+}
+
+@media (pointer: coarse) {
+  .cover__prompt-label--mouse {
+    display: none;
+  }
+
+  .cover__prompt-label--touch {
+    display: block;
+  }
+}
+
+.cover__prompt-arrow {
+  display: block;
+  width: 64px;
+  height: 20px;
+  margin: 0.85rem auto 0;
+}
+
+.cover__clear {
+  position: fixed;
+  right: clamp(1.25rem, 4vw, 2.5rem);
+  bottom: clamp(1.25rem, 4vw, 2.5rem);
+  z-index: 6;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-body);
+  font-size: var(--size-small);
+  letter-spacing: 0.04em;
+  color: var(--ink-soft);
+  opacity: 0.55;
+  transition: opacity 0.2s ease;
+}
+
+.cover__clear:hover,
+.cover__clear:focus-visible {
+  opacity: 1;
+}
+
+.cover__fade {
+  position: fixed;
+  inset: 0;
+  background: var(--cream);
+  z-index: 10;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.55s ease;
+}
+
+.cover__fade.is-active {
+  opacity: 1;
+}
+
+@media (max-width: 640px) {
+  .cover__prompt-label {
+    font-size: 0.72rem;
+  }
+
+  .cover__clear {
+    right: 1rem;
+    bottom: 1rem;
+  }
+}
