@@ -1,7 +1,7 @@
 /* ==========================================================================
-   Cover page — dappled leaf-shadow play over a soft shadow-cast wordmark.
-   Scoped entirely to index.html. Deliberately has no nav/footer chrome:
-   it's meant to read as a calm threshold, not another site page.
+   Cover page — golden-ratio grid + crayon scribble canvas.
+   Scoped entirely to index.html. Deliberately has no nav/footer chrome
+   and no title: it's a blank drawing surface, not another site page.
    ========================================================================== */
 
 html, body {
@@ -48,187 +48,172 @@ html, body {
   height: 100vh;
   height: 100dvh;
   background: var(--cream);
-  cursor: pointer;
+}
+
+html, body {
+  cursor: none;
 }
 
 /* -------------------------------------------------------------------------
-   Leaf shadows — 4 large, soft, low-opacity navy silhouettes, blurred so
-   they read as cast shadows rather than flat graphic shapes. Each one
-   sways on its own slow, independently-timed loop. mix-blend-mode keeps
-   overlapping shapes (and the shape passing over the text) reading as one
-   continuous field of shadow rather than stacked flat layers.
+   Golden ratio construction grid — static, non-interactive, very faint.
+   A classic golden-rectangle spiral (nested squares + quarter-arcs) drawn
+   once in thin --navy strokes, echoing the logo's drafting/blueprint feel.
+   Sits centered and beneath the crayon canvas at all times.
    ------------------------------------------------------------------------- */
-.cover__leaves {
+.cover__grid {
   position: absolute;
   inset: 0;
-  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  opacity: 0.08;
   pointer-events: none;
-}
-
-.cover__leaf {
-  position: absolute;
-  fill: var(--navy);
-  mix-blend-mode: multiply;
-  will-change: transform;
-}
-
-.cover__leaf path {
-  fill: inherit;
-}
-
-.cover__leaf--1 {
-  width: 46vw;
-  min-width: 360px;
-  max-width: 640px;
-  top: -6vh;
-  left: -6vw;
-  opacity: 0.14;
-  filter: blur(9px);
-  animation: leaf-sway-1 13s ease-in-out infinite alternate;
-}
-
-.cover__leaf--2 {
-  width: 34vw;
-  min-width: 280px;
-  max-width: 480px;
-  top: 8vh;
-  right: -4vw;
-  opacity: 0.12;
-  filter: blur(7px);
-  animation: leaf-sway-2 10s ease-in-out infinite alternate;
-  animation-delay: -2.4s;
-}
-
-.cover__leaf--3 {
-  width: 30vw;
-  min-width: 240px;
-  max-width: 420px;
-  bottom: 4vh;
-  left: 6vw;
-  opacity: 0.13;
-  filter: blur(8px);
-  animation: leaf-sway-3 11.5s ease-in-out infinite alternate;
-  animation-delay: -5.1s;
-}
-
-.cover__leaf--4 {
-  width: 40vw;
-  min-width: 320px;
-  max-width: 560px;
-  bottom: -8vh;
-  right: 10vw;
-  opacity: 0.10;
-  filter: blur(11px);
-  animation: leaf-sway-4 14s ease-in-out infinite alternate;
-  animation-delay: -8.7s;
-}
-
-/* Studio-mark shadow — same soft/blurred/low-opacity treatment as the
-   leaves, just scaled up to read as an ambient shape filling roughly the
-   right half of the viewport rather than a recognizable small watermark.
-   Positioned to overlap leaf--2/--4 and the title so it sits among them,
-   not off in its own space. */
-.cover__leaf--logo {
-  width: 54vw;
-  min-width: 420px;
-  max-width: 780px;
-  top: 6vh;
-  right: -9vw;
-  opacity: 0.12;
-  filter: blur(14px);
-  animation: leaf-sway-logo 12.5s ease-in-out infinite alternate;
-  animation-delay: -3.6s;
-}
-
-@keyframes leaf-sway-1 {
-  0%   { transform: translate(0, 0) rotate(-3deg) scale(1); }
-  100% { transform: translate(1.6vw, 1.2vh) rotate(2deg) scale(1.045); }
-}
-
-@keyframes leaf-sway-2 {
-  0%   { transform: translate(0, 0) rotate(2.5deg) scale(1.02); }
-  100% { transform: translate(-1.4vw, 1.5vh) rotate(-2deg) scale(0.98); }
-}
-
-@keyframes leaf-sway-3 {
-  0%   { transform: translate(0, 0) rotate(-2deg) scale(1); }
-  100% { transform: translate(1.1vw, -1.3vh) rotate(3deg) scale(1.03); }
-}
-
-@keyframes leaf-sway-4 {
-  0%   { transform: translate(0, 0) rotate(3deg) scale(1); }
-  100% { transform: translate(-1.7vw, -1vh) rotate(-2.5deg) scale(1.035); }
-}
-
-@keyframes leaf-sway-logo {
-  0%   { transform: translate(0, 0) rotate(-1.5deg) scale(1); }
-  100% { transform: translate(-0.9vw, 1vh) rotate(1.5deg) scale(1.025); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .cover__leaf {
-    animation: none;
-  }
 }
 
 /* -------------------------------------------------------------------------
-   Studio name as shadow — soft, translucent, swaying like the leaves
-   rather than a crisp solid headline. Blur lives on the shared word
-   container (not per letter) so the settled wordmark reads as one soft
-   edge rather than a blur halo around each glyph.
+   Crayon drawing canvas — sits above the grid.
    ------------------------------------------------------------------------- */
-.cover__title {
-  position: fixed;
-  right: clamp(1.5rem, 6vw, 5rem);
-  bottom: clamp(2.5rem, 10vh, 6.5rem);
-  z-index: 2;
-  text-align: right;
-  font-family: var(--font-display);
-  font-size: clamp(2.4rem, 6.6vw, 5.25rem);
-  font-weight: 500;
-  letter-spacing: -0.01em;
-  line-height: 1.02;
-  color: var(--navy);
-  filter: blur(1.6px);
-  mix-blend-mode: multiply;
-  animation: title-sway 12s ease-in-out infinite alternate;
-  animation-delay: 1.8s;
-  pointer-events: none;
+.cover__canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
 }
 
-@keyframes title-sway {
-  0%   { transform: translate(0, 0) scale(1) skew(0deg, 0deg); }
-  100% { transform: translate(-0.4vw, 0.5vh) scale(1.012) skew(-0.3deg, 0deg); }
+/* -------------------------------------------------------------------------
+   Studio title — "ADJECTIF CREATION" as individually-animated letters.
+   The container is centered via fixed positioning so its layout (and the
+   real, correctly-spaced gap between the two words) is computed once by
+   the browser; js/cover.js measures each letter's resting position from
+   that layout, then flies it in from a random scattered start. Letters
+   stay in --navy, no color change, matching the rest of the site.
+   ------------------------------------------------------------------------- */
+/* No transform here on purpose: a CSS transform on this element would make
+   it the containing block for its position:fixed letter children below,
+   so their fixed coordinates would resolve against this (small, collapsed
+   once letters detach from flow) box instead of the real viewport.
+   Centering is done with left/right + text-align instead. */
+.cover__title {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 40%;
+  z-index: 3;
+  margin: 0;
+  text-align: center;
+  pointer-events: none;
+  font-family: 'Big Shoulders Stencil Display', var(--font-display);
+  font-size: clamp(2.6rem, 11.5vw, 7.5rem);
+  font-weight: 800;
+  line-height: 0.92;
+  letter-spacing: 0;
+  color: var(--navy);
 }
 
 .cover__word {
-  display: block;
+  display: inline-block;
   white-space: nowrap;
+  margin-right: 0.18em;
+}
+
+.cover__word:last-child {
+  margin-right: 0;
 }
 
 .cover__letter {
   display: inline-block;
-  opacity: 0.34;
+  opacity: 0;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .cover__title {
-    animation: none;
-  }
+.cover__title.is-reduced .cover__letter {
+  transition: opacity 0.6s ease;
 }
 
-@media (max-width: 640px) {
-  .cover__title {
-    right: 1.5rem;
-    bottom: 2.5rem;
-    font-size: clamp(2rem, 11vw, 3.4rem);
-  }
+.cover__title.is-reduced.is-settled .cover__letter {
+  opacity: 1;
+}
 
-  .cover__leaf--1 { width: 66vw; min-width: 0; }
-  .cover__leaf--2 { width: 54vw; min-width: 0; }
-  .cover__leaf--3 { width: 50vw; min-width: 0; }
-  .cover__leaf--4 { width: 60vw; min-width: 0; }
-  .cover__leaf--logo { width: 78vw; min-width: 0; top: 4vh; right: -14vw; }
+/* -------------------------------------------------------------------------
+   First-visit prompt — bottom-center, clear of the centered title above.
+   ------------------------------------------------------------------------- */
+.cover__prompt {
+  position: fixed;
+  left: 50%;
+  bottom: 11%;
+  transform: translateX(-50%);
+  text-align: center;
+  pointer-events: none;
+  z-index: 2;
+  transition: opacity 0.5s ease;
+}
+
+.cover__prompt.is-hidden {
+  opacity: 0;
+}
+
+.cover__prompt-label {
+  display: block;
+  font-family: var(--font-body);
+  font-size: var(--size-label);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--navy-soft);
+}
+
+.cover__prompt-label--touch {
+  display: none;
+}
+
+@media (pointer: coarse) {
+  .cover__prompt-label--mouse { display: none; }
+  .cover__prompt-label--touch { display: block; }
+}
+
+.cover__prompt-arrow {
+  display: block;
+  width: 64px;
+  height: 20px;
+  margin: 0.85rem auto 0;
+}
+
+/* -------------------------------------------------------------------------
+   Crayon cursor — replaces the hidden system cursor. Tip color follows the
+   current stroke color (set via --crayon-color inline style from JS).
+   ------------------------------------------------------------------------- */
+.cover__crayon {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 30px;
+  height: 30px;
+  pointer-events: none;
+  z-index: 5;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  will-change: transform;
+}
+
+.cover__crayon.is-active {
+  opacity: 1;
+}
+
+.cover__clear {
+  position: fixed;
+  right: clamp(1.25rem, 4vw, 2.5rem);
+  bottom: clamp(1.25rem, 4vw, 2.5rem);
+  z-index: 6;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-body);
+  font-size: var(--size-small);
+  letter-spacing: 0.04em;
+  color: var(--ink-soft);
+  opacity: 0.55;
+  transition: opacity 0.2s ease;
+}
+
+.cover__clear:hover,
+.cover__clear:focus-visible {
+  opacity: 1;
 }
 
 .cover__fade {
@@ -244,3 +229,4 @@ html, body {
 .cover__fade.is-active {
   opacity: 1;
 }
+
