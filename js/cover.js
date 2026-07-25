@@ -42,7 +42,7 @@
   var STROKE_HALF_WIDTH = 3.6;
   var STEP_SPACING = 1.1;
   var MAX_STEPS_PER_SEGMENT = 80;
-  var LIFT_GAP = 14; /* px the pointer must travel before a new stroke starts marking, so it never touches the previous one */
+  var LIFT_GAP = 50; /* px the pointer must travel before a new stroke starts marking, so it never touches the previous one */
   var FADE_DISTANCE = 260; /* px of drawn stroke over which opacity tapers from full to MIN_FADE */
   var MIN_FADE = 0.26;
 
