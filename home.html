@@ -176,6 +176,12 @@ m-936 -209 c191 -26 353 -108 486 -246 118 -122 183 -241 220 -403 18 -79 16
 
 <main>
 
+  <svg class="connector" id="connector" aria-hidden="true">
+    <path class="connector__path connector__path--b" id="connector-path-b"></path>
+    <path class="connector__path connector__path--a" id="connector-path-a"></path>
+    <g class="connector__motifs" id="connector-motifs"></g>
+  </svg>
+
   <!-- HERO -->
   <section class="hero" id="hero">
     <img src="assets/logo.png" alt="" class="hero__mark" id="hero-mark">
@@ -194,7 +200,7 @@ m-936 -209 c191 -26 353 -108 486 -246 118 -122 183 -241 220 -403 18 -79 16
   <hr class="divider">
 
   <!-- STATEMENT -->
-  <section class="section container statement">
+  <section class="section container statement" id="statement-section">
     <div class="statement__mark">
       <svg viewBox="0 0 100 100" fill="none">
         <circle cx="50" cy="50" r="28" stroke="#2B3A6B" stroke-width="1.5"/>
@@ -216,7 +222,7 @@ m-936 -209 c191 -26 353 -108 486 -246 118 -122 183 -241 220 -403 18 -79 16
   <hr class="divider divider--soft">
 
   <!-- SELECTED WORK (preview) -->
-  <section class="section bg-paper">
+  <section class="section bg-paper" id="work-preview-section">
     <div class="container">
       <div class="section-head">
         <span class="eyebrow">Selected Work</span>
@@ -273,7 +279,7 @@ m-936 -209 c191 -26 353 -108 486 -246 118 -122 183 -241 220 -403 18 -79 16
   <hr class="divider">
 
   <!-- STUDIO SHOP (preview) -->
-  <section class="section bg-cream">
+  <section class="section bg-cream" id="shop-preview-section">
     <div class="container">
       <div class="section-head">
         <span class="eyebrow">Studio Shop</span>
@@ -309,7 +315,7 @@ m-936 -209 c191 -26 353 -108 486 -246 118 -122 183 -241 220 -403 18 -79 16
   <hr class="divider divider--soft">
 
   <!-- PULL QUOTE -->
-  <section class="section container pull-quote-section">
+  <section class="section container pull-quote-section" id="pull-quote-section">
     <p class="pull-quote">"Space is the first object we design. Everything else — furniture, signage, the products themselves — is drawn in relation to it."</p>
     <span class="small-caps pull-quote-attribution">— Adjectif Creation</span>
   </section>
@@ -353,5 +359,6 @@ m-936 -209 c191 -26 353 -108 486 -246 118 -122 183 -241 220 -403 18 -79 16
   </div>
 </footer>
 <script src="js/main.js"></script>
+<script src="js/connector.js"></script>
 </body>
 </html>

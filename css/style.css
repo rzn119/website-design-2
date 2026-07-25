@@ -887,6 +887,54 @@ section[id], footer[id] {
 }
 
 /* -------------------------------------------------------------------------
+   Connector — a single continuous hand-drawn line threading through the
+   page's negative space from the hero down to the end of the pull-quote
+   section, drawn in via scroll (see js/connector.js). Rendered as two
+   independently-jittered copies of the same route so it reads as a
+   doubled pen line rather than a single crisp vector stroke.
+   ------------------------------------------------------------------------- */
+main {
+  position: relative;
+}
+
+.connector {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 4;
+  pointer-events: none;
+  overflow: visible;
+}
+
+.connector__path {
+  fill: none;
+  stroke: var(--navy);
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0.58;
+}
+
+.connector__path--b {
+  opacity: 0.32;
+}
+
+.connector__motif {
+  fill: none;
+  stroke: var(--navy);
+  stroke-width: 1.5;
+  opacity: 0.5;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .connector__path {
+    transition: none;
+  }
+}
+
+/* -------------------------------------------------------------------------
    Footer
    ------------------------------------------------------------------------- */
 .site-footer {

@@ -1,0 +1,122 @@
+/* ==========================================================================
+   Cover-to-homepage intro — a large stroke mark draws on, holds, then
+   zooms out (Airtree-style) into its normal size in the nav position,
+   revealing the real header and hero underneath. Scoped to index.html.
+   ========================================================================== */
+
+.intro {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: var(--cream);
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.intro__mark {
+  position: fixed;
+  transform: scale(9);
+  will-change: transform;
+}
+
+.intro__draw {
+  fill: none;
+  stroke: var(--navy);
+  stroke-linecap: round;
+}
+
+#intro-circle-a, #intro-circle-a2, #intro-circle-b, #intro-circle-b2 {
+  stroke-width: 4;
+}
+
+#intro-diagonal, #intro-diagonal2 {
+  stroke-width: 4;
+}
+
+.intro__ticks {
+  stroke: var(--navy);
+  stroke-width: 2.6;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.intro__ticks.is-visible {
+  opacity: 0.6;
+}
+
+.intro.is-fading {
+  transition: opacity 0.5s ease;
+  opacity: 0;
+}
+
+/* Real header/hero content — hidden until the intro hands off to them. */
+body.intro-running .site-header,
+body.intro-running #hero-inner,
+body.intro-running #hero-mark {
+  opacity: 0;
+}
+
+.site-header,
+#hero-inner {
+  transition: opacity 0.7s ease;
+}
+
+#hero-mark {
+  transition: opacity 0.7s ease;
+}
+
+body.intro-header-revealed .site-header {
+  opacity: 1;
+}
+
+body.intro-hero-revealed #hero-inner,
+body.intro-hero-revealed #hero-mark {
+  opacity: 1;
+}
+
+.intro-letter {
+  display: inline-block;
+  opacity: 0;
+}
+
+.intro-letter--space {
+  width: 0.35em;
+}
+
+body.intro-letters-done .intro-letter {
+  opacity: 1;
+}
+
+/* Repeat visitors / no-JS fallback: skip straight to the settled page,
+   no overlay, nothing hidden. */
+html.intro-skip .intro {
+  display: none;
+}
+
+html.intro-skip .site-header,
+html.intro-skip #hero-inner,
+html.intro-skip #hero-mark {
+  opacity: 1 !important;
+  transition: none !important;
+}
+
+html.intro-skip .intro-letter {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .intro {
+    display: none;
+  }
+
+  .site-header,
+  #hero-inner,
+  #hero-mark {
+    opacity: 1;
+    transition: none;
+  }
+
+  .intro-letter {
+    opacity: 1;
+  }
+}
