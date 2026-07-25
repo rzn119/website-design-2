@@ -1,7 +1,7 @@
 /* ==========================================================================
-   Cover page — blank paper + pencil cursor
+   Cover page — drifting fabric + studio intro
    Scoped entirely to index.html. Deliberately has no nav/footer chrome:
-   it's meant to read as a bare sheet of paper, not another site page.
+   it's meant to read as a calm threshold, not another site page.
    ========================================================================== */
 
 html, body {
@@ -9,7 +9,6 @@ html, body {
   height: 100%;
   overflow: hidden;
   background: var(--cream);
-  cursor: none;
 }
 
 .sr-only {
@@ -49,100 +48,136 @@ html, body {
   height: 100vh;
   height: 100dvh;
   background: var(--cream);
+  cursor: pointer;
 }
 
-.cover__canvas {
+/* -------------------------------------------------------------------------
+   Fabric — 4 soft navy ribbons, ambient drift (CSS) + pointer response (JS)
+   layered on separate elements so the two transforms never collide:
+   .fabric__drift carries the slow always-on loop, .fabric__respond carries
+   the JS-driven offset toward/away from the cursor.
+   ------------------------------------------------------------------------- */
+.fabric {
   position: absolute;
   inset: 0;
-  width: 100%;
-  height: 100%;
-  touch-action: none;
+  overflow: hidden;
+  pointer-events: none;
 }
 
-/* Custom pencil cursor — follows the pointer via transform, tip anchored
-   at its own origin so translate(x, y) lands the point exactly on the
-   real cursor position. */
-.cover__pencil {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 30px;
-  height: 30px;
-  pointer-events: none;
-  z-index: 5;
-  opacity: 0;
-  transition: opacity 0.2s ease;
+.fabric__drift {
+  position: absolute;
   will-change: transform;
 }
 
-.cover__pencil.is-active {
-  opacity: 1;
+.fabric__respond {
+  will-change: transform;
+  /* No CSS transition here — js/cover.js drives its own per-frame easing
+     (lerp toward target each tick), so a CSS transition on the same
+     property would double up against that and muddy the motion. */
 }
 
-.cover__prompt {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-  pointer-events: none;
-  z-index: 2;
-  transition: opacity 0.5s ease;
-}
-
-.cover__prompt.is-hidden {
-  opacity: 0;
-}
-
-.cover__prompt-label {
+.fabric__shape {
   display: block;
+  filter: blur(19px);
+}
+
+.fabric__drift--a {
+  width: 62vw;
+  min-width: 480px;
+  top: -6vh;
+  left: -8vw;
+  animation: drift-a 22s ease-in-out infinite alternate;
+}
+
+.fabric__drift--b {
+  width: 58vw;
+  min-width: 440px;
+  top: 30vh;
+  right: -10vw;
+  animation: drift-b 26s ease-in-out infinite alternate;
+}
+
+.fabric__drift--c {
+  width: 34vw;
+  min-width: 280px;
+  bottom: -10vh;
+  left: 6vw;
+  animation: drift-c 30s ease-in-out infinite alternate;
+}
+
+.fabric__drift--d {
+  width: 30vw;
+  min-width: 240px;
+  bottom: 4vh;
+  right: 12vw;
+  animation: drift-d 19s ease-in-out infinite alternate;
+}
+
+@keyframes drift-a {
+  0%   { transform: translate(0, 0) rotate(-8deg) scale(1); }
+  100% { transform: translate(1.8vw, 1.4vh) rotate(-5deg) scale(1.035); }
+}
+
+@keyframes drift-b {
+  0%   { transform: translate(0, 0) rotate(6deg) scale(1.02); }
+  100% { transform: translate(-2vw, -1.6vh) rotate(9deg) scale(1); }
+}
+
+@keyframes drift-c {
+  0%   { transform: translate(0, 0) rotate(-4deg) scale(1); }
+  100% { transform: translate(1.2vw, -1.8vh) rotate(-1deg) scale(1.04); }
+}
+
+@keyframes drift-d {
+  0%   { transform: translate(0, 0) rotate(12deg) scale(1); }
+  100% { transform: translate(-1.5vw, 1.2vh) rotate(8deg) scale(1.03); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fabric__drift {
+    animation: none;
+  }
+}
+
+/* -------------------------------------------------------------------------
+   Studio intro — name + tagline, asymmetric placement over the fabric
+   ------------------------------------------------------------------------- */
+.cover__intro {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding-left: clamp(2rem, 9vw, 8rem);
+  pointer-events: none;
+}
+
+.cover__intro-mark {
+  width: 40px;
+  height: 40px;
+  margin-bottom: 1.5rem;
+  opacity: 0.85;
+}
+
+.cover__intro-mark svg {
+  width: 100%;
+  height: 100%;
+}
+
+.cover__intro-name {
+  font-size: clamp(2.25rem, 6vw, 4rem);
+  letter-spacing: -0.01em;
+}
+
+.cover__intro-tagline {
+  margin-top: 1rem;
   font-family: var(--font-body);
   font-size: var(--size-label);
-  letter-spacing: 0.2em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--navy-soft);
-}
-
-.cover__prompt-label--touch {
-  display: none;
-}
-
-@media (pointer: coarse) {
-  .cover__prompt-label--mouse {
-    display: none;
-  }
-
-  .cover__prompt-label--touch {
-    display: block;
-  }
-}
-
-.cover__prompt-arrow {
-  display: block;
-  width: 64px;
-  height: 20px;
-  margin: 0.85rem auto 0;
-}
-
-.cover__clear {
-  position: fixed;
-  right: clamp(1.25rem, 4vw, 2.5rem);
-  bottom: clamp(1.25rem, 4vw, 2.5rem);
-  z-index: 6;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-family: var(--font-body);
-  font-size: var(--size-small);
-  letter-spacing: 0.04em;
   color: var(--ink-soft);
-  opacity: 0.55;
-  transition: opacity 0.2s ease;
-}
-
-.cover__clear:hover,
-.cover__clear:focus-visible {
-  opacity: 1;
 }
 
 .cover__fade {
@@ -160,12 +195,15 @@ html, body {
 }
 
 @media (max-width: 640px) {
-  .cover__prompt-label {
-    font-size: 0.72rem;
+  .cover__intro {
+    padding-left: 1.75rem;
+    align-items: center;
+    text-align: center;
+    padding-inline: 1.75rem;
   }
 
-  .cover__clear {
-    right: 1rem;
-    bottom: 1rem;
-  }
+  .fabric__drift--a { width: 90vw; min-width: 0; }
+  .fabric__drift--b { width: 85vw; min-width: 0; }
+  .fabric__drift--c { width: 60vw; min-width: 0; }
+  .fabric__drift--d { width: 55vw; min-width: 0; }
 }
