@@ -90,15 +90,14 @@ html, body {
    it the containing block for its position:fixed letter children below,
    so their fixed coordinates would resolve against this (small, collapsed
    once letters detach from flow) box instead of the real viewport.
-   Centering is done with left/right + text-align instead. */
+   Left placement is done with a plain left offset + text-align instead. */
 .cover__title {
   position: fixed;
-  left: 0;
-  right: 0;
+  left: clamp(1.5rem, 6vw, 5rem);
   top: 40%;
   z-index: 3;
   margin: 0;
-  text-align: center;
+  text-align: left;
   pointer-events: none;
   font-family: 'Big Shoulders Stencil Display', var(--font-display);
   font-size: clamp(2.6rem, 11.5vw, 7.5rem);
@@ -109,13 +108,8 @@ html, body {
 }
 
 .cover__word {
-  display: inline-block;
+  display: block;
   white-space: nowrap;
-  margin-right: 0.18em;
-}
-
-.cover__word:last-child {
-  margin-right: 0;
 }
 
 .cover__letter {
