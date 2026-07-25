@@ -1,96 +1,164 @@
 (function () {
   var cover = document.getElementById('cover');
+  var canvas = document.getElementById('cover-canvas');
+  var crayon = document.getElementById('cover-crayon');
+  var prompt = document.getElementById('cover-prompt');
+  var clearBtn = document.getElementById('cover-clear');
   var fade = document.getElementById('cover-fade');
-  var respondEls = Array.prototype.slice.call(document.querySelectorAll('.fabric__respond'));
-  if (!cover) return;
+  if (!cover || !canvas || !canvas.getContext) return;
 
+  var ctx = canvas.getContext('2d');
+  var dpr = Math.max(window.devicePixelRatio || 1, 1);
+  var W = 0;
+  var H = 0;
+
+  var PASTELS = [
+    '#C98F6E', /* pale terracotta */
+    '#9CAE8C', /* muted sage */
+    '#93B0C7', /* soft powder blue */
+    '#DDA9A3', /* warm blush */
+    '#D2B26A', /* pale ochre */
+    '#B39CC0'  /* dusty lilac */
+  ];
+
+  function resize() {
+    W = window.innerWidth;
+    H = window.innerHeight;
+    canvas.width = W * dpr;
+    canvas.height = H * dpr;
+    canvas.style.width = W + 'px';
+    canvas.style.height = H + 'px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    ctx.lineWidth = 5;
+    ctx.globalAlpha = 0.82;
+  }
+
+  resize();
+  window.addEventListener('resize', resize);
+
+  var CRAYON_TIP_X = 8;
+  var CRAYON_TIP_Y = 24;
+  var STOP_MS = 400;
+
+  var hasDrawn = false;
+  var strokeActive = false;
+  var currentColor = null;
+  var lastX = 0;
+  var lastY = 0;
+  var stopTimer = null;
+  var advanced = false;
   var reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  var advanced = false;
+  function positionCrayon(x, y) {
+    crayon.style.transform = 'translate(' + (x - CRAYON_TIP_X) + 'px,' + (y - CRAYON_TIP_Y) + 'px)';
+  }
+
+  function jitter(v) {
+    return v + (Math.random() - 0.5) * 1.6;
+  }
+
+  function drawSegment(x0, y0, x1, y1) {
+    var mx = (x0 + x1) / 2;
+    var my = (y0 + y1) / 2;
+    ctx.beginPath();
+    ctx.moveTo(jitter(x0), jitter(y0));
+    ctx.quadraticCurveTo(jitter(mx), jitter(my), jitter(x1), jitter(y1));
+    ctx.stroke();
+  }
+
+  function pickColor() {
+    if (PASTELS.length === 1) return PASTELS[0];
+    var c;
+    do {
+      c = PASTELS[Math.floor(Math.random() * PASTELS.length)];
+    } while (c === currentColor);
+    return c;
+  }
+
+  function markDrawn() {
+    if (hasDrawn) return;
+    hasDrawn = true;
+    prompt.classList.add('is-hidden');
+  }
+
+  function beginStroke(x, y) {
+    currentColor = pickColor();
+    ctx.strokeStyle = currentColor;
+    crayon.style.setProperty('--crayon-color', currentColor);
+    lastX = x;
+    lastY = y;
+    strokeActive = true;
+  }
+
+  function endStroke() {
+    strokeActive = false;
+    if (stopTimer) {
+      window.clearTimeout(stopTimer);
+      stopTimer = null;
+    }
+  }
+
+  function handleMove(x, y) {
+    positionCrayon(x, y);
+    crayon.classList.add('is-active');
+
+    if (!strokeActive) {
+      beginStroke(x, y);
+    } else {
+      drawSegment(lastX, lastY, x, y);
+      lastX = x;
+      lastY = y;
+    }
+
+    markDrawn();
+
+    if (stopTimer) window.clearTimeout(stopTimer);
+    stopTimer = window.setTimeout(endStroke, STOP_MS);
+  }
+
+  function clearCanvas() {
+    ctx.clearRect(0, 0, W, H);
+  }
 
   function advance() {
     if (advanced) return;
     advanced = true;
     try {
       sessionStorage.setItem('adjectif-cover-seen', '1');
-    } catch (e) {
-      /* private browsing / storage disabled — just proceed without it */
-    }
+    } catch (e) {}
     fade.classList.add('is-active');
     window.setTimeout(function () {
       window.location.href = 'home.html';
     }, reducedMotion ? 60 : 480);
   }
 
+  canvas.addEventListener('pointermove', function (e) {
+    handleMove(e.clientX, e.clientY);
+  });
+
+  canvas.addEventListener('pointerdown', function (e) {
+    endStroke();
+    handleMove(e.clientX, e.clientY);
+  });
+
+  canvas.addEventListener('pointerup', function () {
+    endStroke();
+  });
+
+  canvas.addEventListener('pointerleave', function () {
+    endStroke();
+    crayon.classList.remove('is-active');
+  });
+
   // Only a deliberate click/tap moves on — no auto-advance timer, and no
   // generic keydown trigger (the sr-only "Skip intro" link already covers
   // keyboard-only navigation without an accidental keystroke advancing it).
   cover.addEventListener('click', advance);
 
-  if (respondEls.length === 0 || reducedMotion) return;
-
-  // Pointer sits far off-canvas until real input arrives, so shapes stay
-  // in their pure ambient drift with zero response influence at first.
-  var pointerX = -9999;
-  var pointerY = -9999;
-
-  var state = respondEls.map(function () {
-    return { x: 0, y: 0, rot: 0, scale: 1 };
+  clearBtn.addEventListener('click', function (e) {
+    e.stopPropagation();
+    clearCanvas();
   });
-
-  window.addEventListener('pointermove', function (e) {
-    pointerX = e.clientX;
-    pointerY = e.clientY;
-  });
-
-  window.addEventListener('pointerleave', function () {
-    pointerX = -9999;
-    pointerY = -9999;
-  });
-
-  var MAX_DISTANCE = 640;
-  var PULL_STRENGTH = 80; // px at full influence
-  var ROTATE_STRENGTH = 12; // deg at full influence
-  var SCALE_STRENGTH = 0.11;
-  var EASE = 0.06;
-
-  function tick() {
-    // Batch all geometry reads before any writes, so applying a transform
-    // to shape N never forces a synchronous layout before shape N+1 is read.
-    var rects = respondEls.map(function (el) {
-      return el.getBoundingClientRect();
-    });
-
-    rects.forEach(function (rect, i) {
-      var cx = rect.left + rect.width / 2;
-      var cy = rect.top + rect.height / 2;
-      var dx = pointerX - cx;
-      var dy = pointerY - cy;
-      var dist = Math.sqrt(dx * dx + dy * dy);
-      var influence = Math.max(0, 1 - dist / MAX_DISTANCE);
-
-      var s = state[i];
-      var targetX = dist > 0 ? (dx / (dist || 1)) * PULL_STRENGTH * influence : 0;
-      var targetY = dist > 0 ? (dy / (dist || 1)) * PULL_STRENGTH * influence : 0;
-      var targetRot = (i % 2 === 0 ? 1 : -1) * ROTATE_STRENGTH * influence;
-      var targetScale = 1 + SCALE_STRENGTH * influence;
-
-      s.x += (targetX - s.x) * EASE;
-      s.y += (targetY - s.y) * EASE;
-      s.rot += (targetRot - s.rot) * EASE;
-      s.scale += (targetScale - s.scale) * EASE;
-    });
-
-    respondEls.forEach(function (el, i) {
-      var s = state[i];
-      el.style.transform =
-        'translate(' + s.x.toFixed(2) + 'px,' + s.y.toFixed(2) + 'px) ' +
-        'rotate(' + s.rot.toFixed(2) + 'deg) ' +
-        'scale(' + s.scale.toFixed(3) + ')';
-    });
-
-    window.requestAnimationFrame(tick);
-  }
-
-  window.requestAnimationFrame(tick);
 })();

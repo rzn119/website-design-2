@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Cover page — drifting fabric + studio intro
+   Cover page — golden-ratio grid, crayon scribble canvas, studio intro
    Scoped entirely to index.html. Deliberately has no nav/footer chrome:
    it's meant to read as a calm threshold, not another site page.
    ========================================================================== */
@@ -48,121 +48,43 @@ html, body {
   height: 100vh;
   height: 100dvh;
   background: var(--cream);
-  cursor: pointer;
+}
+
+html, body {
+  cursor: none;
 }
 
 /* -------------------------------------------------------------------------
-   Fabric — 4 soft navy ribbons, ambient drift (CSS) + pointer response (JS)
-   layered on separate elements so the two transforms never collide:
-   .fabric__drift carries the slow always-on loop, .fabric__respond carries
-   the JS-driven offset toward/away from the cursor.
+   Golden ratio construction grid — static, non-interactive, very faint.
+   A classic golden-rectangle spiral (nested squares + quarter-arcs) drawn
+   once in thin --navy strokes, echoing the logo's drafting/blueprint feel.
+   Sits centered and beneath the crayon canvas at all times.
    ------------------------------------------------------------------------- */
-.fabric {
+.cover__grid {
   position: absolute;
   inset: 0;
-  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  opacity: 0.08;
   pointer-events: none;
 }
 
-.fabric__drift {
+/* -------------------------------------------------------------------------
+   Crayon drawing canvas — sits above the grid, below the intro text.
+   ------------------------------------------------------------------------- */
+.cover__canvas {
   position: absolute;
-  will-change: transform;
-}
-
-.fabric__respond {
-  will-change: transform;
-  /* No CSS transition here — js/cover.js drives its own per-frame easing
-     (lerp toward target each tick), so a CSS transition on the same
-     property would double up against that and muddy the motion. */
-}
-
-.fabric__shape {
-  display: block;
-  width: 100%;
-  height: auto;
-  opacity: 0.7;
-  transform-origin: center;
-  /* The source photo is a cropped detail shot — the fabric bleeds off
-     several sides of the frame itself, so those edges are a hard photo
-     boundary rather than the organic silhouette. Feather just the outer
-     margin so that boundary fades instead of cutting off as a visible
-     rectangle; the already-transparent organic edges are unaffected
-     since they're near-zero alpha before the mask's fade zone starts. */
-  mask-image: radial-gradient(ellipse 58% 58% at 50% 50%, black 8%, transparent 88%);
-  -webkit-mask-image: radial-gradient(ellipse 58% 58% at 50% 50%, black 8%, transparent 88%);
-}
-
-/* Same source photo, reused 4 times — rotation/flip per instance is what
-   creates variety rather than 4 separate assets. */
-.fabric__shape--a { transform: rotate(-104deg); }
-.fabric__shape--b { transform: rotate(78deg) scaleX(-1); }
-.fabric__shape--c { transform: rotate(-14deg); }
-.fabric__shape--d { transform: rotate(158deg) scaleX(-1); }
-
-.fabric__drift--a {
-  width: 44vw;
-  min-width: 360px;
-  top: -4vh;
-  left: -10vw;
-  animation: drift-a 22s ease-in-out infinite alternate;
-}
-
-.fabric__drift--b {
-  width: 40vw;
-  min-width: 320px;
-  top: 26vh;
-  right: -8vw;
-  animation: drift-b 26s ease-in-out infinite alternate;
-}
-
-.fabric__drift--c {
-  width: 26vw;
-  min-width: 220px;
-  bottom: -6vh;
-  left: 4vw;
-  animation: drift-c 30s ease-in-out infinite alternate;
-}
-
-.fabric__drift--d {
-  width: 30vw;
-  min-width: 240px;
-  bottom: 2vh;
-  right: 8vw;
-  animation: drift-d 19s ease-in-out infinite alternate;
-}
-
-@keyframes drift-a {
-  0%   { transform: translate(0, 0) rotate(-8deg) scale(1); }
-  100% { transform: translate(1.8vw, 1.4vh) rotate(-5deg) scale(1.035); }
-}
-
-@keyframes drift-b {
-  0%   { transform: translate(0, 0) rotate(6deg) scale(1.02); }
-  100% { transform: translate(-2vw, -1.6vh) rotate(9deg) scale(1); }
-}
-
-@keyframes drift-c {
-  0%   { transform: translate(0, 0) rotate(-4deg) scale(1); }
-  100% { transform: translate(1.2vw, -1.8vh) rotate(-1deg) scale(1.04); }
-}
-
-@keyframes drift-d {
-  0%   { transform: translate(0, 0) rotate(12deg) scale(1); }
-  100% { transform: translate(-1.5vw, 1.2vh) rotate(8deg) scale(1.03); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .fabric__drift {
-    animation: none;
-  }
+  inset: 0;
+  z-index: 1;
 }
 
 /* -------------------------------------------------------------------------
-   Studio intro — name + tagline, asymmetric placement over the fabric
+   Studio intro — name + tagline, asymmetric placement, cream backing plate
+   so crayon scribbles never clutter the text.
    ------------------------------------------------------------------------- */
 .cover__intro {
   position: relative;
-  z-index: 2;
+  z-index: 3;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -170,6 +92,14 @@ html, body {
   align-items: flex-start;
   padding-left: clamp(2rem, 9vw, 8rem);
   pointer-events: none;
+}
+
+.cover__intro-plate {
+  padding: 2rem clamp(1.5rem, 3vw, 2.75rem);
+  margin-left: clamp(-1.5rem, -3vw, -2.75rem);
+  background: var(--cream);
+  opacity: 0.92;
+  border-radius: 2px;
 }
 
 .cover__intro-mark {
@@ -198,6 +128,94 @@ html, body {
   color: var(--ink-soft);
 }
 
+/* -------------------------------------------------------------------------
+   First-visit prompt — right side, vertically centered, so it never
+   collides with the intro text block, which sits asymmetric-left on
+   desktop. Mobile centers the intro instead, so the prompt moves to the
+   bottom there (see media query below).
+   ------------------------------------------------------------------------- */
+.cover__prompt {
+  position: fixed;
+  right: clamp(2rem, 7vw, 5.5rem);
+  top: 50%;
+  transform: translateY(-50%);
+  text-align: center;
+  pointer-events: none;
+  z-index: 2;
+  transition: opacity 0.5s ease;
+}
+
+.cover__prompt.is-hidden {
+  opacity: 0;
+}
+
+.cover__prompt-label {
+  display: block;
+  font-family: var(--font-body);
+  font-size: var(--size-label);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--navy-soft);
+}
+
+.cover__prompt-label--touch {
+  display: none;
+}
+
+@media (pointer: coarse) {
+  .cover__prompt-label--mouse { display: none; }
+  .cover__prompt-label--touch { display: block; }
+}
+
+.cover__prompt-arrow {
+  display: block;
+  width: 64px;
+  height: 20px;
+  margin: 0.85rem auto 0;
+}
+
+/* -------------------------------------------------------------------------
+   Crayon cursor — replaces the hidden system cursor. Tip color follows the
+   current stroke color (set via --crayon-color inline style from JS).
+   ------------------------------------------------------------------------- */
+.cover__crayon {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 30px;
+  height: 30px;
+  pointer-events: none;
+  z-index: 5;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  will-change: transform;
+}
+
+.cover__crayon.is-active {
+  opacity: 1;
+}
+
+.cover__clear {
+  position: fixed;
+  right: clamp(1.25rem, 4vw, 2.5rem);
+  bottom: clamp(1.25rem, 4vw, 2.5rem);
+  z-index: 6;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-body);
+  font-size: var(--size-small);
+  letter-spacing: 0.04em;
+  color: var(--ink-soft);
+  opacity: 0.55;
+  transition: opacity 0.2s ease;
+}
+
+.cover__clear:hover,
+.cover__clear:focus-visible {
+  opacity: 1;
+}
+
 .cover__fade {
   position: fixed;
   inset: 0;
@@ -220,8 +238,16 @@ html, body {
     padding-inline: 1.75rem;
   }
 
-  .fabric__drift--a { width: 64vw; min-width: 0; }
-  .fabric__drift--b { width: 60vw; min-width: 0; }
-  .fabric__drift--c { width: 40vw; min-width: 0; }
-  .fabric__drift--d { width: 38vw; min-width: 0; }
+  .cover__intro-plate {
+    margin-left: 0;
+    padding-inline: 1.5rem;
+  }
+
+  .cover__prompt {
+    right: auto;
+    left: 50%;
+    top: auto;
+    bottom: 8%;
+    transform: translateX(-50%);
+  }
 }

@@ -24,33 +24,37 @@
 
 <div class="cover" id="cover">
 
-  <div class="fabric" aria-hidden="true">
-    <div class="fabric__drift fabric__drift--a">
-      <div class="fabric__respond" data-shape="a">
-        <img class="fabric__shape fabric__shape--a" src="assets/ribbon.png" alt="">
-      </div>
-    </div>
+  <svg class="cover__grid" viewBox="0 0 1618.000 999.979" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+    <g fill="none" stroke="var(--navy)" stroke-width="1.2">
+      <rect x="0" y="0" width="1618" height="999.979"/>
+      <line x1="999.98" y1="0.00" x2="999.98" y2="999.98"/>
+      <line x1="999.98" y1="618.02" x2="1618.00" y2="618.02"/>
+      <line x1="1236.04" y1="618.02" x2="1236.04" y2="999.98"/>
+      <line x1="999.98" y1="763.92" x2="1236.04" y2="763.92"/>
+      <line x1="1145.87" y1="618.02" x2="1145.87" y2="763.92"/>
+      <line x1="1145.87" y1="708.19" x2="1236.04" y2="708.19"/>
+      <line x1="1180.32" y1="708.19" x2="1180.32" y2="763.92"/>
+      <line x1="1145.87" y1="729.47" x2="1180.32" y2="729.47"/>
+      <line x1="1167.16" y1="708.19" x2="1167.16" y2="729.47"/>
+      <line x1="1167.16" y1="721.34" x2="1180.32" y2="721.34"/>
+      <line x1="1172.18" y1="721.34" x2="1172.18" y2="729.47"/>
+      <path d="M 0.00,999.98 A 999.98,999.98 0 0,1 999.98,0.00 A 618.02,618.02 0 0,1 1618.00,618.02 A 381.96,381.96 0 0,1 1236.04,999.98 A 236.06,236.06 0 0,1 999.98,763.92 A 145.89,145.89 0 0,1 1145.87,618.02 A 90.17,90.17 0 0,1 1236.04,708.19 A 55.73,55.73 0 0,1 1180.32,763.92 A 34.44,34.44 0 0,1 1145.87,729.47 A 21.29,21.29 0 0,1 1167.16,708.19 A 13.16,13.16 0 0,1 1180.32,721.34 A 8.13,8.13 0 0,1 1172.18,729.47"/>
+    </g>
+  </svg>
 
-    <div class="fabric__drift fabric__drift--b">
-      <div class="fabric__respond" data-shape="b">
-        <img class="fabric__shape fabric__shape--b" src="assets/ribbon.png" alt="">
-      </div>
-    </div>
+  <canvas class="cover__canvas" id="cover-canvas" aria-hidden="true"></canvas>
 
-    <div class="fabric__drift fabric__drift--c">
-      <div class="fabric__respond" data-shape="c">
-        <img class="fabric__shape fabric__shape--c" src="assets/ribbon.png" alt="">
-      </div>
-    </div>
-
-    <div class="fabric__drift fabric__drift--d">
-      <div class="fabric__respond" data-shape="d">
-        <img class="fabric__shape fabric__shape--d" src="assets/ribbon.png" alt="">
-      </div>
-    </div>
+  <div class="cover__prompt" id="cover-prompt">
+    <span class="cover__prompt-label cover__prompt-label--mouse">Move your mouse</span>
+    <span class="cover__prompt-label cover__prompt-label--touch">Touch and drag</span>
+    <svg class="cover__prompt-arrow" viewBox="0 0 64 20" fill="none" aria-hidden="true">
+      <line x1="2" y1="10" x2="50" y2="10" stroke="var(--navy-soft)" stroke-width="1" stroke-dasharray="3 4"/>
+      <path d="M44 4 L56 10 L44 16" stroke="var(--navy-soft)" stroke-width="1" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
   </div>
 
   <div class="cover__intro">
+   <div class="cover__intro-plate">
     <span class="logo__mark cover__intro-mark">
       <svg viewBox="0 0 519 535" fill="none" aria-hidden="true">
   <g transform="translate(-100.000000,614.807869) scale(0.100000,-0.100000)" fill="var(--navy, #2B3A6B)" stroke="none">
@@ -195,7 +199,19 @@ m-936 -209 c191 -26 353 -108 486 -246 118 -122 183 -241 220 -403 18 -79 16
     </span>
     <h1 class="cover__intro-name">Adjectif Creation</h1>
     <p class="cover__intro-tagline">Multidisciplinary design &amp; research studio.</p>
+   </div>
   </div>
+
+  <svg class="cover__crayon" id="cover-crayon" viewBox="0 0 30 30" fill="none" aria-hidden="true">
+    <line x1="8" y1="24" x2="24" y2="8" stroke="var(--crayon-color, var(--navy))" stroke-width="8" stroke-linecap="round"/>
+    <line x1="8" y1="24" x2="24" y2="8" stroke="#fff" stroke-width="8" stroke-linecap="round" opacity="0.12"/>
+    <circle cx="8" cy="24" r="2.6" fill="var(--cream)" opacity="0.55"/>
+  </svg>
+
+  <button class="cover__clear" id="cover-clear" type="button">
+    <span class="mark mark--sm"></span>
+    Clear
+  </button>
 
   <div class="cover__fade" id="cover-fade"></div>
 </div>
