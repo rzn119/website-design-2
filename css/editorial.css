@@ -169,6 +169,15 @@ strong, b, .font-semibold, .card__caption strong {
   text-transform: uppercase;
 }
 
+/* Force exactly two rows ("Space" / "& Object") regardless of viewport —
+   without this, "& Object" alone was narrow enough to soft-wrap into a
+   third line at some desktop widths where the vertical eyebrow column
+   ate into the available width. */
+.hero__line {
+  display: block;
+  white-space: nowrap;
+}
+
 .hero__subhead {
   margin-top: 1.75rem;
   font-size: 1.125rem;
