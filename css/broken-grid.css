@@ -1,0 +1,199 @@
+/* ==========================================================================
+   Broken-grid homepage restyle — structural inspiration from willstyle.co.jp
+   (asymmetric offsets, images bleeding past the container, photography-
+   forward scale). Scoped to home.html only, and only to the sections the
+   brief put in scope: Selected Work, Studio Shop, Pull Quote, and the
+   footer. Nav, hero, and statement keep their existing layout untouched —
+   this file never touches their selectors.
+
+   Colors are exclusively var(...) references to the site's existing
+   tokens — nothing here introduces a new color. The only new visual
+   ingredient is typography: --font-geo (Jost, a free geometric sans
+   built in the Futura/Kabel tradition — circular O, pointed apex on
+   A/M/W) for this file's headings only, echoing willstyle's display
+   type without touching the shared --font-editorial used everywhere
+   else on the site (studio/work/shop/contact keep Public Sans).
+   ========================================================================== */
+
+:root {
+  --font-geo: 'Jost', var(--font-editorial);
+}
+
+.section--broken .section-head h2,
+.section--broken .pull-quote,
+.footer--broken .logo__word {
+  font-family: var(--font-geo);
+}
+
+/* Safety net for the directional .reveal--left/--right elements this
+   file uses (work cards, shop items): before they're scrolled into
+   view they sit translateX(±36px) off their resting position, which —
+   without something clipping it — inflates the page's horizontal
+   scrollWidth even though nothing is visibly broken. Sections that
+   also carry .section--mesh already get this from its own
+   overflow:hidden; this covers the ones that don't (Shop, and the
+   footer's own reveal-group). Only -x, so the Work section's
+   deliberate vertical overlaps (negative margin-top rising past a row's
+   own top edge) aren't affected — those still need vertical room. */
+.section--broken,
+.footer--broken {
+  overflow-x: hidden;
+}
+
+/* -------------------------------------------------------------------------
+   Selected Work — three items, deliberately uneven: one large frame
+   bleeding past the container's left edge, one narrow frame overlapping
+   up into the whitespace above it instead of sitting flush in the row,
+   one wide frame inset off-center rather than spanning edge-to-edge.
+   ------------------------------------------------------------------------- */
+.work-grid--broken {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: var(--gutter);
+}
+
+.work-grid--broken > .card:nth-child(1) {
+  grid-column: 1 / 8;
+}
+
+.work-grid--broken > .card:nth-child(1) .card__frame {
+  /* Bleeds past the container's own left edge — the frame's border-box
+     extends left by the container gutter plus a further slice of the
+     viewport margin, so on a wide screen it visibly breaks the ~1200px
+     container instead of stopping flush with the rest of the page. */
+  margin-left: calc(-1 * var(--gutter) - 4vw);
+  width: calc(100% + var(--gutter) + 4vw);
+}
+
+.work-grid--broken > .card:nth-child(2) {
+  grid-column: 9 / 13;
+  /* Rises up past the row's own top edge into the section-head's
+     whitespace instead of sitting level with (or below) card 1 — safe
+     to overlap since it shares no columns with card 1, only empty
+     space above it. */
+  margin-top: -3.25rem;
+  align-self: start;
+}
+
+.work-grid--broken > .card:nth-child(3) {
+  grid-column: 2 / 12;
+  margin-top: 3.5rem;
+}
+
+@media (max-width: 900px) {
+  .work-grid--broken > .card:nth-child(1) .card__frame {
+    margin-left: calc(-1 * var(--gutter));
+    width: calc(100% + var(--gutter));
+  }
+}
+
+@media (max-width: 760px) {
+  .work-grid--broken {
+    grid-template-columns: 1fr;
+  }
+
+  .work-grid--broken > .card {
+    grid-column: 1 / -1 !important;
+    margin-top: 0 !important;
+  }
+
+  .work-grid--broken > .card:nth-child(1) .card__frame {
+    margin-left: 0;
+    width: 100%;
+  }
+}
+
+/* -------------------------------------------------------------------------
+   Studio Shop — bigger product photography (more visual weight per the
+   brief), stronger vertical stagger between the two items, and the first
+   item's figure allowed to overflow its own column so the object reads
+   larger than the grid cell technically containing it.
+   ------------------------------------------------------------------------- */
+.shop-wall--broken {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: var(--gutter);
+  align-items: start;
+}
+
+.shop-wall--broken > a:nth-child(1) {
+  margin-top: 0;
+}
+
+.shop-wall--broken > a:nth-child(2) {
+  margin-top: 5.5rem;
+}
+
+.shop-wall--broken .shop-item__figure {
+  overflow: visible;
+}
+
+.shop-wall--broken > a:nth-child(1) .shop-item__figure img {
+  max-width: 280px;
+}
+
+.shop-wall--broken > a:nth-child(2) .shop-item__figure img {
+  max-width: 210px;
+}
+
+@media (max-width: 640px) {
+  .shop-wall--broken {
+    grid-template-columns: 1fr;
+  }
+
+  .shop-wall--broken > a {
+    margin-top: 0 !important;
+  }
+
+  .shop-wall--broken > a:nth-child(1) .shop-item__figure img,
+  .shop-wall--broken > a:nth-child(2) .shop-item__figure img {
+    max-width: 220px;
+  }
+}
+
+/* -------------------------------------------------------------------------
+   Pull quote — shifted off the container's own left edge instead of
+   starting flush with it, breaking the same strict column every other
+   section's text obeys.
+   ------------------------------------------------------------------------- */
+.pull-quote-section.section--broken .container {
+  padding-left: calc(var(--gutter) + 8vw);
+}
+
+.pull-quote-section.section--broken .pull-quote {
+  letter-spacing: -0.01em;
+}
+
+@media (max-width: 760px) {
+  .pull-quote-section.section--broken .container {
+    padding-left: var(--gutter);
+  }
+}
+
+/* -------------------------------------------------------------------------
+   Footer — the brand column pulled wider than its grid track so the
+   wordmark bleeds slightly past where the contact/links columns start,
+   and the CTA lifted to overlap the row above instead of sitting level
+   with the other columns. Scoped to .footer--broken so studio/work/shop/
+   contact pages (which reuse the exact same footer markup) are untouched.
+   ------------------------------------------------------------------------- */
+/* min-width guarded: .footer-inner's own mobile stacking (2-col at
+   <=760px, 1-col at <=480px, both in style.css) is a plain single
+   class, lower specificity than this two-class selector — without the
+   min-width floor here, this rule would win over those breakpoints at
+   any viewport and force a cramped 4-column grid on mobile regardless
+   of screen width. */
+@media (min-width: 761px) {
+  .footer--broken .footer-inner {
+    grid-template-columns: 1.7fr 1fr 1fr auto;
+  }
+
+  .footer--broken .footer-brand {
+    margin-top: -0.5rem;
+  }
+
+  .footer--broken .footer-cta {
+    align-self: end;
+    margin-bottom: -0.75rem;
+  }
+}

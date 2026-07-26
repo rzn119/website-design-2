@@ -2,7 +2,7 @@
   var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (reduceMotion) return; // CSS already renders .reveal/.reveal-wipe at full visibility in this case
 
-  var targets = document.querySelectorAll('.reveal, .reveal-wipe');
+  var targets = document.querySelectorAll('.reveal, .reveal-wipe, .reveal-img');
   if (!targets.length) return;
 
   if (!('IntersectionObserver' in window)) {
