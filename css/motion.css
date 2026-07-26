@@ -1,0 +1,97 @@
+/* ==========================================================================
+   Scroll-triggered entry motion — homepage only, below the cover.
+   Two treatments: a plain fade + rise for supporting content, and a
+   clip-path wipe for major (46px+) display headlines, where the
+   reference system already puts its visual weight. Everything triggers
+   once via IntersectionObserver (js/motion.js) and never replays — a
+   settle-in on first view, not an ambient loop.
+
+   Background tone shifts between sections are pure CSS: a short gradient
+   blend band at each section's top edge, fading from the previous
+   section's tone down to transparent. No scroll-position math, no JS.
+   ========================================================================== */
+
+@media (prefers-reduced-motion: no-preference) {
+  .reveal {
+    opacity: 0;
+    transform: translateY(26px);
+    transition: opacity 0.55s cubic-bezier(0.22, 0.61, 0.36, 1),
+                transform 0.55s cubic-bezier(0.22, 0.61, 0.36, 1);
+  }
+
+  .reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Major display headlines (46px+) wipe left-to-right instead of
+     fading — the reference treats display type as the dominant visual
+     element, so it gets the more deliberate reveal. Used sparingly: only
+     section headlines, never body text.
+
+     The clip-path lives on an inner wrapper, not the observed .reveal-wipe
+     element itself: a fully clip-path'd target collapses to a zero-area
+     bounding box and never reports as intersecting (the same issue
+     js/main.js's hero-mark reveal already works around), which would
+     permanently deadlock the reveal. Observing the un-clipped outer
+     element sidesteps that. */
+  .reveal-wipe__inner {
+    display: block;
+    clip-path: inset(0 100% 0 0);
+    transition: clip-path 0.48s cubic-bezier(0.22, 0.61, 0.36, 1);
+  }
+
+  .reveal-wipe.is-visible .reveal-wipe__inner {
+    clip-path: inset(0 0% 0 0);
+  }
+
+  /* Grid/row stagger — direct .reveal children of a .reveal-group pick
+     up a small transition-delay by position, so a row assembles as a
+     quick cascade rather than appearing all at once. All children still
+     become visible together (same intersection moment); the delay alone
+     creates the stagger. */
+  .reveal-group > .reveal:nth-child(1) { transition-delay: 0ms; }
+  .reveal-group > .reveal:nth-child(2) { transition-delay: 80ms; }
+  .reveal-group > .reveal:nth-child(3) { transition-delay: 160ms; }
+  .reveal-group > .reveal:nth-child(4) { transition-delay: 240ms; }
+}
+
+/* Reduced motion: content is simply present — no fade, no clip, no delay. */
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .reveal-wipe__inner {
+    opacity: 1;
+    transform: none;
+    clip-path: none;
+  }
+}
+
+/* No JS: js/motion.js is what adds .is-visible, so without it these
+   elements — including headline text — would stay permanently hidden.
+   Show everything plainly instead. */
+@media (scripting: none) {
+  .reveal,
+  .reveal-wipe__inner {
+    opacity: 1;
+    transform: none;
+    clip-path: none;
+  }
+}
+
+/* -------------------------------------------------------------------------
+   Background tone transitions
+   ------------------------------------------------------------------------- */
+.section--blend {
+  position: relative;
+}
+
+.section--blend::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 140px;
+  background: linear-gradient(to bottom, var(--blend-from), transparent);
+  pointer-events: none;
+}

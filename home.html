@@ -10,6 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet" href="css/editorial.css">
+<link rel="stylesheet" href="css/motion.css">
 </head>
 <body>
 
@@ -182,14 +183,14 @@ m-936 -209 c191 -26 353 -108 486 -246 118 -122 183 -241 220 -403 18 -79 16
     <img src="assets/logo.png" alt="" class="hero__mark" id="hero-mark">
     <div class="container hero__inner">
       <div class="hero__row">
-        <span class="hero__vertical">Multidisciplinary Design &amp; Research Studio</span>
+        <span class="hero__vertical reveal">Multidisciplinary Design &amp; Research Studio</span>
         <div class="hero__main">
-          <h1><span class="hero__line">Space</span><span class="hero__line">&amp; Object</span></h1>
-          <p class="hero__subhead">We draw the line between space and object — spatial, product, and research work for brands and individuals who use physical space to sell what they make.</p>
-          <div class="hero__tags">
-            <span class="pill"><span class="mark mark--sm"></span>Spatial design</span>
-            <span class="pill"><span class="mark mark--sm"></span>Product design</span>
-            <span class="pill"><span class="mark mark--sm"></span>Research</span>
+          <h1 class="reveal-wipe"><span class="reveal-wipe__inner"><span class="hero__line">Space</span><span class="hero__line">&amp; Object</span></span></h1>
+          <p class="hero__subhead reveal">We draw the line between space and object — spatial, product, and research work for brands and individuals who use physical space to sell what they make.</p>
+          <div class="hero__tags reveal-group">
+            <span class="pill reveal"><span class="mark mark--sm"></span>Spatial design</span>
+            <span class="pill reveal"><span class="mark mark--sm"></span>Product design</span>
+            <span class="pill reveal"><span class="mark mark--sm"></span>Research</span>
           </div>
         </div>
       </div>
@@ -197,9 +198,9 @@ m-936 -209 c191 -26 353 -108 486 -246 118 -122 183 -241 220 -403 18 -79 16
   </section>
 
   <!-- STATEMENT -->
-  <section class="section bg-paper" id="statement-section">
+  <section class="section bg-paper section--blend" id="statement-section" style="--blend-from: var(--cream);">
     <div class="container statement">
-      <div class="statement__mark">
+      <div class="statement__mark reveal">
         <svg viewBox="0 0 100 100" fill="none">
           <circle cx="50" cy="50" r="28" stroke="#2B3A6B" stroke-width="1.5"/>
           <g stroke="#2B3A6B" stroke-width="1" stroke-dasharray="2 4" opacity="0.6">
@@ -211,24 +212,24 @@ m-936 -209 c191 -26 353 -108 486 -246 118 -122 183 -241 220 -403 18 -79 16
         </svg>
       </div>
       <div class="statement__text">
-        <span class="eyebrow">Approach</span>
-        <p>Every brief starts as a question, not a form. We treat a retail interior and a table with the same rigor: what does this object need to say, and how little can it say it with? The work that comes out the other side reads as drafted rather than decorated — precise lines, deliberate materials, nothing left to explain itself twice.</p>
-        <a href="studio.html" class="view-all"><span class="mark mark--sm"></span>More about the studio</a>
+        <span class="eyebrow reveal">Approach</span>
+        <p class="reveal">Every brief starts as a question, not a form. We treat a retail interior and a table with the same rigor: what does this object need to say, and how little can it say it with? The work that comes out the other side reads as drafted rather than decorated — precise lines, deliberate materials, nothing left to explain itself twice.</p>
+        <a href="studio.html" class="view-all reveal"><span class="mark mark--sm"></span>More about the studio</a>
       </div>
     </div>
   </section>
 
   <!-- SELECTED WORK (preview) -->
-  <section class="section bg-cream" id="work-preview-section">
+  <section class="section bg-cream section--blend" id="work-preview-section" style="--blend-from: var(--paper);">
     <div class="container">
       <div class="section-head">
-        <span class="eyebrow">Selected Work</span>
-        <h2>Space, product, and everything drawn between them</h2>
+        <span class="eyebrow reveal">Selected Work</span>
+        <h2 class="reveal-wipe"><span class="reveal-wipe__inner">Space, product, and everything drawn between them</span></h2>
       </div>
 
-      <div class="work-grid--preview">
+      <div class="work-grid--preview reveal-group">
 
-        <article class="card card--a">
+        <article class="card card--a reveal">
           <div class="card__frame">
             <svg viewBox="0 0 280 200" fill="none">
               <rect x="20" y="60" width="240" height="120" stroke="#2B3A6B" stroke-width="1"/>
@@ -241,7 +242,7 @@ m-936 -209 c191 -26 353 -108 486 -246 118 -122 183 -241 220 -403 18 -79 16
           <div class="card__caption"><span class="mark mark--sm"></span><strong>Kioma Pop-Up</strong> — Spatial / 2025</div>
         </article>
 
-        <article class="card card--b card--tall">
+        <article class="card card--b card--tall reveal">
           <div class="card__frame">
             <svg viewBox="0 0 160 220" fill="none">
               <rect x="20" y="40" width="120" height="14" stroke="#2B3A6B" stroke-width="1"/>
@@ -254,7 +255,7 @@ m-936 -209 c191 -26 353 -108 486 -246 118 -122 183 -241 220 -403 18 -79 16
           <div class="card__caption"><span class="mark mark--sm"></span><strong>Fold Table</strong> — Product / 2024</div>
         </article>
 
-        <article class="card card--d card--wide">
+        <article class="card card--d card--wide reveal">
           <div class="card__frame">
             <svg viewBox="0 0 260 180" fill="none">
               <circle cx="130" cy="80" r="65" stroke="#2B3A6B" stroke-width="1" stroke-dasharray="2 4" opacity="0.5"/>
@@ -269,21 +270,21 @@ m-936 -209 c191 -26 353 -108 486 -246 118 -122 183 -241 220 -403 18 -79 16
 
       </div>
 
-      <a href="work.html" class="view-all"><span class="mark mark--sm"></span>View all work</a>
+      <a href="work.html" class="view-all reveal"><span class="mark mark--sm"></span>View all work</a>
     </div>
   </section>
 
   <!-- STUDIO SHOP (preview) -->
-  <section class="section bg-paper" id="shop-preview-section">
+  <section class="section bg-paper section--blend" id="shop-preview-section" style="--blend-from: var(--cream);">
     <div class="container">
       <div class="section-head">
-        <span class="eyebrow">Studio Shop</span>
-        <h2>Objects designed and made by the studio</h2>
+        <span class="eyebrow reveal">Studio Shop</span>
+        <h2 class="reveal-wipe"><span class="reveal-wipe__inner">Objects designed and made by the studio</span></h2>
       </div>
 
-      <div class="shop-wall shop-wall--preview">
+      <div class="shop-wall shop-wall--preview reveal-group">
 
-        <a href="shop/arc-vase.html" class="shop-item">
+        <a href="shop/arc-vase.html" class="shop-item reveal">
           <div class="shop-item__figure">
             <img src="assets/products/arc-vase.png" alt="Arc Vase">
           </div>
@@ -292,7 +293,7 @@ m-936 -209 c191 -26 353 -108 486 -246 118 -122 183 -241 220 -403 18 -79 16
           <p class="shop-card__price">$180</p>
         </a>
 
-        <a href="shop/crosshair-tray.html" class="shop-item">
+        <a href="shop/crosshair-tray.html" class="shop-item reveal">
           <div class="shop-item__figure">
             <img src="assets/products/crosshair-tray.png" alt="Crosshair Tray">
           </div>
@@ -303,21 +304,21 @@ m-936 -209 c191 -26 353 -108 486 -246 118 -122 183 -241 220 -403 18 -79 16
 
       </div>
 
-      <a href="shop.html" class="view-all"><span class="mark mark--sm"></span>View all shop</a>
+      <a href="shop.html" class="view-all reveal"><span class="mark mark--sm"></span>View all shop</a>
     </div>
   </section>
 
   <!-- PULL QUOTE -->
-  <section class="section bg-cream pull-quote-section" id="pull-quote-section">
+  <section class="section bg-cream pull-quote-section section--blend" id="pull-quote-section" style="--blend-from: var(--paper);">
     <div class="container">
-      <p class="pull-quote">"Space is the first object we design. Everything else — furniture, signage, the products themselves — is drawn in relation to it."</p>
-      <span class="small-caps pull-quote-attribution">— Adjectif Creation</span>
+      <p class="pull-quote reveal">"Space is the first object we design. Everything else — furniture, signage, the products themselves — is drawn in relation to it."</p>
+      <span class="small-caps pull-quote-attribution reveal">— Adjectif Creation</span>
     </div>
   </section>
 
 </main>
 
-<footer class="site-footer bg-paper">
+<footer class="site-footer bg-paper section--blend" style="--blend-from: var(--cream);">
   <div class="container">
     <div class="footer-inner">
       <div class="footer-brand">
@@ -352,5 +353,6 @@ m-936 -209 c191 -26 353 -108 486 -246 118 -122 183 -241 220 -403 18 -79 16
   </div>
 </footer>
 <script src="js/main.js"></script>
+<script src="js/motion.js"></script>
 </body>
 </html>
