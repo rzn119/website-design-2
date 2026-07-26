@@ -1,0 +1,402 @@
+/* ==========================================================================
+   Work page — long-form editorial restyle. Scoped to work.html only via
+   body.work-editorial; every selector here is prefixed by it (or targets
+   markup — .project, .lightbox — that only exists on this page), so
+   nothing leaks onto studio/shop/contact/home, which all share
+   style.css/editorial.css with this file's host page.
+
+   Typography: redeclares --font-editorial itself (not font-family
+   directly) scoped to body.work-editorial. editorial.css's rules all
+   read font-family through var(--font-editorial), so overriding the
+   custom property here cascades to every one of them — body, h1-h3,
+   eyebrow, small-caps, buttons, the works — without touching
+   editorial.css or repeating its selector list. Same aliasing pattern
+   used elsewhere in this project (e.g. css/palette.css's --navy).
+
+   Color: no new color values anywhere in this file — every value below
+   is a var(...) reference to the tokens style.css already defines.
+   ========================================================================== */
+
+body.work-editorial {
+  --font-editorial: 'Jost', 'Public Sans', ui-sans-serif, system-ui,
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* -------------------------------------------------------------------------
+   Project sections — alternating two-column editorial layout.
+   ------------------------------------------------------------------------- */
+.project-list {
+  padding-bottom: clamp(4rem, 8vw, 6rem);
+}
+
+.project {
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  gap: clamp(2.5rem, 6vw, 6rem);
+  align-items: center;
+  padding-block: clamp(5rem, 11vw, 9rem); /* ~120-160px+ generous rhythm between projects */
+  position: relative;
+}
+
+/* Hairline divider between projects — not before the first. */
+.project + .project {
+  border-top: 1px solid var(--navy-faint);
+}
+
+/* DOM order is always [text, images] (project name reads before its
+   photos to a screen reader regardless of visual layout); order: flips
+   the visual position only. Odd projects -> images left, text right.
+   Even projects keep the default DOM order -> text left, images right. */
+.project:nth-of-type(odd) .project__text {
+  order: 2;
+}
+
+.project:nth-of-type(odd) .project__images {
+  order: 1;
+}
+
+/* ---- Image side: small square upper corner + large offset portrait --- */
+.project__images {
+  position: relative;
+  min-height: clamp(26rem, 38vw, 34rem);
+}
+
+.project__image {
+  position: absolute;
+  overflow: hidden;
+  background: var(--paper);
+  border: 1px solid var(--navy-faint);
+}
+
+.project__image--small {
+  top: 0;
+  left: 0;
+  width: 40%;
+  aspect-ratio: 1 / 1;
+  z-index: 2;
+}
+
+.project__image--large {
+  right: 0;
+  bottom: 0;
+  width: 66%;
+  aspect-ratio: 3 / 4;
+  z-index: 1;
+  cursor: zoom-in;
+}
+
+.project:nth-of-type(odd) .project__image--small {
+  left: auto;
+  right: 0;
+}
+
+.project:nth-of-type(odd) .project__image--large {
+  right: auto;
+  left: 0;
+}
+
+.project__image svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* ---- Gallery (large image only) --------------------------------------- */
+.project__gallery-track {
+  position: absolute;
+  inset: 0;
+}
+
+.project__gallery-slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+}
+
+.project__gallery-slide.is-active {
+  opacity: 1;
+  z-index: 1;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .project__gallery-slide {
+    transition: opacity 0.35s ease;
+  }
+}
+
+.project__gallery-next {
+  position: absolute;
+  top: 50%;
+  right: 1rem;
+  transform: translateY(-50%) scale(0.8);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--navy-faint);
+  background: var(--cream);
+  color: var(--navy);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  z-index: 3;
+  cursor: pointer;
+  transition: opacity 0.2s ease, transform 0.2s ease, background-color 0.18s ease;
+}
+
+.project__gallery-next svg {
+  width: 16px;
+  height: 16px;
+  display: block;
+}
+
+.project__image--large:hover .project__gallery-next,
+.project__image--large:focus-within .project__gallery-next {
+  opacity: 1;
+  transform: translateY(-50%) scale(1);
+}
+
+.project__gallery-next:hover {
+  background: var(--navy);
+  color: var(--cream);
+}
+
+/* No hover on touch — show a persistent, subtler arrow instead. */
+@media (hover: none) {
+  .project__gallery-next {
+    opacity: 0.65;
+    transform: translateY(-50%) scale(1);
+  }
+}
+
+.project__gallery-counter {
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 3;
+  font-family: var(--font-body);
+  font-size: var(--size-small);
+  letter-spacing: 0.06em;
+  color: var(--cream);
+  background: var(--navy-soft);
+  padding: 0.2rem 0.55rem;
+}
+
+/* .project__image--small sits in a higher stacking context (z-index:2)
+   than .project__image--large (z-index:1) so it can visually overlap
+   the large image's corner — but that also means the small image
+   captures clicks over any part of the large image it covers, z-index:3
+   on the button notwithstanding (it's trapped inside .project__image
+   --large's own stacking context, which can't out-rank a sibling
+   stacking context no matter what z-index its children use). The small
+   image sits at top:0 on whichever side .project__image--large's own
+   edge is (right edge by default, left edge on odd/flipped projects),
+   so the vertically-centered next button — landing in that same top
+   band either way — needs to move to the opposite, uncovered edge for
+   odd projects specifically, not just mirror alongside it. */
+.project:nth-of-type(odd) .project__gallery-next {
+  right: auto;
+  left: 1rem;
+}
+
+/* ---- Text side ---------------------------------------------------------- */
+.project__number {
+  display: block;
+  font-family: var(--font-body);
+  font-size: var(--size-small);
+  letter-spacing: 0.2em;
+  color: var(--ink-soft);
+}
+
+.project__name {
+  margin-top: 0.75rem;
+  font-size: clamp(2.5rem, 5.5vw, 4.25rem);
+  line-height: 1.02;
+  max-width: 11ch;
+}
+
+.project__tagline {
+  display: block;
+  margin-top: 1.1rem;
+  font-family: var(--font-body);
+  font-size: var(--size-small);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.project__description {
+  margin-top: 1.25rem;
+  max-width: 46ch;
+  font-size: 1.05rem;
+  color: var(--ink-soft);
+  line-height: 1.6;
+}
+
+@media (max-width: 860px) {
+  .project {
+    grid-template-columns: 1fr;
+  }
+
+  .project:nth-of-type(odd) .project__text,
+  .project:nth-of-type(odd) .project__images {
+    order: initial;
+  }
+
+  .project__images {
+    min-height: 24rem;
+  }
+
+  .project__image--small,
+  .project:nth-of-type(odd) .project__image--small {
+    left: 0;
+    right: auto;
+  }
+
+  .project__image--large,
+  .project:nth-of-type(odd) .project__image--large {
+    right: 0;
+    left: auto;
+  }
+}
+
+/* -------------------------------------------------------------------------
+   Lightbox — single shared overlay, repopulated per project by JS.
+   ------------------------------------------------------------------------- */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(27, 27, 27, 0.88);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.lightbox.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.lightbox__stage {
+  position: relative;
+  width: min(78vw, 900px);
+  height: min(82vh, 1100px);
+}
+
+.lightbox__slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  background: var(--paper);
+}
+
+.lightbox__slide.is-active {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .lightbox__slide {
+    transition: opacity 0.35s ease;
+  }
+}
+
+.lightbox__slide svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.lightbox__close,
+.lightbox__prev,
+.lightbox__next {
+  position: absolute;
+  border: 1px solid rgba(236, 231, 218, 0.4);
+  background: transparent;
+  color: var(--cream);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.18s ease, border-color 0.18s ease;
+}
+
+.lightbox__close:hover,
+.lightbox__prev:hover,
+.lightbox__next:hover {
+  background: rgba(236, 231, 218, 0.12);
+  border-color: var(--cream);
+}
+
+.lightbox__close {
+  top: clamp(1rem, 3vw, 2rem);
+  right: clamp(1rem, 3vw, 2rem);
+  padding: 0.5rem 1rem;
+  font-family: var(--font-body);
+  font-size: var(--size-small);
+  letter-spacing: 0.06em;
+}
+
+.lightbox__prev,
+.lightbox__next {
+  top: 50%;
+  transform: translateY(-50%);
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+}
+
+.lightbox__prev svg,
+.lightbox__next svg {
+  width: 18px;
+  height: 18px;
+}
+
+.lightbox__prev {
+  left: clamp(-3.5rem, -4vw, -1rem);
+}
+
+.lightbox__next {
+  right: clamp(-3.5rem, -4vw, -1rem);
+}
+
+.lightbox__counter {
+  position: absolute;
+  left: 50%;
+  bottom: clamp(0.75rem, 3vw, 1.5rem);
+  transform: translateX(-50%);
+  font-family: var(--font-body);
+  font-size: var(--size-small);
+  letter-spacing: 0.08em;
+  color: rgba(236, 231, 218, 0.75);
+}
+
+@media (max-width: 760px) {
+  .lightbox__stage {
+    width: 92vw;
+    height: 70vh;
+  }
+
+  .lightbox__prev {
+    left: 0.5rem;
+  }
+
+  .lightbox__next {
+    right: 0.5rem;
+  }
+}
+
+/* Body gets this class while the lightbox is open — position:fixed at
+   the negative scroll offset locks the background in place (no jump,
+   no touch-scroll-through) without ever changing document.scrollY, so
+   restoring window.scrollTo(0, savedY) on close lands exactly back
+   where the user was. */
+body.lightbox-open {
+  position: fixed;
+  left: 0;
+  right: 0;
+  overflow: hidden;
+}
