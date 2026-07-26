@@ -8,20 +8,15 @@
 
    Colors are exclusively var(...) references to the site's existing
    tokens — nothing here introduces a new color. The only new visual
-   ingredient is typography: --font-geo (Jost, a free geometric sans
-   built in the Futura/Kabel tradition — circular O, pointed apex on
-   A/M/W) for this file's headings only, echoing willstyle's display
-   type without touching the shared --font-editorial used everywhere
-   else on the site (studio/work/shop/contact keep Public Sans).
+   ingredient is typography: --font-geo (Jost — defined in editorial.css,
+   shared site-wide since the footer wordmark also uses it now) for
+   this file's headings, echoing willstyle's display type without
+   touching the shared --font-editorial used everywhere else on the
+   site (studio/work/shop/contact keep Public Sans for body copy).
    ========================================================================== */
 
-:root {
-  --font-geo: 'Jost', var(--font-editorial);
-}
-
 .section--broken .section-head h2,
-.section--broken .pull-quote,
-.footer--broken .logo__word {
+.section--broken .pull-quote {
   font-family: var(--font-geo);
 }
 

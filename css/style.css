@@ -510,55 +510,10 @@ section[id], footer[id] {
   padding-block: var(--section-space);
 }
 
-.hero__mark {
-  position: absolute;
-  top: -12%;
-  right: -8%;
-  width: clamp(220px, 44vw, 640px);
-  opacity: 0.2;
-  pointer-events: none;
-  z-index: 0;
-  clip-path: polygon(0% 100%, 0% 100%, 0% 100%, 0% 100%);
-}
-
 .hero__inner {
   position: relative;
   z-index: 1;
   max-width: 46rem;
-}
-
-@media (max-width: 640px) {
-  .hero__mark {
-    top: -6%;
-    right: -22%;
-    opacity: 0.17;
-  }
-}
-
-/* Hero mark — wipe-reveal entrance, re-triggered by JS (main.js) each
-   time the hero scrolls into view. logo.png is a photo, not stroke
-   paths, so a true per-stroke dashoffset "draw-on" isn't possible here;
-   this sweeps the mark in from the bottom-left corner along the same
-   diagonal the mark's own line runs, which reads as "drawing itself"
-   without needing separable strokes. */
-.hero__mark.is-revealing {
-  animation: hero-mark-reveal 4.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-}
-
-@keyframes hero-mark-reveal {
-  to {
-    clip-path: polygon(0% 100%, -20% -20%, 120% -20%, 120% 100%);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .hero__mark {
-    clip-path: none;
-  }
-
-  .hero__mark.is-revealing {
-    animation: none;
-  }
 }
 
 .hero h1 {
