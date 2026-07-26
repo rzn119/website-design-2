@@ -85,22 +85,31 @@
    instead of 3, so the morph reads as continuous, fluid movement
    rather than a gentle breathe. Kept separate from mesh-drift, not a
    bigger version of it, so the homepage sections' calm treatment is
-   untouched regardless of what the cover's amplitude does. */
+   untouched regardless of what the cover's amplitude does.
+
+   Translate distances are in vw/vh, not %: a transform percentage
+   resolves against the element's OWN box, so on a blob that's already
+   40-58vw wide, translating by even a generous-looking 9% only moved
+   it ~5vw — barely perceptible against the full viewport. vw/vh units
+   are viewport-relative regardless of the blob's own size, which is
+   what actually reads as the blob roaming across the page. Contained
+   safely by .mesh-bg's own overflow:hidden, so this can't cause page
+   overflow no matter how far a blob travels. */
 @keyframes mesh-drift-lively {
   0%, 100% {
     transform: translate(0, 0) scale(1);
     filter: blur(var(--blob-blur, 80px)) hue-rotate(0deg);
   }
   25% {
-    transform: translate(9%, -7%) scale(1.35);
+    transform: translate(24vw, -16vh) scale(1.35);
     filter: blur(calc(var(--blob-blur, 80px) + 16px)) hue-rotate(20deg);
   }
   50% {
-    transform: translate(-7%, 6%) scale(0.85);
+    transform: translate(-18vw, 14vh) scale(0.85);
     filter: blur(calc(var(--blob-blur, 80px) - 10px)) hue-rotate(-16deg);
   }
   75% {
-    transform: translate(6%, 8%) scale(1.2);
+    transform: translate(16vw, 18vh) scale(1.2);
     filter: blur(calc(var(--blob-blur, 80px) + 6px)) hue-rotate(10deg);
   }
 }
