@@ -77,7 +77,7 @@ html, body {
   font-family: 'Poppins', 'Helvetica Neue', sans-serif;
   font-size: 0.8rem;
   font-weight: 400;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.5em;
   text-transform: uppercase;
   color: var(--ink-soft);
 }
@@ -107,7 +107,7 @@ html, body {
   pointer-events: none;
   font-family: 'Poppins', 'Helvetica Neue', sans-serif;
   font-size: clamp(2.4rem, 8.2vw, 6.5rem);
-  font-weight: 400;
+  font-weight: 300;
   line-height: 1;
   letter-spacing: 0.03em;
   word-spacing: -0.15em;
