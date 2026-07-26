@@ -64,38 +64,57 @@ html, body {
 }
 
 /* -------------------------------------------------------------------------
+   Eyebrow — small centered label sitting just above the title.
+   ------------------------------------------------------------------------- */
+.cover__eyebrow {
+  position: fixed;
+  top: 38vh;
+  left: 0;
+  right: 0;
+  z-index: 3;
+  text-align: center;
+  pointer-events: none;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+/* -------------------------------------------------------------------------
    Studio title — "ADJECTIF CREATION" as individually-animated letters.
    The container is centered via fixed positioning so its layout (and the
    real, correctly-spaced gap between the two words) is computed once by
    the browser; js/cover.js measures each letter's resting position from
    that layout, then flies it in from a random scattered start. Letters
-   stay in --olive-text (the accessible, darker variant of the new olive
-   accent — plain --olive is too light against --cream for legible
-   display text), no color change, matching the rest of the site.
+   stay in --ink, no color change, matching the rest of the site.
    ------------------------------------------------------------------------- */
 /* No transform here on purpose: a CSS transform on this element would make
    it the containing block for its position:fixed letter children below,
    so their fixed coordinates would resolve against this (small, collapsed
    once letters detach from flow) box instead of the real viewport.
-   Left placement is done with a plain left offset + text-align instead. */
+   Full-width + text-align:center is used instead of transform:translateX
+   so the letters' viewport-relative fixed coordinates stay correct. */
 .cover__title {
   position: fixed;
-  left: clamp(1.5rem, 6vw, 5rem);
-  top: 40%;
+  left: 0;
+  right: 0;
+  top: 43vh;
   z-index: 3;
   margin: 0;
-  text-align: left;
+  text-align: center;
   pointer-events: none;
-  font-family: 'Big Shoulders Stencil Display', var(--font-display);
-  font-size: clamp(2.6rem, 11.5vw, 7.5rem);
-  font-weight: 800;
-  line-height: 0.92;
-  letter-spacing: 0;
-  color: var(--olive-text);
+  font-family: var(--font-body);
+  font-size: clamp(2.4rem, 8.2vw, 6.5rem);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0.03em;
+  color: var(--ink);
 }
 
 .cover__word {
-  display: block;
+  display: inline-block;
   white-space: nowrap;
 }
 
@@ -117,9 +136,9 @@ html, body {
    ------------------------------------------------------------------------- */
 .cover__prompt {
   position: fixed;
-  left: 50%;
-  bottom: 11%;
-  transform: translateX(-50%);
+  left: 0;
+  right: 0;
+  bottom: 8vh;
   text-align: center;
   pointer-events: none;
   z-index: 2;
@@ -133,10 +152,11 @@ html, body {
 .cover__prompt-label {
   display: block;
   font-family: var(--font-body);
-  font-size: var(--size-label);
-  letter-spacing: 0.2em;
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--olive-soft);
+  color: var(--ink-soft);
 }
 
 .cover__prompt-label--touch {
@@ -146,13 +166,6 @@ html, body {
 @media (pointer: coarse) {
   .cover__prompt-label--mouse { display: none; }
   .cover__prompt-label--touch { display: block; }
-}
-
-.cover__prompt-arrow {
-  display: block;
-  width: 64px;
-  height: 20px;
-  margin: 0.85rem auto 0;
 }
 
 /* -------------------------------------------------------------------------
