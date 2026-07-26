@@ -1,67 +1,89 @@
 /* ==========================================================================
-   Editorial-brutalist restyle — typography, buttons, cards, section rhythm.
+   Editorial restyle — typography, buttons, cards, section rhythm, tuned to
+   match a reference design system (styles.refero.design), while keeping
+   Adjectif Creation's own palette (--navy/--cream/--paper/--ink), the
+   dashed/crosshair motif, and the shop's shadowed product photography.
    Loaded AFTER style.css on every page except the cover (index.html), so
-   it overrides style.css's serif/editorial defaults via source order
-   without touching the shared tokens (--navy/--cream/--paper/--ink) or
-   anything the cover page depends on.
+   it overrides style.css's defaults via source order without touching
+   the shared --font-body/--font-display root variables the cover page
+   still depends on (it never links this file, but it shares style.css).
 
-   Discipline: one typeface (Space Grotesk) at two weights (400 regular,
-   600 semibold) carrying both display and body text. Display type stays
-   large AND light — weight 400 even at hero scale, tight line-height and
-   negative tracking doing the work a heavier weight usually would.
+   Font: the reference uses HelveticaNow, a licensed commercial font we
+   can't self-host. Public Sans is the closest open substitute — it's
+   built explicitly as a free alternative to Helvetica — at the same two
+   weights the reference ships (400 regular, 600 semibold).
+
+   Type scale, line-height, and letter-spacing below are taken directly
+   from the reference's tokens (caption 14 / body-sm 16 / body 18 /
+   subheading 23 / heading-sm 35 / heading 46 / heading-lg 50 / display
+   150). Reference tracking is given in absolute px at a fixed size; it's
+   converted here to em (tracking ÷ size) so it scales correctly with our
+   fluid clamp()-based sizing instead of the reference's static desktop
+   values.
    ========================================================================== */
 
+:root {
+  --font-editorial: 'Public Sans', ui-sans-serif, system-ui, -apple-system,
+    BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
 /* -------------------------------------------------------------------------
-   Typography
+   Typography — font-family override. style.css declares font-family
+   explicitly on these selectors (via --font-body/--font-display); each is
+   re-declared here with the same specificity so source order wins,
+   without redefining the shared variables themselves.
    ------------------------------------------------------------------------- */
-h1, h2, h3, .font-display, .pull-quote {
-  font-family: var(--font-body);
-  font-style: normal;
+body,
+h1, h2, h3, .font-display,
+.eyebrow, .label, .small-caps, .caption,
+.pull-quote, .logo__word, .btn, .pill {
+  font-family: var(--font-editorial);
 }
 
 h1, .h1,
 .hero h1 {
-  font-size: clamp(2.75rem, 9vw, 9.375rem); /* ~44px -> 150px */
+  font-size: clamp(2.75rem, 9vw, 9.375rem); /* heading-lg -> display: 44px -> 150px */
   font-weight: 400;
-  line-height: 0.94;
-  letter-spacing: -0.045em;
+  line-height: 0.93; /* --leading-display */
+  letter-spacing: -0.05em; /* --tracking-display: -7.5px / 150px */
   color: var(--ink);
 }
 
 h2, .h2 {
-  font-size: clamp(2rem, 4.2vw, 3.125rem); /* ~32px -> 50px */
+  font-size: clamp(2rem, 4.2vw, 2.875rem); /* --text-heading: 46px */
   font-weight: 400;
-  line-height: 0.98;
-  letter-spacing: -0.04em;
+  line-height: 1; /* --leading-heading */
+  letter-spacing: -0.03em; /* --tracking-heading: -1.38px / 46px */
   color: var(--ink);
 }
 
 h3, .h3 {
-  font-size: clamp(1.2rem, 1.6vw, 1.65rem);
+  font-size: clamp(1.25rem, 1.6vw, 1.4375rem); /* --text-subheading: 23px */
   font-weight: 400;
-  line-height: 1.08;
-  letter-spacing: -0.02em;
+  line-height: 1.2; /* --leading-subheading */
+  letter-spacing: -0.017em; /* --tracking-subheading: -0.39px / 23px */
   color: var(--ink);
 }
 
 body, p, .body-text {
-  font-size: 1.125rem; /* 18px */
+  font-size: 1.125rem; /* --text-body: 18px */
   font-weight: 400;
-  line-height: 1.3;
-  letter-spacing: 0;
+  line-height: 1.31; /* --leading-body */
+  letter-spacing: 0; /* --tracking-body: -0.07px / 18px, effectively flat */
 }
 
 .eyebrow, .label, .small-caps, .caption,
 .size-small, .btn, .view-all, .pill,
 .nav-links, .footer-col a, .footer-col p,
 .footer-bottom, .shop-card__price, .card__caption {
-  font-size: 0.9375rem; /* 15px */
-  letter-spacing: 0.015em;
+  font-size: 0.875rem; /* --text-caption: 14px */
+  line-height: 1.4; /* --leading-caption */
+  letter-spacing: 0.015em; /* --tracking-caption: 0.21px / 14px */
 }
 
 .eyebrow, .label {
   font-weight: 400;
-  letter-spacing: 0.16em; /* uppercase small-caps label tracking stays as its own established convention, not the general small-text rule above */
+  letter-spacing: 0.16em; /* uppercase small-caps label tracking stays as its own established convention, not the reference caption tracking above */
 }
 
 .small-caps {
@@ -70,17 +92,24 @@ body, p, .body-text {
 }
 
 strong, b, .font-semibold, .card__caption strong {
-  font-weight: 600;
+  font-weight: 600; /* --font-weight-semibold, the only weight above regular */
 }
 
-/* Pull quote: was serif italic — now the same sans, set like a smaller
-   display line rather than a decorative quotation. */
+/* Pull quote: set at the heading-sm scale — smaller than a section
+   heading, larger than body copy. */
 .pull-quote {
   font-weight: 400;
-  font-size: clamp(1.5rem, 3vw, 2.4rem);
-  line-height: 1.08;
-  letter-spacing: -0.03em;
+  font-size: clamp(1.5rem, 3vw, 2.1875rem); /* --text-heading-sm: 35px */
+  line-height: 1.15; /* --leading-heading-sm */
+  letter-spacing: -0.02em; /* --tracking-heading-sm: -0.7px / 35px */
   font-style: normal;
+}
+
+/* -------------------------------------------------------------------------
+   Layout — reference's max content width.
+   ------------------------------------------------------------------------- */
+:root {
+  --content-width: 1200px;
 }
 
 /* -------------------------------------------------------------------------
@@ -88,15 +117,16 @@ strong, b, .font-semibold, .card__caption strong {
    no hover motion beyond a plain fill/border swap.
    ------------------------------------------------------------------------- */
 .btn {
-  border-radius: 999px;
+  border-radius: 999px; /* --radius-buttons: 500px, effectively a full pill at any button height */
+  font-size: 1rem; /* --text-body-sm: 16px */
+  letter-spacing: 0.005em; /* --tracking-body-sm: 0.08px / 16px */
   font-weight: 600;
   text-transform: none;
-  letter-spacing: 0.02em;
   box-shadow: none;
 }
 
 .pill {
-  border-radius: 999px;
+  border-radius: 999px; /* --radius-tags: 500px */
   font-weight: 400;
 }
 
@@ -104,7 +134,7 @@ strong, b, .font-semibold, .card__caption strong {
    Cards — flat rectangles, zero radius, zero shadow, hairline edge only.
    ------------------------------------------------------------------------- */
 .card__frame {
-  border-radius: 0;
+  border-radius: 0; /* --radius-cards: 0px */
   box-shadow: none;
 }
 
@@ -115,7 +145,7 @@ strong, b, .font-semibold, .card__caption strong {
    list markers) — it's only the between-section <hr> rules that go.
    ------------------------------------------------------------------------- */
 :root {
-  --section-space: clamp(4.5rem, 8vw, 5rem);
+  --section-space: clamp(4.5rem, 8vw, 5rem); /* --section-gap: 80px at desktop */
 }
 
 /* -------------------------------------------------------------------------
@@ -145,8 +175,8 @@ strong, b, .font-semibold, .card__caption strong {
 .hero__vertical {
   writing-mode: vertical-rl;
   transform: rotate(180deg);
-  font-family: var(--font-body);
-  font-size: 0.9375rem;
+  font-family: var(--font-editorial);
+  font-size: 0.875rem;
   font-weight: 400;
   letter-spacing: 0.16em;
   text-transform: uppercase;
@@ -202,7 +232,7 @@ strong, b, .font-semibold, .card__caption strong {
 
 /* -------------------------------------------------------------------------
    Statement — keep the asymmetric mark/text grid, retune body size to the
-   new 18px baseline instead of the old serif-era 1.2rem.
+   18px baseline instead of the old serif-era 1.2rem.
    ------------------------------------------------------------------------- */
 .statement__text p {
   font-size: 1.125rem;
@@ -230,7 +260,7 @@ strong, b, .font-semibold, .card__caption strong {
    section-heading scale (not full hero display size).
    ------------------------------------------------------------------------- */
 .page-header h1 {
-  font-size: clamp(2rem, 4.2vw, 3.125rem);
+  font-size: clamp(2rem, 4.2vw, 2.875rem);
   max-width: 20ch;
 }
 

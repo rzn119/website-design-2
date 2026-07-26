@@ -6,8 +6,9 @@
 <title>Design System — Adjectif Creation</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/editorial.css">
 <style>
   /* Styling scoped to this reference page only — not part of the design system itself */
   .ds-header {
@@ -26,7 +27,7 @@
   .ds-block { margin-bottom: 1.75rem; }
   .ds-row { display: flex; align-items: flex-end; gap: 2rem; flex-wrap: wrap; margin-bottom: 1.25rem; }
   .ds-label-tag {
-    font-family: var(--font-body);
+    font-family: var(--font-editorial);
     font-size: 0.7rem;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -40,7 +41,7 @@
   .divider-demo { margin-block: 1rem; }
   .btn-row, .pill-row { display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; }
   code {
-    font-family: 'Space Grotesk', monospace;
+    font-family: 'Public Sans', monospace;
     background: var(--navy-faint);
     padding: 0.1rem 0.35rem;
     border-radius: 2px;
@@ -75,10 +76,9 @@
     <p class="text-soft" style="max-width:46ch; margin-top:1rem;">A working reference for color, type, and the signature motif — derived from the studio mark — before either is applied to the homepage.</p>
   </section>
 
-  <hr class="divider">
-
   <!-- COLOR -->
-  <section id="color" class="section container">
+  <section id="color" class="section bg-paper">
+    <div class="container">
     <span class="eyebrow">01 — Color</span>
     <h2 style="margin-top:0.75rem; margin-bottom:2.5rem;">Palette</h2>
     <div class="grid swatch-grid">
@@ -118,50 +118,50 @@
       <div style="height:140px; background:var(--gradient-page); border:1px solid var(--navy-faint);"></div>
       <p class="text-soft" style="margin-top:0.75rem; max-width:60ch;"><code>--gradient-page</code> · paper → cream diagonal wash, with a faint navy bleed from the top-right corner. Every other surface in the system (buttons, cards, pills, dividers) stays flat — this is the single exception to the "no gradients" rule, reserved for the body background only.</p>
     </div>
+    </div>
   </section>
 
-  <hr class="divider divider--soft">
-
   <!-- TYPE -->
-  <section id="type" class="section container">
+  <section id="type" class="section bg-cream">
+    <div class="container">
     <span class="eyebrow">02 — Typography</span>
     <h2 style="margin-top:0.75rem; margin-bottom:2.5rem;">Type scale</h2>
 
     <div class="ds-block">
-      <span class="ds-label-tag">Display / Fraunces</span>
+      <span class="ds-label-tag">Display / Public Sans</span>
       <h1 style="margin-top:0.75rem;">We draw the line.</h1>
-      <p class="text-soft" style="margin-top:0.5rem;"><code>--size-h1</code> · clamp(44px → 76px) · used for hero h1 and h2</p>
+      <p class="text-soft" style="margin-top:0.5rem;"><code>--text-display</code> · clamp(44px → 150px) · weight 400 · -0.05em tracking · used for the hero h1</p>
     </div>
 
     <div class="ds-block">
-      <span class="ds-label-tag">Section heading / Fraunces</span>
+      <span class="ds-label-tag">Section heading / Public Sans</span>
       <h2 style="margin-top:0.75rem;">Selected work</h2>
-      <p class="text-soft" style="margin-top:0.5rem;"><code>--size-h2</code> · clamp(30px → 44px)</p>
+      <p class="text-soft" style="margin-top:0.5rem;"><code>--text-heading</code> · clamp(32px → 46px) · -0.03em tracking</p>
     </div>
 
     <div class="ds-block">
-      <span class="ds-label-tag">Eyebrow / label · Space Grotesk</span>
+      <span class="ds-label-tag">Eyebrow / label · Public Sans</span>
       <p class="eyebrow" style="margin-top:0.75rem;">Multidisciplinary Design &amp; Research Studio</p>
-      <p class="text-soft" style="margin-top:0.5rem;"><code>--size-label</code> · 12.8px · uppercase · 0.16em tracking</p>
+      <p class="text-soft" style="margin-top:0.5rem;"><code>--text-caption</code> · 14px · uppercase · 0.16em tracking</p>
     </div>
 
     <div class="ds-block">
-      <span class="ds-label-tag">Body / Space Grotesk</span>
+      <span class="ds-label-tag">Body / Public Sans</span>
       <p style="margin-top:0.75rem; max-width:60ch;">Adjectif Creation works across spatial design, product design, and an integrated shop for the studio's own objects. We move fluidly between disciplines, treating each project as a research question first and a design answer second.</p>
-      <p class="text-soft" style="margin-top:0.5rem;"><code>--size-body</code> · 16px · 1.6 line-height</p>
+      <p class="text-soft" style="margin-top:0.5rem;"><code>--text-body</code> · 18px · 1.31 line-height</p>
     </div>
 
     <div class="ds-block">
-      <span class="ds-label-tag">Pull quote / Fraunces italic</span>
+      <span class="ds-label-tag">Pull quote / Public Sans</span>
       <p class="pull-quote" style="margin-top:0.75rem; max-width:38ch;">"Space is the first object. Everything else is furniture inside it."</p>
-      <p class="text-soft" style="margin-top:0.5rem;"><code>.pull-quote</code> · clamp(26px → 42px) · italic</p>
+      <p class="text-soft" style="margin-top:0.5rem;"><code>.pull-quote</code> · clamp(24px → 35px) · not italic</p>
+    </div>
     </div>
   </section>
 
-  <hr class="divider">
-
   <!-- MOTIF -->
-  <section id="motif" class="section container">
+  <section id="motif" class="section bg-paper">
+    <div class="container">
     <span class="eyebrow">03 — Signature motif</span>
     <h2 style="margin-top:0.75rem; margin-bottom:2.5rem;">Logo, dashed lines &amp; crosshair marks</h2>
 
@@ -179,7 +179,7 @@
           <img src="assets/logo-mark.svg" alt="" style="width:34px; height:34px;">
           <span class="logo__word">ADJECTIF CREATION</span>
         </div>
-        <p class="text-soft" style="margin-top:0.75rem; max-width:48ch;">At 34px, paired with the wordmark in Space Grotesk, medium weight, tight tracking — used in the nav bar.</p>
+        <p class="text-soft" style="margin-top:0.75rem; max-width:48ch;">At 34px, paired with the wordmark in Public Sans, semibold weight, tight tracking — used in the nav bar.</p>
       </div>
     </div>
 
@@ -203,12 +203,12 @@
         <span>Project Name — Discipline / Year</span>
       </div>
     </div>
+    </div>
   </section>
 
-  <hr class="divider divider--soft">
-
   <!-- BUTTONS / PILLS -->
-  <section id="buttons" class="section container">
+  <section id="buttons" class="section bg-cream">
+    <div class="container">
     <span class="eyebrow">04 — Buttons &amp; pills</span>
     <h2 style="margin-top:0.75rem; margin-bottom:2.5rem;">Interactive elements</h2>
 
@@ -225,12 +225,12 @@
       <span class="pill"><span class="mark mark--sm"></span>Product design</span>
       <span class="pill"><span class="mark mark--sm"></span>Research</span>
     </div>
+    </div>
   </section>
 
-  <hr class="divider">
-
   <!-- CARDS -->
-  <section id="cards" class="section container">
+  <section id="cards" class="section bg-paper">
+    <div class="container">
     <span class="eyebrow">05 — Cards</span>
     <h2 style="margin-top:0.75rem; margin-bottom:2.5rem;">Project &amp; product frames</h2>
     <p class="text-soft" style="max-width:60ch; margin-bottom:2rem;">Placeholder imagery is drawn, not photographed — navy line work on paper, in the same technical register as the logo.</p>
@@ -266,19 +266,20 @@
         <div class="card__caption"><span class="mark mark--sm"></span><strong>Studio Vase</strong> — Object / 2025</div>
       </div>
     </div>
+    </div>
   </section>
 
-  <hr class="divider divider--soft">
-
   <!-- GRID -->
-  <section id="grid" class="section container">
+  <section id="grid" class="section bg-cream">
+    <div class="container">
     <span class="eyebrow">06 — Layout</span>
     <h2 style="margin-top:0.75rem; margin-bottom:2rem;">Grid &amp; spacing</h2>
     <ul class="list-marks" style="max-width:56ch;">
       <li>Asymmetric editorial grid — sections avoid centered, boxed layouts in favor of offset columns.</li>
-      <li>Max content width <code>1180px</code>, generous outer gutter that scales with viewport.</li>
-      <li>No drop shadows, no gradients, corners flat or 2px at most — precise and drafted, not soft.</li>
+      <li>Max content width <code>1200px</code>, generous outer gutter that scales with viewport.</li>
+      <li>No drop shadows, no gradients. Cards and inputs flat (0 radius); buttons and tags full pill — precise and drafted, not soft.</li>
     </ul>
+    </div>
   </section>
 
 </main>
