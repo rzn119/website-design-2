@@ -1,8 +1,11 @@
 /* ==========================================================================
    Editorial restyle — typography, buttons, cards, section rhythm, tuned to
-   match a reference design system (styles.refero.design), while keeping
-   Adjectif Creation's own palette (--navy/--cream/--paper/--ink), the
-   dashed/crosshair motif, and the shop's shadowed product photography.
+   match a reference design system (styles.refero.design). Colors are
+   whatever the page's own palette stylesheet defines (style.css's navy
+   system by default, or css/palette.css's sage/teal/olive system on
+   pages that opt in) — this file only touches type/shape, never a color
+   value directly. The dashed/crosshair motif and the shop's shadowed
+   product photography stay in place structurally.
    Loaded AFTER style.css on every page except the cover (index.html), so
    it overrides style.css's defaults via source order without touching
    the shared --font-body/--font-display root variables the cover page
