@@ -1,14 +1,12 @@
 /* ==========================================================================
-   Editorial restyle — typography, buttons, cards, section rhythm, and
-   palette, tuned to match a reference design system (styles.refero.design)
-   and a supplied color-story image. The dashed/crosshair motif and the
-   shop's shadowed product photography stay in place structurally, just
-   recolored to the new ink/accent.
+   Editorial restyle — typography, buttons, cards, section rhythm, tuned to
+   match a reference design system (styles.refero.design), while keeping
+   Adjectif Creation's own palette (--navy/--cream/--paper/--ink), the
+   dashed/crosshair motif, and the shop's shadowed product photography.
    Loaded AFTER style.css on every page except the cover (index.html), so
    it overrides style.css's defaults via source order without touching
-   the shared --navy/--cream/--paper/--ink/--font-body/--font-display root
-   variables the cover page still depends on (it never links this file,
-   but it shares style.css).
+   the shared --font-body/--font-display root variables the cover page
+   still depends on (it never links this file, but it shares style.css).
 
    Font: the reference uses HelveticaNow, a licensed commercial font we
    can't self-host. Public Sans is the closest open substitute — it's
@@ -27,59 +25,6 @@
 :root {
   --font-editorial: 'Public Sans', ui-sans-serif, system-ui, -apple-system,
     BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-}
-
-/* -------------------------------------------------------------------------
-   Palette — redeclares the same token names style.css defines
-   (--cream/--paper/--navy/--navy-faint/--navy-soft/--ink/--ink-soft plus
-   --gradient-page, which is itself built from --paper/--cream/--navy) so
-   every existing rule that reads them via var() repaints automatically,
-   with zero changes to style.css and zero effect on the cover page (it
-   never loads this file). Source: a supplied color-story image —
-   Cayenne Dust (accent), Weathered Glass (background undertone), Bitter
-   Cocoa (ink). --cream/--paper stay pale near-white tints (warm toward
-   Cayenne Dust, cool toward Weathered Glass) so body copy keeps the same
-   quiet, high-contrast readability the site had before, rather than
-   sitting on a fully saturated background block.
-   ------------------------------------------------------------------------- */
-:root {
-  --cream: #F7F0EC;
-  --paper: #F5F7F6;
-  --navy: #9D3F0D;   /* Cayenne Dust */
-  --navy-faint: rgba(157, 63, 13, 0.15);
-  --navy-soft: rgba(157, 63, 13, 0.45);
-  --ink: #391B17;    /* Bitter Cocoa */
-  --ink-soft: rgba(57, 27, 23, 0.6);
-  --gradient-page:
-    radial-gradient(120% 90% at 100% 0%, rgba(157, 63, 13, 0.09), transparent 60%),
-    linear-gradient(160deg, var(--paper) 0%, var(--cream) 55%, var(--cream) 100%);
-}
-
-/* Shop/product-detail drop shadows are hardcoded rgba(27,27,27,…) in
-   style.css (not var(--ink)-based), so they don't pick up the palette
-   swap above automatically — redeclared here with the new ink so the
-   shadow tint matches instead of staying the old near-black. */
-.shop-item__figure svg,
-.shop-item__figure img {
-  filter:
-    drop-shadow(5px 8px 7px rgba(57, 27, 23, 0.20))
-    drop-shadow(14px 30px 26px rgba(57, 27, 23, 0.14));
-}
-
-.shop-item:hover .shop-item__figure svg,
-.shop-item:focus-visible .shop-item__figure svg,
-.shop-item:hover .shop-item__figure img,
-.shop-item:focus-visible .shop-item__figure img {
-  filter:
-    drop-shadow(8px 16px 11px rgba(57, 27, 23, 0.26))
-    drop-shadow(20px 42px 34px rgba(57, 27, 23, 0.19));
-}
-
-.product-detail__figure svg,
-.product-detail__figure img {
-  filter:
-    drop-shadow(8px 14px 10px rgba(57, 27, 23, 0.20))
-    drop-shadow(22px 44px 38px rgba(57, 27, 23, 0.15));
 }
 
 /* -------------------------------------------------------------------------
