@@ -35,8 +35,8 @@ html, body {
   overflow: visible;
   white-space: normal;
   background: var(--cream);
-  border: 1px solid var(--navy);
-  color: var(--navy);
+  border: 1px solid var(--olive-text);
+  color: var(--olive-text);
   font-family: var(--font-body);
   font-size: var(--size-small);
   z-index: 20;
@@ -69,7 +69,9 @@ html, body {
    real, correctly-spaced gap between the two words) is computed once by
    the browser; js/cover.js measures each letter's resting position from
    that layout, then flies it in from a random scattered start. Letters
-   stay in --navy, no color change, matching the rest of the site.
+   stay in --olive-text (the accessible, darker variant of the new olive
+   accent — plain --olive is too light against --cream for legible
+   display text), no color change, matching the rest of the site.
    ------------------------------------------------------------------------- */
 /* No transform here on purpose: a CSS transform on this element would make
    it the containing block for its position:fixed letter children below,
@@ -89,7 +91,7 @@ html, body {
   font-weight: 800;
   line-height: 0.92;
   letter-spacing: 0;
-  color: var(--navy);
+  color: var(--olive-text);
 }
 
 .cover__word {
@@ -134,7 +136,7 @@ html, body {
   font-size: var(--size-label);
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--navy-soft);
+  color: var(--olive-soft);
 }
 
 .cover__prompt-label--touch {
