@@ -241,6 +241,33 @@
     clearCanvas();
   });
 
+  // Left-to-right gradient across the title letters, echoing the mesh
+  // blobs' sage/olive/rust palette. Darkened from the raw palette tokens
+  // to clear ~4.5:1 against --cream so the title stays readable, not just
+  // decorative. Applied as flat per-letter colors (not a CSS gradient
+  // background-clip) because it needs to survive letters detaching to
+  // position:fixed and animating to arbitrary on-screen positions.
+  var TITLE_GRADIENT_STOPS = ['#567259', '#657135', '#83672E', '#945F3E', '#636E63'];
+
+  function hexToRgb(hex) {
+    var n = parseInt(hex.slice(1), 16);
+    return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+  }
+
+  function interpolateColor(stops, t) {
+    t = Math.max(0, Math.min(1, t));
+    var segments = stops.length - 1;
+    var pos = t * segments;
+    var i = Math.min(segments - 1, Math.floor(pos));
+    var localT = pos - i;
+    var a = hexToRgb(stops[i]);
+    var b = hexToRgb(stops[i + 1]);
+    var r = Math.round(a[0] + (b[0] - a[0]) * localT);
+    var g = Math.round(a[1] + (b[1] - a[1]) * localT);
+    var bl = Math.round(a[2] + (b[2] - a[2]) * localT);
+    return 'rgb(' + r + ',' + g + ',' + bl + ')';
+  }
+
   // -------------------------------------------------------------------------
   // Scattered-letters title reveal — "ADJECTIF CREATION" starts as loose,
   // randomly-placed/rotated letters and animates into its normal typeset
@@ -255,6 +282,26 @@
     var letters = Array.prototype.slice.call(title.querySelectorAll('.cover__letter'));
     if (!letters.length) return;
 
+    // Measure every letter's real resting position first, in one pass —
+    // switching a letter to position:fixed removes it from the inline flow,
+    // which would shift the still-unmeasured letters after it if the two
+    // passes were interleaved. Needed for the gradient too (each letter's
+    // color is based on where it actually sits along the title), so this
+    // runs before the reduced-motion branch, not just the scatter path.
+    var rects = letters.map(function (letter) {
+      return letter.getBoundingClientRect();
+    });
+
+    var minLeft = Math.min.apply(null, rects.map(function (r) { return r.left; }));
+    var maxRight = Math.max.apply(null, rects.map(function (r) { return r.right; }));
+    var totalSpan = Math.max(1, maxRight - minLeft);
+
+    letters.forEach(function (letter, i) {
+      var center = rects[i].left + rects[i].width / 2;
+      var t = (center - minLeft) / totalSpan;
+      letter.style.color = interpolateColor(TITLE_GRADIENT_STOPS, t);
+    });
+
     if (reducedMotion) {
       title.classList.add('is-reduced');
       window.requestAnimationFrame(function () {
@@ -264,14 +311,6 @@
       });
       return;
     }
-
-    // Measure every letter's real resting position first, in one pass —
-    // switching a letter to position:fixed removes it from the inline flow,
-    // which would shift the still-unmeasured letters after it if the two
-    // passes were interleaved.
-    var rects = letters.map(function (letter) {
-      return letter.getBoundingClientRect();
-    });
 
     var vw = window.innerWidth;
     var vh = window.innerHeight;
