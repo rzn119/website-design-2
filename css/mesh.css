@@ -79,6 +79,38 @@
   }
 }
 
+/* Lively variant — cover page only (.mesh-blob--lively, paired with a
+   short ~2-3s --blob-duration per instance). Same mechanics as
+   mesh-drift but with a much wider scale swing and 5 keyframe stops
+   instead of 3, so the morph reads as continuous, fluid movement
+   rather than a gentle breathe. Kept separate from mesh-drift, not a
+   bigger version of it, so the homepage sections' calm treatment is
+   untouched regardless of what the cover's amplitude does. */
+@keyframes mesh-drift-lively {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+    filter: blur(var(--blob-blur, 80px)) hue-rotate(0deg);
+  }
+  25% {
+    transform: translate(9%, -7%) scale(1.35);
+    filter: blur(calc(var(--blob-blur, 80px) + 16px)) hue-rotate(20deg);
+  }
+  50% {
+    transform: translate(-7%, 6%) scale(0.85);
+    filter: blur(calc(var(--blob-blur, 80px) - 10px)) hue-rotate(-16deg);
+  }
+  75% {
+    transform: translate(6%, 8%) scale(1.2);
+    filter: blur(calc(var(--blob-blur, 80px) + 6px)) hue-rotate(10deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .mesh-blob--lively {
+    animation-name: mesh-drift-lively;
+  }
+}
+
 /* Reduced motion: blobs stay put as a static soft-focus wash — no
    position/scale/hue animation, just the plain blurred gradient. */
 @media (prefers-reduced-motion: reduce) {
