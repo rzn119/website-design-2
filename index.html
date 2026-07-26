@@ -9,6 +9,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Space+Grotesk:wght@400;500;600&family=Big+Shoulders+Stencil+Display:wght@700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/palette.css">
+<link rel="stylesheet" href="css/mesh.css">
 <link rel="stylesheet" href="css/cover.css">
 <script>
   /* Repeat visitors this session skip straight to the homepage — no
@@ -24,23 +26,13 @@
 
 <div class="cover" id="cover">
 
-  <svg class="cover__grid" viewBox="0 0 1618.000 999.979" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
-    <g fill="none" stroke="var(--navy)" stroke-width="1.2">
-      <rect x="0" y="0" width="1618" height="999.979"/>
-      <line x1="999.98" y1="0.00" x2="999.98" y2="999.98"/>
-      <line x1="999.98" y1="618.02" x2="1618.00" y2="618.02"/>
-      <line x1="1236.04" y1="618.02" x2="1236.04" y2="999.98"/>
-      <line x1="999.98" y1="763.92" x2="1236.04" y2="763.92"/>
-      <line x1="1145.87" y1="618.02" x2="1145.87" y2="763.92"/>
-      <line x1="1145.87" y1="708.19" x2="1236.04" y2="708.19"/>
-      <line x1="1180.32" y1="708.19" x2="1180.32" y2="763.92"/>
-      <line x1="1145.87" y1="729.47" x2="1180.32" y2="729.47"/>
-      <line x1="1167.16" y1="708.19" x2="1167.16" y2="729.47"/>
-      <line x1="1167.16" y1="721.34" x2="1180.32" y2="721.34"/>
-      <line x1="1172.18" y1="721.34" x2="1172.18" y2="729.47"/>
-      <path d="M 0.00,999.98 A 999.98,999.98 0 0,1 999.98,0.00 A 618.02,618.02 0 0,1 1618.00,618.02 A 381.96,381.96 0 0,1 1236.04,999.98 A 236.06,236.06 0 0,1 999.98,763.92 A 145.89,145.89 0 0,1 1145.87,618.02 A 90.17,90.17 0 0,1 1236.04,708.19 A 55.73,55.73 0 0,1 1180.32,763.92 A 34.44,34.44 0 0,1 1145.87,729.47 A 21.29,21.29 0 0,1 1167.16,708.19 A 13.16,13.16 0 0,1 1180.32,721.34 A 8.13,8.13 0 0,1 1172.18,729.47"/>
-    </g>
-  </svg>
+  <div class="mesh-bg mesh-bg--cover" aria-hidden="true">
+    <div class="mesh-blob" style="--blob-color: var(--teal); --blob-size: 58vw; --blob-top: -16%; --blob-left: -12%; --blob-opacity: 0.55; --blob-blur: 90px; --blob-duration: 4.5s; --blob-delay: 0s;"></div>
+    <div class="mesh-blob" style="--blob-color: var(--sage); --blob-size: 52vw; --blob-top: 32%; --blob-left: 28%; --blob-opacity: 0.5; --blob-blur: 85px; --blob-duration: 5.5s; --blob-delay: 1.2s;"></div>
+    <div class="mesh-blob" style="--blob-color: var(--olive); --blob-size: 46vw; --blob-top: 52%; --blob-left: 54%; --blob-opacity: 0.45; --blob-blur: 90px; --blob-duration: 4s; --blob-delay: 0.6s;"></div>
+    <div class="mesh-blob" style="--blob-color: var(--cream); --blob-size: 40vw; --blob-top: 6%; --blob-left: 48%; --blob-opacity: 0.65; --blob-blur: 100px; --blob-duration: 6s; --blob-delay: 2s;"></div>
+    <div class="mesh-grain"></div>
+  </div>
 
   <canvas class="cover__canvas" id="cover-canvas" aria-hidden="true"></canvas>
 
@@ -53,13 +45,13 @@
     <span class="cover__prompt-label cover__prompt-label--mouse">Move your mouse</span>
     <span class="cover__prompt-label cover__prompt-label--touch">Touch and drag</span>
     <svg class="cover__prompt-arrow" viewBox="0 0 64 20" fill="none" aria-hidden="true">
-      <line x1="2" y1="10" x2="50" y2="10" stroke="var(--navy-soft)" stroke-width="1" stroke-dasharray="3 4"/>
-      <path d="M44 4 L56 10 L44 16" stroke="var(--navy-soft)" stroke-width="1" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <line x1="2" y1="10" x2="50" y2="10" stroke="var(--olive-soft)" stroke-width="1" stroke-dasharray="3 4"/>
+      <path d="M44 4 L56 10 L44 16" stroke="var(--olive-soft)" stroke-width="1" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
   </div>
 
   <svg class="cover__crayon" id="cover-crayon" viewBox="0 0 30 30" fill="none" aria-hidden="true">
-    <line x1="8" y1="24" x2="24" y2="8" stroke="var(--crayon-color, var(--navy))" stroke-width="8" stroke-linecap="round"/>
+    <line x1="8" y1="24" x2="24" y2="8" stroke="var(--crayon-color, var(--olive))" stroke-width="8" stroke-linecap="round"/>
     <line x1="8" y1="24" x2="24" y2="8" stroke="#fff" stroke-width="8" stroke-linecap="round" opacity="0.12"/>
     <circle cx="8" cy="24" r="2.6" fill="var(--cream)" opacity="0.55"/>
   </svg>

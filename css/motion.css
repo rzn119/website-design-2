@@ -45,6 +45,19 @@
     clip-path: inset(0 0% 0 0);
   }
 
+  /* clip-path clips an element's own overflow to its own box even at a
+     0%/no-op inset — unlike plain overflow, which defaults to visible.
+     The hero's "& Object" line is deliberately wider than its flex
+     column (white-space:nowrap forces exactly two rows regardless of
+     available width — see .hero__line), so at the hero's normal,
+     block-level 100%-of-container width the wipe would clip the
+     overflow off instead of leaving it to spill past the column like it
+     does without a clip-path. Sizing the wrapper to its own content
+     width keeps the clip region large enough to contain the overflow. */
+  .hero .reveal-wipe__inner {
+    width: max-content;
+  }
+
   /* Grid/row stagger — direct .reveal children of a .reveal-group pick
      up a small transition-delay by position, so a row assembles as a
      quick cascade rather than appearing all at once. All children still
