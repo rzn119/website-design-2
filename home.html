@@ -95,6 +95,51 @@
   p { margin: 0; }
 
   /* -------------------------------------------------------------------------
+     Scroll-triggered reveal — brought back from the previous design:
+     a plain fade + rise for supporting content, a clip-path wipe for
+     the display/section headlines. Trigger-once via IntersectionObserver
+     (see the script at the bottom), settle-in on first view rather than
+     an ambient loop. Reimplemented here (not linked from css/motion.css)
+     to keep this page self-contained, but the values/behavior match.
+     ------------------------------------------------------------------------- */
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal {
+      opacity: 0;
+      transform: translateY(26px);
+      transition: opacity 0.55s cubic-bezier(0.22, 0.61, 0.36, 1),
+                  transform 0.55s cubic-bezier(0.22, 0.61, 0.36, 1);
+    }
+
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-wipe__inner {
+      display: block;
+      clip-path: inset(0 100% 0 0);
+      transition: clip-path 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
+    }
+
+    .reveal-wipe.is-visible .reveal-wipe__inner {
+      clip-path: inset(0 0% 0 0);
+    }
+
+    .reveal-group > .reveal:nth-child(1) { transition-delay: 0ms; }
+    .reveal-group > .reveal:nth-child(2) { transition-delay: 80ms; }
+    .reveal-group > .reveal:nth-child(3) { transition-delay: 160ms; }
+    .reveal-group > .reveal:nth-child(4) { transition-delay: 240ms; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal, .reveal-wipe__inner {
+      opacity: 1;
+      transform: none;
+      clip-path: none;
+    }
+  }
+
+  /* -------------------------------------------------------------------------
      Nav — fixed, transparent, ink-black throughout (no dark sections exist
      on this page right now). Wired to an IntersectionObserver reading each
      section's data-theme so it's ready to adapt automatically if a dark
@@ -183,18 +228,20 @@
     position: absolute;
     top: 118px;
     left: 41px;
-    right: 41px;
-    max-width: 1100px;
+    max-width: min(900px, 58vw);
     color: var(--ink-black);
   }
 
+  /* Positioned in its own right-hand column, starting near the same
+     height as the headline, rather than centered under it — the
+     headline's max-width above is capped to leave this column clear
+     regardless of how many lines the headline wraps to. */
   .hero__description {
     position: absolute;
-    left: 50%;
-    bottom: 150px;
-    transform: translateX(-50%);
-    width: min(500px, calc(100% - 80px));
-    text-align: center;
+    top: 160px;
+    right: 41px;
+    width: clamp(240px, 28vw, 420px);
+    text-align: left;
     color: var(--charcoal);
     font-size: 19px;
     line-height: 1.35;
@@ -213,25 +260,26 @@
     opacity: 0;
   }
 
-  .hero__email {
-    position: absolute;
-    right: 41px;
-    bottom: var(--sp-41);
-    font-size: 16px;
-    color: var(--ink-black);
-    border-bottom: 1px solid transparent;
-    transition: border-color 0.2s ease;
-  }
-
-  .hero__email:hover {
-    border-color: currentColor;
+  /* Below ~900px there's no spare right-hand column next to the
+     headline any more — revert the description to a bottom-anchored
+     band instead, well clear of the top-anchored headline given the
+     hero's own 100vh/560px-minimum height. */
+  @media (max-width: 900px) {
+    .hero__headline { max-width: none; right: 20px; }
+    .hero__description {
+      top: auto;
+      right: 20px;
+      left: 20px;
+      bottom: 90px;
+      width: auto;
+      text-align: left;
+    }
   }
 
   @media (max-width: 640px) {
-    .hero__headline { top: 96px; left: 20px; right: 20px; }
-    .hero__description { bottom: 110px; }
-    .hero__scroll, .hero__email { left: 20px; right: 20px; bottom: 20px; }
-    .hero__email { text-align: right; }
+    .hero__headline { top: 96px; left: 20px; }
+    .hero__scroll { left: 20px; bottom: 20px; }
+    .hero__description { bottom: 70px; }
   }
 
   /* -------------------------------------------------------------------------
@@ -362,11 +410,24 @@
   }
 
   .view-shop-link {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
     margin-top: var(--sp-26);
     font-size: 16px;
     border-bottom: 1px solid var(--ink-black);
     padding-bottom: 2px;
+  }
+
+  /* Plain text "↗" renders as a full-color emoji glyph on some mobile
+     OS/browser combinations (iOS Safari in particular) instead of the
+     flat monochrome glyph desktop shows — an inline SVG stroke icon
+     side-steps that font/emoji-presentation inconsistency entirely and
+     renders identically everywhere. */
+  .view-shop-link svg {
+    width: 13px;
+    height: 13px;
+    flex-shrink: 0;
   }
 
   @media (max-width: 640px) {
@@ -374,17 +435,74 @@
   }
 
   /* -------------------------------------------------------------------------
-     Footer — minimal, per the spec: closing statement + email + legal
-     line only. Scoped entirely to this page; every other page keeps the
-     full 4-column footer with site nav links.
+     Footer — the site's full 4-column footer (brand/tagline, contact,
+     quick links, CTA), restyled to this page's system: no rounded pill
+     button, no card chrome — the CTA is a plain hover-underline link
+     like every other link on this page, and the whole block sits on
+     the same hairline-divider language as the rest of the sections
+     instead of a bordered/shadowed panel.
      ------------------------------------------------------------------------- */
   .site-footer {
     padding-block: var(--sp-130) var(--sp-41);
     background: var(--cream);
   }
 
-  .site-footer__statement {
-    max-width: 900px;
+  .footer-inner {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr auto;
+    gap: var(--sp-41);
+    align-items: start;
+  }
+
+  .footer-brand__name {
+    font-size: 19px;
+  }
+
+  .footer-tagline {
+    margin-top: var(--sp-13);
+    color: var(--ash-gray);
+    max-width: 30ch;
+  }
+
+  .footer-col {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-6);
+  }
+
+  .footer-col .label {
+    margin-bottom: var(--sp-6);
+  }
+
+  .footer-col a,
+  .footer-col p {
+    font-size: 16px;
+    color: var(--ash-gray);
+    margin: 0;
+  }
+
+  .footer-col a {
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s ease;
+    width: fit-content;
+  }
+
+  .footer-col a:hover {
+    color: var(--ink-black);
+    border-color: currentColor;
+  }
+
+  .footer-cta {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-end;
+  }
+
+  .footer-cta a {
+    font-size: 16px;
+    color: var(--ink-black);
+    border-bottom: 1px solid var(--ink-black);
+    padding-bottom: 2px;
   }
 
   .site-footer__bottom {
@@ -398,14 +516,22 @@
     flex-wrap: wrap;
   }
 
-  .site-footer__bottom a {
-    font-size: 16px;
-    border-bottom: 1px solid transparent;
-    transition: border-color 0.2s ease;
+  @media (max-width: 760px) {
+    .footer-inner {
+      grid-template-columns: 1fr 1fr;
+      row-gap: var(--sp-41);
+    }
+
+    .footer-cta {
+      grid-column: 1 / -1;
+      justify-content: flex-start;
+    }
   }
 
-  .site-footer__bottom a:hover {
-    border-color: currentColor;
+  @media (max-width: 480px) {
+    .footer-inner {
+      grid-template-columns: 1fr;
+    }
   }
 </style>
 </head>
@@ -425,38 +551,37 @@
 
   <!-- HERO -->
   <header class="hero" id="hero" data-theme="light">
-    <h1 class="hero__headline headline-display">We design the space around your product</h1>
-    <p class="hero__description">Adjectif Creation is a multidisciplinary design and research studio working across spatial design, product design, and furniture — for people and brands who want to be felt, not just seen.</p>
+    <h1 class="hero__headline headline-display reveal-wipe"><span class="reveal-wipe__inner">We design the space around your product</span></h1>
+    <p class="hero__description reveal">Adjectif Creation is a multidisciplinary design and research studio working across spatial design, product design, and furniture — for people and brands who want to be felt, not just seen.</p>
     <span class="hero__scroll" id="hero-scroll" aria-hidden="true">↓</span>
-    <a href="mailto:hello@adjectifcreation.com" class="hero__email">hello@adjectifcreation.com</a>
   </header>
 
   <!-- STUDIO — PRACTICE -->
   <section class="section bg-cream" data-theme="light">
     <div class="wrap">
-      <span class="label">STUDIO</span>
-      <h2 class="headline-section">Designs that redefine.</h2>
+      <span class="label reveal">STUDIO</span>
+      <h2 class="headline-section reveal-wipe"><span class="reveal-wipe__inner">Designs that redefine.</span></h2>
       <div class="section__body">
-        <p>Our practice moves across scales without treating any one of them as the "real" work — a storefront, a chair, and a wellness assessment all start from the same question: what does this need to say, and how little can it say it with.</p>
-        <p>Alongside client work, we design and produce a small collection of our own objects, sold directly through the studio — a way of keeping our hands in material and finish even between commissions.</p>
+        <p class="reveal">Our practice moves across scales without treating any one of them as the "real" work — a storefront, a chair, and a wellness assessment all start from the same question: what does this need to say, and how little can it say it with.</p>
+        <p class="reveal">Alongside client work, we design and produce a small collection of our own objects, sold directly through the studio — a way of keeping our hands in material and finish even between commissions.</p>
       </div>
 
-      <div class="plain-list">
-        <div class="plain-list__row">
+      <div class="plain-list reveal-group">
+        <div class="plain-list__row reveal">
           <span class="plain-list__index">01</span>
           <div>
             <h3>Spatial Design</h3>
             <p>Retail interiors, pop-ups, and exhibition environments built around how people actually move through a space.</p>
           </div>
         </div>
-        <div class="plain-list__row">
+        <div class="plain-list__row reveal">
           <span class="plain-list__index">02</span>
           <div>
             <h3>Product Design</h3>
             <p>Furniture and objects designed for production — ours and our clients' — from first sketch to finished piece.</p>
           </div>
         </div>
-        <div class="plain-list__row">
+        <div class="plain-list__row reveal">
           <span class="plain-list__index">03</span>
           <div>
             <h3>Wellness Analysis</h3>
@@ -470,26 +595,26 @@
   <!-- SELECTED WORK — CASE STUDIES -->
   <section class="section bg-cream" data-theme="light">
     <div class="wrap">
-      <span class="label">SELECTED WORK</span>
-      <h2 class="headline-section">Case Studies.</h2>
+      <span class="label reveal">SELECTED WORK</span>
+      <h2 class="headline-section reveal-wipe"><span class="reveal-wipe__inner">Case Studies.</span></h2>
 
       <!-- Placeholder imagery: flat --fog-gray blocks standing in for real
            project photography, at the aspect ratios specified in the
            brief. Swap in actual photos when available. -->
       <div class="work-tiles">
-        <article>
+        <article class="reveal">
           <div class="work-tile__frame work-tile__frame--16-9" role="img" aria-label="Placeholder — Nordfolk project photography"></div>
           <p class="caption work-tile__caption">Nordfolk — Pop-up retail environment, three-week install</p>
         </article>
-        <article>
+        <article class="reveal">
           <div class="work-tile__frame work-tile__frame--4-3" role="img" aria-label="Placeholder — Mono Studio project photography"></div>
           <p class="caption work-tile__caption">Mono Studio — Flagship store design and signage system</p>
         </article>
-        <article>
+        <article class="reveal">
           <div class="work-tile__frame work-tile__frame--16-9" role="img" aria-label="Placeholder — Aire project photography"></div>
           <p class="caption work-tile__caption">Aire — Modular seating system for micro-retail spaces</p>
         </article>
-        <article>
+        <article class="reveal">
           <div class="work-tile__frame work-tile__frame--4-3" role="img" aria-label="Placeholder — Field project photography"></div>
           <p class="caption work-tile__caption">Field — Companion application for an outdoor equipment brand</p>
         </article>
@@ -500,21 +625,21 @@
   <!-- WHO WE WORK WITH -->
   <section class="section bg-sand" data-theme="light">
     <div class="wrap">
-      <span class="label">Who we work with</span>
-      <h2 class="headline-section">For people and brands who want their products felt in space.</h2>
+      <span class="label reveal">Who we work with</span>
+      <h2 class="headline-section reveal-wipe"><span class="reveal-wipe__inner">For people and brands who want their products felt in space.</span></h2>
       <div class="section__body">
-        <p>We split our time between two kinds of clients: individuals commissioning something of their own, and brands who market their products through physical space.</p>
+        <p class="reveal">We split our time between two kinds of clients: individuals commissioning something of their own, and brands who market their products through physical space.</p>
       </div>
 
-      <div class="plain-list">
-        <div class="plain-list__row">
+      <div class="plain-list reveal-group">
+        <div class="plain-list__row reveal">
           <span class="plain-list__index caption" style="font-family:'Times New Roman',Times,serif;color:var(--ash-gray);">—</span>
           <div>
             <h3>Individuals</h3>
             <p>Bespoke furniture and objects, designed and made for a specific person and a specific room.</p>
           </div>
         </div>
-        <div class="plain-list__row">
+        <div class="plain-list__row reveal">
           <span class="plain-list__index caption" style="font-family:'Times New Roman',Times,serif;color:var(--ash-gray);">—</span>
           <div>
             <h3>Brands</h3>
@@ -528,15 +653,15 @@
   <!-- STUDIO SHOP — ADJECTIF PROJECTS -->
   <section class="section bg-cream" data-theme="light">
     <div class="wrap">
-      <span class="label">STUDIO SHOP</span>
-      <h2 class="headline-section">Our own collection.</h2>
+      <span class="label reveal">STUDIO SHOP</span>
+      <h2 class="headline-section reveal-wipe"><span class="reveal-wipe__inner">Our own collection.</span></h2>
       <div class="section__body">
-        <p>Objects designed, made, and sold directly by the studio — the same rigor as client work, with nobody to answer to but ourselves.</p>
+        <p class="reveal">Objects designed, made, and sold directly by the studio — the same rigor as client work, with nobody to answer to but ourselves.</p>
       </div>
-      <a href="shop.html" class="view-shop-link">View the shop ↗</a>
+      <a href="shop.html" class="view-shop-link reveal">View the shop <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
 
-      <div class="shop-tiles">
-        <a href="shop/arc-vase.html" class="shop-tile">
+      <div class="shop-tiles reveal-group">
+        <a href="shop/arc-vase.html" class="shop-tile reveal">
           <div class="shop-tile__frame">
             <img src="assets/products/arc-vase.png" alt="Arc Vase">
           </div>
@@ -544,7 +669,7 @@
           <span class="shop-tile__price">$180</span>
         </a>
 
-        <a href="shop/crosshair-tray.html" class="shop-tile">
+        <a href="shop/crosshair-tray.html" class="shop-tile reveal">
           <div class="shop-tile__frame">
             <img src="assets/products/crosshair-tray.png" alt="Crosshair Tray">
           </div>
@@ -559,15 +684,67 @@
 
 <footer class="site-footer" data-theme="light">
   <div class="wrap">
-    <h2 class="site-footer__statement headline-section">Let's design the space around your next idea.</h2>
+    <div class="footer-inner reveal-group">
+      <div class="footer-brand reveal">
+        <a href="home.html" class="footer-brand__name">Adjectif Creation</a>
+        <p class="footer-tagline">Multidisciplinary design &amp; research studio.</p>
+      </div>
+
+      <div class="footer-col reveal">
+        <span class="label">Contact</span>
+        <a href="mailto:hello@adjectifcreation.com">hello@adjectifcreation.com</a>
+        <p>By appointment</p>
+      </div>
+
+      <div class="footer-col reveal">
+        <span class="label">Quick Links</span>
+        <a href="studio.html">Studio</a>
+        <a href="work.html">Work</a>
+        <a href="shop.html">Shop</a>
+      </div>
+
+      <div class="footer-cta reveal">
+        <a href="contact.html">Start a project</a>
+      </div>
+    </div>
+
     <div class="site-footer__bottom">
-      <a href="mailto:hello@adjectifcreation.com">hello@adjectifcreation.com</a>
       <span class="caption">&copy; 2026 Adjectif Creation. All rights reserved.</span>
     </div>
   </div>
 </footer>
 
 <script>
+  // Scroll-triggered reveal — brought back from the previous design.
+  // Trigger-once via IntersectionObserver: once an element has settled
+  // into view it's unobserved, so scrolling back up and down again
+  // never replays it.
+  (function () {
+    var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduceMotion) return; // CSS already renders .reveal/.reveal-wipe at full visibility in this case
+
+    var targets = document.querySelectorAll('.reveal, .reveal-wipe');
+    if (!targets.length) return;
+
+    if (!('IntersectionObserver' in window)) {
+      targets.forEach(function (el) { el.classList.add('is-visible'); });
+      return;
+    }
+
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('is-visible');
+        observer.unobserve(entry.target);
+      });
+    }, {
+      threshold: 0.15,
+      rootMargin: '0px 0px -10% 0px',
+    });
+
+    targets.forEach(function (el) { observer.observe(el); });
+  })();
+
   // Scroll indicator — fades once the user has scrolled ~30% past the
   // hero's own height. Plain scroll listener (not IntersectionObserver):
   // this needs a continuous scroll-position threshold, not a one-time
