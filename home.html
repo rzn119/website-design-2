@@ -5,365 +5,614 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Adjectif Creation — Multidisciplinary Design &amp; Research Studio</title>
 <meta name="description" content="Adjectif Creation is a multidisciplinary design and research studio working across spatial design, product design, and an integrated shop for the studio's own objects.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css">
-<link rel="stylesheet" href="css/mesh.css">
-<link rel="stylesheet" href="css/editorial.css">
-<link rel="stylesheet" href="css/motion.css">
-<link rel="stylesheet" href="css/broken-grid.css">
+<style>
+  /* ==========================================================================
+     Adjectif Creation — homepage, rebuilt to the editorial oversized-type
+     poster spec (see the uploaded build brief). Self-contained on purpose:
+     its own color tokens, its own type system (system Helvetica, not the
+     site's Public Sans/Jost), embedded here rather than in the shared
+     css/*.css files, so nothing here can leak onto studio/work/shop/contact
+     or the cover — they keep loading the original stylesheets untouched.
+     One deliberate exception: the Studio Shop section keeps our real
+     products (Arc Vase, Crosshair Tray) and their existing hover-lift +
+     drop-shadow treatment (values copied verbatim from css/style.css's
+     .shop-item__figure), restyled only in typography/spacing/caption
+     format to match this page's system — that's an explicit ask, not an
+     oversight, and it's the one place a box-shadow-equivalent appears
+     despite the "no shadows anywhere" rule below.
+     ========================================================================== */
+
+  :root {
+    --cream:       #f3f3f0;
+    --sand:        #e8e8e4;
+    --gold:        #c9a876;
+    --gold-deep:   #b6935f;
+    --paper-white: #f7f7f5;
+    --ink-black:   #141412;
+    --fog-gray:    #e4e4e0;
+    --smoke-gray:  #d6d6d1;
+    --ash-gray:    #8a8a84;
+    --charcoal:    #3a3a35;
+
+    --sp-6: 6px; --sp-13: 13px; --sp-26: 26px; --sp-41: 41px;
+    --sp-80: 80px; --sp-130: 130px;
+    --content-width: 1400px;
+  }
+
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+
+  body {
+    margin: 0;
+    background: var(--cream);
+    color: var(--ink-black);
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: 400;
+    font-size: 19px;
+    line-height: 1.2;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  img { max-width: 100%; display: block; }
+  a { color: inherit; text-decoration: none; }
+
+  .wrap {
+    max-width: var(--content-width);
+    margin-inline: auto;
+    padding-inline: clamp(20px, 4vw, 41px);
+  }
+
+  .label {
+    font-size: 16px;
+    letter-spacing: 0.02em;
+    color: var(--ash-gray);
+  }
+
+  h1, h2 {
+    margin: 0;
+    font-weight: 400;
+  }
+
+  .headline-display {
+    font-size: clamp(48px, 11vw, 162px);
+    line-height: 0.90;
+    letter-spacing: -0.024em;
+  }
+
+  .headline-section {
+    font-size: clamp(34px, 5vw, 64px);
+    line-height: 1.0;
+    letter-spacing: -0.010em;
+    margin-top: var(--sp-13);
+  }
+
+  .caption {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 13px;
+    color: var(--ash-gray);
+  }
+
+  p { margin: 0; }
+
+  /* -------------------------------------------------------------------------
+     Nav — fixed, transparent, ink-black throughout (no dark sections exist
+     on this page right now). Wired to an IntersectionObserver reading each
+     section's data-theme so it's ready to adapt automatically if a dark
+     section is reintroduced later; every section currently resolves to
+     "light" so the nav color never actually changes today.
+     ------------------------------------------------------------------------- */
+  .site-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--sp-26) clamp(20px, 4vw, 41px);
+    background: transparent;
+    color: var(--ink-black);
+    font-size: 16px;
+  }
+
+  .site-nav__brand {
+    font-size: 16px;
+  }
+
+  .site-nav__center {
+    display: flex;
+    gap: var(--sp-41);
+  }
+
+  .site-nav a {
+    position: relative;
+    padding-bottom: 3px;
+  }
+
+  .site-nav a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 100%;
+    bottom: 0;
+    height: 1px;
+    background: currentColor;
+    transition: right 0.25s ease;
+  }
+
+  .site-nav a:hover::after,
+  .site-nav a:focus-visible::after {
+    right: 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .site-nav a::after { transition: none; }
+  }
+
+  @media (max-width: 760px) {
+    .site-nav__center { display: none; }
+  }
+
+  /* -------------------------------------------------------------------------
+     Hero
+     ------------------------------------------------------------------------- */
+  .hero {
+    position: relative;
+    height: 100vh;
+    min-height: 560px;
+    overflow: hidden;
+    background:
+      radial-gradient(ellipse 38% 28% at 6% 4%, rgba(160, 160, 156, 0.32), transparent 55%),
+      radial-gradient(ellipse 115% 95% at 100% 78%, rgba(196, 163, 110, 0.9), transparent 58%),
+      radial-gradient(ellipse 95% 75% at 90% 55%, rgba(201, 168, 118, 0.55), transparent 62%),
+      var(--cream);
+  }
+
+  /* Fades the gradient out toward the section's own bottom edge, so it
+     doesn't end on a hard seam against the next section's flat cream. */
+  .hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, transparent 70%, var(--cream) 100%);
+    pointer-events: none;
+  }
+
+  .hero__headline {
+    position: absolute;
+    top: 118px;
+    left: 41px;
+    right: 41px;
+    max-width: 1100px;
+    color: var(--ink-black);
+  }
+
+  .hero__description {
+    position: absolute;
+    left: 50%;
+    bottom: 150px;
+    transform: translateX(-50%);
+    width: min(500px, calc(100% - 80px));
+    text-align: center;
+    color: var(--charcoal);
+    font-size: 19px;
+    line-height: 1.35;
+  }
+
+  .hero__scroll {
+    position: absolute;
+    left: 41px;
+    bottom: var(--sp-41);
+    font-size: 19px;
+    color: var(--ink-black);
+    transition: opacity 0.3s ease;
+  }
+
+  .hero__scroll.is-hidden {
+    opacity: 0;
+  }
+
+  .hero__email {
+    position: absolute;
+    right: 41px;
+    bottom: var(--sp-41);
+    font-size: 16px;
+    color: var(--ink-black);
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s ease;
+  }
+
+  .hero__email:hover {
+    border-color: currentColor;
+  }
+
+  @media (max-width: 640px) {
+    .hero__headline { top: 96px; left: 20px; right: 20px; }
+    .hero__description { bottom: 110px; }
+    .hero__scroll, .hero__email { left: 20px; right: 20px; bottom: 20px; }
+    .hero__email { text-align: right; }
+  }
+
+  /* -------------------------------------------------------------------------
+     Section rhythm
+     ------------------------------------------------------------------------- */
+  .section {
+    padding-block: var(--sp-130);
+  }
+
+  .bg-cream { background: var(--cream); }
+  .bg-sand  { background: var(--sand); }
+
+  .section__body {
+    margin-top: var(--sp-41);
+    max-width: 640px;
+    color: var(--charcoal);
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-26);
+  }
+
+  /* -------------------------------------------------------------------------
+     Plain stacked lists — disciplines, "who we work with" — no cards, just
+     hairline-divided rows.
+     ------------------------------------------------------------------------- */
+  .plain-list {
+    margin-top: var(--sp-80);
+    border-top: 1px solid var(--smoke-gray);
+  }
+
+  .plain-list__row {
+    display: grid;
+    grid-template-columns: 4rem 1fr;
+    gap: var(--sp-26);
+    padding-block: var(--sp-26);
+    border-bottom: 1px solid var(--smoke-gray);
+  }
+
+  .plain-list__index {
+    color: var(--ash-gray);
+  }
+
+  .plain-list__row h3 {
+    margin: 0 0 6px;
+    font-weight: 400;
+    font-size: 1.35rem;
+  }
+
+  .plain-list__row p {
+    color: var(--charcoal);
+    max-width: 60ch;
+  }
+
+  /* -------------------------------------------------------------------------
+     Selected Work — full-bleed placeholder tiles, alternating aspect
+     ratio, Times captions. Placeholder-service imagery isn't wired up
+     (no external network dependency) — these are flat --fog-gray blocks
+     at the correct ratios, standing in for real project photography.
+     ------------------------------------------------------------------------- */
+  .work-tiles {
+    margin-top: var(--sp-80);
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-80);
+  }
+
+  .work-tile__frame {
+    width: 100%;
+    background: var(--fog-gray);
+  }
+
+  .work-tile__frame--16-9 { aspect-ratio: 16 / 9; }
+  .work-tile__frame--4-3  { aspect-ratio: 4 / 3; }
+
+  .work-tile__caption {
+    margin-top: var(--sp-13);
+  }
+
+  /* -------------------------------------------------------------------------
+     Studio Shop — real products, existing hover-lift/drop-shadow kept
+     verbatim; layout/captions restyled to this page's system.
+     ------------------------------------------------------------------------- */
+  .shop-tiles {
+    margin-top: var(--sp-80);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--sp-80);
+    align-items: start;
+  }
+
+  .shop-tile__frame {
+    padding: var(--sp-41) var(--sp-26) 0;
+  }
+
+  .shop-tile__frame img {
+    max-width: 260px;
+    margin-inline: auto;
+    filter:
+      drop-shadow(5px 8px 7px rgba(27, 27, 27, 0.20))
+      drop-shadow(14px 30px 26px rgba(27, 27, 27, 0.14));
+    transition: filter 0.22s ease, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .shop-tile:hover .shop-tile__frame img,
+  .shop-tile:focus-visible .shop-tile__frame img {
+    transform: translateY(-6px) scale(1.07);
+    filter:
+      drop-shadow(8px 16px 11px rgba(27, 27, 27, 0.26))
+      drop-shadow(20px 42px 34px rgba(27, 27, 27, 0.19));
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .shop-tile__frame img { transition: filter 0.22s ease; }
+    .shop-tile:hover .shop-tile__frame img,
+    .shop-tile:focus-visible .shop-tile__frame img { transform: none; }
+  }
+
+  .shop-tile__caption {
+    margin-top: var(--sp-26);
+  }
+
+  .shop-tile__price {
+    display: block;
+    margin-top: 4px;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    color: var(--ash-gray);
+  }
+
+  .view-shop-link {
+    display: inline-block;
+    margin-top: var(--sp-26);
+    font-size: 16px;
+    border-bottom: 1px solid var(--ink-black);
+    padding-bottom: 2px;
+  }
+
+  @media (max-width: 640px) {
+    .shop-tiles { grid-template-columns: 1fr; }
+  }
+
+  /* -------------------------------------------------------------------------
+     Footer — minimal, per the spec: closing statement + email + legal
+     line only. Scoped entirely to this page; every other page keeps the
+     full 4-column footer with site nav links.
+     ------------------------------------------------------------------------- */
+  .site-footer {
+    padding-block: var(--sp-130) var(--sp-41);
+    background: var(--cream);
+  }
+
+  .site-footer__statement {
+    max-width: 900px;
+  }
+
+  .site-footer__bottom {
+    margin-top: var(--sp-130);
+    padding-top: var(--sp-26);
+    border-top: 1px solid var(--smoke-gray);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--sp-26);
+    flex-wrap: wrap;
+  }
+
+  .site-footer__bottom a {
+    font-size: 16px;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s ease;
+  }
+
+  .site-footer__bottom a:hover {
+    border-color: currentColor;
+  }
+</style>
 </head>
 <body>
 
-<header class="site-header">
-  <div class="container nav-inner">
-    <a href="home.html" class="logo">
-      <svg class="logo__mark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 519 535" fill="none">
-  <g transform="translate(-100.000000,614.807869) scale(0.100000,-0.100000)" fill="var(--navy, #2B3A6B)" stroke="none">
-<path d="M3544 6137 c-3 -8 -4 -36 -2 -63 2 -36 7 -49 18 -49 20 0 22 116 3
-122 -7 3 -16 -2 -19 -10z"/>
-<path d="M3540 5853 c0 -66 13 -98 30 -73 5 8 10 41 10 73 0 50 -2 57 -20 57
--18 0 -20 -7 -20 -57z"/>
-<path d="M2370 5720 c-253 -23 -488 -136 -676 -324 -156 -157 -249 -330 -305
--566 -20 -81 -17 -366 4 -455 30 -131 89 -274 149 -362 15 -23 28 -49 28 -58
-0 -18 43 -65 59 -65 6 0 23 -18 38 -41 15 -22 46 -54 70 -70 24 -17 43 -36 43
--43 0 -20 48 -56 74 -56 14 0 27 -4 30 -9 9 -14 206 -107 258 -122 44 -12 46
--15 41 -41 l-5 -28 69 0 c38 0 74 5 80 11 7 7 28 7 72 -2 40 -7 90 -9 139 -5
-42 4 84 7 92 6 8 0 48 -3 89 -6 l74 -6 -6 29 c-5 28 -4 30 52 46 73 22 218 96
-299 154 158 112 286 274 378 478 l18 40 6 -47 c7 -53 17 -69 30 -48 16 25 12
-102 -6 121 -15 16 -15 23 0 71 8 29 20 93 26 141 13 104 14 1247 2 1259 -5 5
--69 7 -143 6 l-134 -3 -5 -178 -5 -178 -35 36 c-40 42 -159 133 -213 164 -20
-12 -52 29 -70 39 -52 30 -198 79 -283 95 -103 20 -229 26 -334 17z m285 -85
-c44 -8 98 -19 120 -25 150 -42 351 -164 455 -276 81 -86 80 -84 80 -223 l0
--125 -50 81 c-125 203 -319 350 -548 415 -115 33 -343 32 -462 -2 -241 -67
--452 -236 -558 -445 -78 -154 -102 -256 -102 -428 0 -156 19 -241 84 -387 47
--105 174 -257 281 -336 180 -131 408 -191 631 -165 55 6 115 17 134 22 61 19
-184 72 212 91 14 10 29 18 33 18 26 0 179 142 243 226 39 52 122 209 122 232
-0 10 4 22 8 28 12 13 31 96 42 184 5 41 10 189 10 328 0 138 3 252 8 252 18 0
-84 -183 107 -295 21 -103 21 -286 0 -386 -18 -88 -52 -199 -66 -213 -5 -6 -9
--16 -9 -23 0 -24 -98 -178 -159 -250 -55 -65 -185 -174 -251 -212 -105 -60
--219 -104 -340 -132 -71 -17 -308 -17 -385 0 -203 43 -383 135 -528 270 -47
-44 -148 171 -176 221 -105 191 -143 327 -143 525 -1 187 29 313 112 477 56
-112 92 161 190 259 77 78 212 179 239 179 6 0 11 3 11 8 0 7 11 13 100 50 46
-19 191 58 245 65 73 10 237 6 310 -8z m866 3 c2 -7 2 -143 -1 -303 l-5 -290
--32 65 c-18 36 -46 85 -63 110 l-30 45 0 193 0 192 64 0 c43 0 65 -4 67 -12z
-m-936 -209 c191 -26 353 -108 486 -246 118 -122 183 -241 220 -403 18 -79 16
--292 -3 -360 -32 -112 -73 -200 -133 -285 -64 -90 -226 -235 -263 -235 -6 0
--12 -3 -14 -7 -4 -11 -84 -49 -128 -62 -19 -6 -51 -15 -70 -22 -54 -17 -257
--23 -334 -10 -167 29 -315 107 -444 233 -242 236 -310 615 -165 926 30 66 109
-175 169 236 125 125 275 201 452 231 99 17 134 17 227 4z"/>
-<path d="M3890 4629 c0 -15 30 -38 49 -39 10 0 7 8 -9 25 -25 27 -40 32 -40
-14z"/>
-<path d="M3902 4467 c-50 -51 -92 -99 -92 -107 0 -9 184 -199 408 -423 225
--224 406 -409 404 -412 -3 -3 -29 -5 -59 -5 -29 0 -53 -4 -53 -10 0 -5 -9 -10
--20 -10 -11 0 -20 5 -20 10 0 6 -30 10 -69 10 -64 0 -70 -2 -73 -22 -2 -17
--19 -27 -78 -48 -101 -35 -202 -84 -275 -133 -139 -95 -307 -289 -379 -439
--14 -31 -33 -58 -40 -61 -8 -3 -16 -26 -19 -54 -2 -26 -14 -93 -26 -148 -20
--87 -22 -120 -18 -255 4 -110 11 -179 26 -238 12 -46 21 -97 21 -113 0 -17 8
--36 20 -46 11 -10 20 -24 20 -31 0 -7 14 -33 30 -57 17 -24 30 -47 30 -51 0
--18 103 -148 175 -220 146 -147 337 -252 555 -306 75 -18 386 -18 460 1 109
-27 207 63 303 113 291 153 509 454 568 788 18 103 16 295 -5 405 -18 92 -81
-277 -97 283 -5 2 -7 8 -4 13 3 5 14 3 25 -3 11 -7 22 -9 26 -5 11 10 -47 67
--68 67 -10 0 -26 15 -37 38 -34 64 -90 125 -329 356 -61 59 -109 112 -106 117
-3 5 19 9 36 9 23 0 29 4 24 16 -3 9 -6 18 -6 20 0 2 -24 4 -53 4 l-53 0 -520
-520 c-287 286 -525 520 -530 520 -5 0 -51 -42 -102 -93z m570 -474 c252 -252
-458 -461 458 -465 0 -5 -27 -8 -59 -8 -43 0 -60 -4 -65 -15 -3 -8 -11 -15 -18
--15 -13 0 -852 832 -868 861 -7 12 1 26 32 57 23 23 46 42 52 42 6 0 217 -206
-468 -457z m526 -548 c-3 -4 -24 -1 -46 6 l-41 12 22 18 c21 17 23 17 46 -6 14
--14 22 -27 19 -30z m-285 -24 c20 -8 179 -163 173 -169 -2 -2 -35 5 -73 14
--95 25 -331 26 -425 1 -197 -52 -363 -157 -484 -309 -69 -85 -103 -144 -141
--243 -44 -113 -58 -192 -57 -330 1 -197 44 -337 156 -502 127 -189 314 -314
-558 -374 71 -17 303 -17 361 0 24 7 62 18 84 23 61 17 183 76 250 121 161 110
-312 321 354 497 34 143 41 286 21 392 -39 202 -132 372 -281 514 -285 271
--344 334 -314 334 16 0 185 -74 217 -95 21 -14 40 -25 44 -25 11 0 155 -122
-212 -180 139 -142 247 -382 268 -597 9 -97 9 -99 0 -202 -7 -75 -41 -219 -65
--276 -114 -267 -326 -484 -571 -582 -64 -26 -77 -31 -110 -41 -99 -29 -155
--36 -290 -36 -117 1 -162 5 -233 23 -309 80 -541 260 -687 536 -97 183 -126
-359 -102 625 9 95 54 259 82 295 4 6 22 37 39 70 126 234 389 433 656 497 96
-23 318 35 358 19z m67 -225 c153 -38 239 -83 367 -196 84 -73 154 -165 200
--260 117 -240 95 -572 -51 -790 -127 -191 -304 -312 -539 -368 -122 -30 -356
--5 -477 51 -131 61 -265 168 -345 277 -199 271 -210 643 -26 925 118 182 290
-304 506 360 67 17 295 18 365 1z"/>
-<path d="M1000 4517 c0 -18 45 -60 59 -56 14 5 -13 45 -40 59 -14 8 -19 7 -19
--3z"/>
-<path d="M1110 4403 c0 -10 52 -63 62 -63 16 0 8 27 -15 48 -23 21 -47 29 -47
-15z"/>
-<path d="M1230 4287 c0 -18 45 -60 59 -56 14 5 -13 45 -40 59 -14 8 -19 7 -19
--3z"/>
-<path d="M1340 4172 c0 -12 44 -52 58 -52 18 0 14 14 -11 38 -24 22 -47 29
--47 14z"/>
-<path d="M3540 3953 c0 -32 4 -64 9 -72 17 -27 31 1 31 65 0 57 -2 64 -20 64
--18 0 -20 -7 -20 -57z"/>
-<path d="M3547 3774 c-11 -11 -8 -107 3 -124 17 -26 31 8 28 69 -3 50 -15 71
--31 55z"/>
-<path d="M3547 3534 c-12 -12 -8 -132 4 -140 19 -12 29 19 27 80 -3 55 -14 77
--31 60z"/>
-<path d="M1230 3500 c0 -18 6 -20 71 -20 62 0 70 2 67 18 -3 14 -16 18 -71 20
--62 3 -67 1 -67 -18z"/>
-<path d="M1480 3500 c0 -18 7 -20 65 -20 58 0 65 2 65 20 0 18 -7 20 -65 20
--58 0 -65 -2 -65 -20z"/>
-<path d="M1710 3500 c0 -18 7 -20 65 -20 58 0 65 2 65 20 0 18 -7 20 -65 20
--58 0 -65 -2 -65 -20z"/>
-<path d="M1956 3504 c-9 -24 -9 -24 27 -24 21 0 41 -8 52 -20 22 -24 47 -27
-38 -4 -3 9 0 20 7 24 7 4 10 15 7 24 -9 23 -122 23 -131 0z"/>
-<path d="M2906 3504 c-3 -9 -6 -18 -6 -20 0 -2 32 -4 70 -4 63 0 70 2 70 20 0
-18 -7 20 -64 20 -49 0 -65 -4 -70 -16z"/>
-<path d="M3133 3500 c-2 -18 4 -20 69 -20 60 0 69 2 64 16 -3 9 -6 18 -6 20 0
-2 -28 4 -63 4 -56 0 -63 -2 -64 -20z"/>
-<path d="M3380 3500 c0 -18 7 -20 65 -20 58 0 65 2 65 20 0 18 -7 20 -65 20
--58 0 -65 -2 -65 -20z"/>
-<path d="M3610 3500 c0 -18 7 -20 65 -20 58 0 65 2 65 20 0 18 -7 20 -65 20
--58 0 -65 -2 -65 -20z"/>
-<path d="M3856 3504 c-3 -9 -6 -18 -6 -20 0 -2 31 -4 69 -4 64 0 70 2 68 20
--1 18 -8 20 -63 20 -47 0 -63 -4 -68 -16z"/>
-<path d="M4080 3500 c0 -18 7 -20 71 -20 61 0 70 2 65 16 -3 9 -6 18 -6 20 0
-2 -29 4 -65 4 -58 0 -65 -2 -65 -20z"/>
-<path d="M5280 3500 c0 -18 7 -20 65 -20 58 0 65 2 65 20 0 18 -7 20 -65 20
--58 0 -65 -2 -65 -20z"/>
-<path d="M5510 3500 c0 -18 7 -20 65 -20 58 0 65 2 65 20 0 18 -7 20 -65 20
--58 0 -65 -2 -65 -20z"/>
-<path d="M2120 3387 c0 -16 41 -57 58 -57 18 0 14 14 -10 37 -34 30 -48 36
--48 20z"/>
-<path d="M3545 3277 c-11 -43 -1 -112 15 -112 11 0 16 13 18 44 4 51 -4 91
--18 91 -5 0 -12 -10 -15 -23z"/>
-<path d="M2230 3273 c0 -10 52 -63 62 -63 16 0 8 27 -15 48 -23 21 -47 29 -47
-15z"/>
-<path d="M2350 3157 c0 -18 45 -60 59 -56 14 5 -13 45 -40 59 -14 8 -19 7 -19
--3z"/>
-<path d="M3540 2993 c0 -66 13 -98 30 -73 5 8 10 41 10 73 0 50 -2 57 -20 57
--18 0 -20 -7 -20 -57z"/>
-<path d="M5920 2597 c0 -9 5 -17 10 -17 6 0 10 -7 10 -15 0 -8 7 -15 15 -15
-22 0 18 13 -10 40 -21 19 -25 21 -25 7z"/>
-<path d="M3041 2463 c7 -12 15 -20 18 -17 3 2 -3 12 -13 22 -17 16 -18 16 -5
--5z"/>
-<path d="M3130 2377 c0 -18 46 -60 60 -55 8 2 2 16 -15 36 -28 34 -45 41 -45
-19z"/>
-<path d="M6150 2376 c0 -11 30 -39 36 -34 2 3 -5 13 -16 23 -11 10 -20 15 -20
-11z"/>
-<path d="M3240 2262 c0 -12 44 -52 58 -52 18 0 14 14 -11 38 -24 22 -47 29
--47 14z"/>
-<path d="M3356 2148 c12 -22 47 -58 56 -58 16 0 8 27 -15 48 -25 24 -53 30
--41 10z"/>
-<path d="M3472 2034 c2 -9 14 -24 28 -33 l25 -16 -23 33 c-26 35 -35 40 -30
-16z"/>
-<path d="M3544 1857 c-3 -8 -4 -36 -2 -63 2 -36 7 -49 18 -49 20 0 22 116 3
-122 -7 3 -16 -2 -19 -10z"/>
-<path d="M3544 1617 c-3 -8 -4 -39 -2 -68 2 -40 7 -54 18 -54 20 0 22 126 3
-132 -7 3 -15 -2 -19 -10z"/>
-<path d="M3546 1384 c-9 -23 -7 -97 3 -113 16 -25 31 -1 31 49 0 51 -7 80 -20
-80 -4 0 -11 -7 -14 -16z"/>
-<path d="M3540 1093 c0 -32 5 -65 10 -73 17 -25 30 7 30 73 0 50 -2 57 -20 57
--18 0 -20 -7 -20 -57z"/>
-<path d="M3544 906 c-3 -7 -4 -35 -2 -62 2 -36 7 -49 18 -49 17 0 26 61 16
-102 -7 25 -24 31 -32 9z"/>
-</g>
-</svg>
-      <span class="logo__word">ADJECTIF CREATION</span>
-    </a>
-
-    <nav class="nav-links" id="nav-links">
-      <a href="studio.html">Studio</a>
-      <a href="work.html">Work</a>
-      <a href="shop.html">Shop</a>
-      <a href="contact.html">Contact</a>
-    </nav>
-
-    <div class="nav-actions">
-      <a href="contact.html" class="btn btn--primary">Inquire</a>
-      <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="nav-links">
-        <span></span><span></span><span></span>
-      </button>
-    </div>
+<nav class="site-nav" id="site-nav" data-theme="light">
+  <a href="home.html" class="site-nav__brand">Adjectif Creation</a>
+  <div class="site-nav__center">
+    <a href="work.html">Work</a>
+    <a href="studio.html">Studio</a>
+    <a href="shop.html">Shop</a>
   </div>
-</header>
+  <a href="contact.html">Contact</a>
+</nav>
 
 <main>
 
   <!-- HERO -->
-  <section class="hero bg-cream" id="hero">
-    <div class="container hero__inner">
-      <div class="hero__row">
-        <span class="hero__vertical reveal">Multidisciplinary Design &amp; Research Studio</span>
-        <div class="hero__main">
-          <h1 class="reveal-wipe"><span class="reveal-wipe__inner"><span class="hero__line">Space</span><span class="hero__line">&amp; Object</span></span></h1>
-          <p class="hero__subhead reveal">We draw the line between space and object — spatial, product, and research work for brands and individuals who use physical space to sell what they make.</p>
-          <div class="hero__tags reveal-group">
-            <span class="pill reveal"><span class="mark mark--sm"></span>Spatial design</span>
-            <span class="pill reveal"><span class="mark mark--sm"></span>Product design</span>
-            <span class="pill reveal"><span class="mark mark--sm"></span>Research</span>
+  <header class="hero" id="hero" data-theme="light">
+    <h1 class="hero__headline headline-display">We design the space around your product</h1>
+    <p class="hero__description">Adjectif Creation is a multidisciplinary design and research studio working across spatial design, product design, and furniture — for people and brands who want to be felt, not just seen.</p>
+    <span class="hero__scroll" id="hero-scroll" aria-hidden="true">↓</span>
+    <a href="mailto:hello@adjectifcreation.com" class="hero__email">hello@adjectifcreation.com</a>
+  </header>
+
+  <!-- STUDIO — PRACTICE -->
+  <section class="section bg-cream" data-theme="light">
+    <div class="wrap">
+      <span class="label">STUDIO</span>
+      <h2 class="headline-section">Designs that redefine.</h2>
+      <div class="section__body">
+        <p>Our practice moves across scales without treating any one of them as the "real" work — a storefront, a chair, and a wellness assessment all start from the same question: what does this need to say, and how little can it say it with.</p>
+        <p>Alongside client work, we design and produce a small collection of our own objects, sold directly through the studio — a way of keeping our hands in material and finish even between commissions.</p>
+      </div>
+
+      <div class="plain-list">
+        <div class="plain-list__row">
+          <span class="plain-list__index">01</span>
+          <div>
+            <h3>Spatial Design</h3>
+            <p>Retail interiors, pop-ups, and exhibition environments built around how people actually move through a space.</p>
+          </div>
+        </div>
+        <div class="plain-list__row">
+          <span class="plain-list__index">02</span>
+          <div>
+            <h3>Product Design</h3>
+            <p>Furniture and objects designed for production — ours and our clients' — from first sketch to finished piece.</p>
+          </div>
+        </div>
+        <div class="plain-list__row">
+          <span class="plain-list__index">03</span>
+          <div>
+            <h3>Wellness Analysis</h3>
+            <p>Research into how a space affects the people using it, feeding directly back into the design decisions we make.</p>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- STATEMENT -->
-  <section class="section bg-paper section--blend" id="statement-section" style="--blend-from: var(--cream);">
-    <div class="container statement">
-      <div class="statement__mark reveal">
-        <svg viewBox="0 0 100 100" fill="none">
-          <circle cx="50" cy="50" r="28" stroke="#2B3A6B" stroke-width="1.5"/>
-          <g stroke="#2B3A6B" stroke-width="1" stroke-dasharray="2 4" opacity="0.6">
-            <line x1="50" y1="4" x2="50" y2="20"/>
-            <line x1="50" y1="80" x2="50" y2="96"/>
-            <line x1="4" y1="50" x2="20" y2="50"/>
-            <line x1="80" y1="50" x2="96" y2="50"/>
-          </g>
-        </svg>
-      </div>
-      <div class="statement__text">
-        <span class="eyebrow reveal">Approach</span>
-        <p class="reveal">Every brief starts as a question, not a form. We treat a retail interior and a table with the same rigor: what does this object need to say, and how little can it say it with? The work that comes out the other side reads as drafted rather than decorated — precise lines, deliberate materials, nothing left to explain itself twice.</p>
-        <a href="studio.html" class="view-all reveal"><span class="mark mark--sm"></span>More about the studio</a>
+  <!-- SELECTED WORK — CASE STUDIES -->
+  <section class="section bg-cream" data-theme="light">
+    <div class="wrap">
+      <span class="label">SELECTED WORK</span>
+      <h2 class="headline-section">Case Studies.</h2>
+
+      <!-- Placeholder imagery: flat --fog-gray blocks standing in for real
+           project photography, at the aspect ratios specified in the
+           brief. Swap in actual photos when available. -->
+      <div class="work-tiles">
+        <article>
+          <div class="work-tile__frame work-tile__frame--16-9" role="img" aria-label="Placeholder — Nordfolk project photography"></div>
+          <p class="caption work-tile__caption">Nordfolk — Pop-up retail environment, three-week install</p>
+        </article>
+        <article>
+          <div class="work-tile__frame work-tile__frame--4-3" role="img" aria-label="Placeholder — Mono Studio project photography"></div>
+          <p class="caption work-tile__caption">Mono Studio — Flagship store design and signage system</p>
+        </article>
+        <article>
+          <div class="work-tile__frame work-tile__frame--16-9" role="img" aria-label="Placeholder — Aire project photography"></div>
+          <p class="caption work-tile__caption">Aire — Modular seating system for micro-retail spaces</p>
+        </article>
+        <article>
+          <div class="work-tile__frame work-tile__frame--4-3" role="img" aria-label="Placeholder — Field project photography"></div>
+          <p class="caption work-tile__caption">Field — Companion application for an outdoor equipment brand</p>
+        </article>
       </div>
     </div>
   </section>
 
-  <!-- SELECTED WORK (preview) -->
-  <section class="section bg-cream section--mesh section--broken" id="work-preview-section">
-    <div class="mesh-bg mesh-bg--section" aria-hidden="true">
-      <div class="mesh-blob" style="--blob-color: var(--paper); --blob-size: 36vw; --blob-top: -14%; --blob-left: -12%; --blob-opacity: 0.5; --blob-blur: 85px; --blob-duration: 16s; --blob-delay: 0s;"></div>
-      <div class="mesh-blob" style="--blob-color: var(--navy); --blob-size: 34vw; --blob-top: 70%; --blob-left: 78%; --blob-opacity: 0.18; --blob-blur: 85px; --blob-duration: 13s; --blob-delay: 1.5s;"></div>
-      <div class="mesh-grain"></div>
-    </div>
-    <div class="container">
-      <div class="section-head">
-        <span class="eyebrow reveal">Selected Work</span>
-        <h2 class="reveal-wipe"><span class="reveal-wipe__inner">Space, product, and everything drawn between them</span></h2>
+  <!-- WHO WE WORK WITH -->
+  <section class="section bg-sand" data-theme="light">
+    <div class="wrap">
+      <span class="label">Who we work with</span>
+      <h2 class="headline-section">For people and brands who want their products felt in space.</h2>
+      <div class="section__body">
+        <p>We split our time between two kinds of clients: individuals commissioning something of their own, and brands who market their products through physical space.</p>
       </div>
 
-      <div class="work-grid--broken reveal-group">
-
-        <article class="card card--a reveal reveal--left">
-          <div class="card__frame">
-            <svg class="reveal-img" viewBox="0 0 280 200" fill="none">
-              <rect x="20" y="60" width="240" height="120" stroke="#2B3A6B" stroke-width="1"/>
-              <polyline points="20,60 140,10 260,60" stroke="#2B3A6B" stroke-width="1"/>
-              <line x1="140" y1="10" x2="140" y2="180" stroke="#2B3A6B" stroke-width="1"/>
-              <circle cx="200" cy="115" r="18" stroke="#2B3A6B" stroke-width="1"/>
-            </svg>
+      <div class="plain-list">
+        <div class="plain-list__row">
+          <span class="plain-list__index caption" style="font-family:'Times New Roman',Times,serif;color:var(--ash-gray);">—</span>
+          <div>
+            <h3>Individuals</h3>
+            <p>Bespoke furniture and objects, designed and made for a specific person and a specific room.</p>
           </div>
-          <span class="card__leader"></span>
-          <div class="card__caption"><span class="mark mark--sm"></span><strong>Kioma Pop-Up</strong> — Spatial / 2025</div>
-        </article>
-
-        <article class="card card--b card--tall reveal reveal--right">
-          <div class="card__frame">
-            <svg class="reveal-img" viewBox="0 0 160 220" fill="none">
-              <rect x="20" y="40" width="120" height="14" stroke="#2B3A6B" stroke-width="1"/>
-              <line x1="30" y1="54" x2="15" y2="200" stroke="#2B3A6B" stroke-width="1"/>
-              <line x1="130" y1="54" x2="145" y2="200" stroke="#2B3A6B" stroke-width="1"/>
-              <circle cx="80" cy="120" r="30" stroke="#2B3A6B" stroke-width="1"/>
-            </svg>
+        </div>
+        <div class="plain-list__row">
+          <span class="plain-list__index caption" style="font-family:'Times New Roman',Times,serif;color:var(--ash-gray);">—</span>
+          <div>
+            <h3>Brands</h3>
+            <p>Pop-ups, store design, exhibition stands, and merchandise for brands that sell through physical space.</p>
           </div>
-          <span class="card__leader"></span>
-          <div class="card__caption"><span class="mark mark--sm"></span><strong>Fold Table</strong> — Product / 2024</div>
-        </article>
-
-        <article class="card card--d card--wide reveal">
-          <div class="card__frame">
-            <svg class="reveal-img" viewBox="0 0 260 180" fill="none">
-              <circle cx="130" cy="80" r="65" stroke="#2B3A6B" stroke-width="1" stroke-dasharray="2 4" opacity="0.5"/>
-              <circle cx="130" cy="80" r="48" stroke="#2B3A6B" stroke-width="1"/>
-              <line x1="130" y1="128" x2="130" y2="160" stroke="#2B3A6B" stroke-width="1"/>
-              <rect x="100" y="160" width="60" height="10" stroke="#2B3A6B" stroke-width="1"/>
-            </svg>
-          </div>
-          <span class="card__leader"></span>
-          <div class="card__caption"><span class="mark mark--sm"></span><strong>Halo Lamp</strong> — Product / 2025</div>
-        </article>
-
+        </div>
       </div>
-
-      <a href="work.html" class="view-all reveal"><span class="mark mark--sm"></span>View all work</a>
     </div>
   </section>
 
-  <!-- STUDIO SHOP (preview) -->
-  <section class="section bg-paper section--blend section--broken" id="shop-preview-section" style="--blend-from: var(--cream);">
-    <div class="container">
-      <div class="section-head">
-        <span class="eyebrow reveal">Studio Shop</span>
-        <h2 class="reveal-wipe"><span class="reveal-wipe__inner">Objects designed and made by the studio</span></h2>
+  <!-- STUDIO SHOP — ADJECTIF PROJECTS -->
+  <section class="section bg-cream" data-theme="light">
+    <div class="wrap">
+      <span class="label">STUDIO SHOP</span>
+      <h2 class="headline-section">Our own collection.</h2>
+      <div class="section__body">
+        <p>Objects designed, made, and sold directly by the studio — the same rigor as client work, with nobody to answer to but ourselves.</p>
       </div>
+      <a href="shop.html" class="view-shop-link">View the shop ↗</a>
 
-      <div class="shop-wall shop-wall--broken reveal-group">
-
-        <a href="shop/arc-vase.html" class="shop-item reveal reveal--left">
-          <div class="shop-item__figure">
-            <img class="reveal-img" src="assets/products/arc-vase.png" alt="Arc Vase">
+      <div class="shop-tiles">
+        <a href="shop/arc-vase.html" class="shop-tile">
+          <div class="shop-tile__frame">
+            <img src="assets/products/arc-vase.png" alt="Arc Vase">
           </div>
-          <span class="shop-item__shelf"></span>
-          <h3 class="shop-card__name">Arc Vase</h3>
-          <p class="shop-card__price">$180</p>
+          <p class="caption shop-tile__caption">No. 01 — Arc Vase, hand-thrown stoneware</p>
+          <span class="shop-tile__price">$180</span>
         </a>
 
-        <a href="shop/crosshair-tray.html" class="shop-item reveal reveal--right">
-          <div class="shop-item__figure">
-            <img class="reveal-img" src="assets/products/crosshair-tray.png" alt="Crosshair Tray">
+        <a href="shop/crosshair-tray.html" class="shop-tile">
+          <div class="shop-tile__frame">
+            <img src="assets/products/crosshair-tray.png" alt="Crosshair Tray">
           </div>
-          <span class="shop-item__shelf"></span>
-          <h3 class="shop-card__name">Crosshair Tray</h3>
-          <p class="shop-card__price">$95</p>
+          <p class="caption shop-tile__caption">No. 02 — Crosshair Tray, turned walnut</p>
+          <span class="shop-tile__price">$95</span>
         </a>
-
       </div>
-
-      <a href="shop.html" class="view-all reveal"><span class="mark mark--sm"></span>View all shop</a>
-    </div>
-  </section>
-
-  <!-- PULL QUOTE -->
-  <section class="section bg-cream pull-quote-section section--mesh section--broken" id="pull-quote-section">
-    <div class="mesh-bg mesh-bg--section" aria-hidden="true">
-      <div class="mesh-blob" style="--blob-color: var(--navy-soft); --blob-size: 32vw; --blob-top: -20%; --blob-left: 70%; --blob-opacity: 0.25; --blob-blur: 85px; --blob-duration: 14s; --blob-delay: 0.8s;"></div>
-      <div class="mesh-blob" style="--blob-color: var(--paper); --blob-size: 34vw; --blob-top: 45%; --blob-left: 82%; --blob-opacity: 0.5; --blob-blur: 85px; --blob-duration: 18s; --blob-delay: 0s;"></div>
-      <div class="mesh-grain"></div>
-    </div>
-    <div class="container">
-      <p class="pull-quote reveal">"Space is the first object we design. Everything else — furniture, signage, the products themselves — is drawn in relation to it."</p>
-      <span class="small-caps pull-quote-attribution reveal">— Adjectif Creation</span>
     </div>
   </section>
 
 </main>
 
-<footer class="site-footer bg-paper section--blend footer--broken" style="--blend-from: var(--cream);">
-  <div class="container">
-    <div class="footer-inner reveal-group">
-      <div class="footer-brand reveal">
-        <a href="home.html" class="logo">
-          <img src="assets/logo.png" alt="" class="logo__mark">
-          <span class="logo__word">ADJECTIF CREATION</span>
-        </a>
-        <p class="footer-tagline">Multidisciplinary design &amp; research studio.</p>
-      </div>
-
-      <div class="footer-col reveal">
-        <span class="small-caps">Contact</span>
-        <a href="mailto:hello@adjectifcreation.com">hello@adjectifcreation.com</a>
-        <p>By appointment</p>
-      </div>
-
-      <div class="footer-col reveal">
-        <span class="small-caps">Quick Links</span>
-        <a href="studio.html">Studio</a>
-        <a href="work.html">Work</a>
-        <a href="shop.html">Shop</a>
-      </div>
-
-      <div class="footer-cta reveal">
-        <a href="contact.html" class="btn btn--outline">Start a project</a>
-      </div>
-    </div>
-
-    <div class="footer-bottom">
-      <p>&copy; 2026 Adjectif Creation. All rights reserved.</p>
+<footer class="site-footer" data-theme="light">
+  <div class="wrap">
+    <h2 class="site-footer__statement headline-section">Let's design the space around your next idea.</h2>
+    <div class="site-footer__bottom">
+      <a href="mailto:hello@adjectifcreation.com">hello@adjectifcreation.com</a>
+      <span class="caption">&copy; 2026 Adjectif Creation. All rights reserved.</span>
     </div>
   </div>
 </footer>
-<script src="js/main.js"></script>
-<script src="js/motion.js"></script>
+
+<script>
+  // Scroll indicator — fades once the user has scrolled ~30% past the
+  // hero's own height. Plain scroll listener (not IntersectionObserver):
+  // this needs a continuous scroll-position threshold, not a one-time
+  // enter/exit event.
+  (function () {
+    var hero = document.getElementById('hero');
+    var indicator = document.getElementById('hero-scroll');
+    if (!hero || !indicator) return;
+
+    var ticking = false;
+    function update() {
+      var threshold = hero.offsetHeight * 0.3;
+      indicator.classList.toggle('is-hidden', window.scrollY > threshold);
+      ticking = false;
+    }
+    window.addEventListener('scroll', function () {
+      if (!ticking) {
+        window.requestAnimationFrame(update);
+        ticking = true;
+      }
+    }, { passive: true });
+    update();
+  })();
+
+  // Nav theme swap — reads each section's data-theme via
+  // IntersectionObserver and mirrors it onto the nav. Every section on
+  // this page currently resolves to "light", so the nav's color never
+  // actually changes today, but the wiring is in place if a dark
+  // section is reintroduced later.
+  (function () {
+    var nav = document.getElementById('site-nav');
+    var sections = document.querySelectorAll('[data-theme]');
+    if (!nav || !sections.length || !('IntersectionObserver' in window)) return;
+
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        var theme = entry.target.getAttribute('data-theme') || 'light';
+        nav.setAttribute('data-theme', theme);
+        nav.style.color = theme === 'dark' ? '#f3f3f0' : '#141412';
+      });
+    }, { rootMargin: '-45% 0px -45% 0px' });
+
+    sections.forEach(function (el) { observer.observe(el); });
+  })();
+</script>
 </body>
 </html>
