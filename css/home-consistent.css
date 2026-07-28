@@ -179,3 +179,52 @@ body.work-editorial {
 @media (max-width: 640px) {
   .page-header { padding-top: 84px; }
 }
+
+/* -------------------------------------------------------------------------
+   Shop — coming-soon mask. Blur folded into .shop-item__figure img's own
+   filter (not a separate wrapper) so it survives style.css's :hover rule,
+   which replaces the filter wholesale rather than adding to it; hover's
+   lift/scale is switched off too, since "zoom in for a closer look"
+   works against blurring the product on purpose. The badge is a sibling
+   of the img, not a child, so the blur has no way to reach its text.
+   ------------------------------------------------------------------------- */
+.shop-item__figure {
+  position: relative;
+}
+
+.shop-item--soon .shop-item__figure img {
+  filter:
+    blur(9px)
+    drop-shadow(5px 8px 7px rgba(27, 27, 27, 0.20))
+    drop-shadow(14px 30px 26px rgba(27, 27, 27, 0.14));
+}
+
+.shop-item--soon:hover .shop-item__figure img,
+.shop-item--soon:focus-visible .shop-item__figure img {
+  transform: none;
+  filter:
+    blur(9px)
+    drop-shadow(5px 8px 7px rgba(27, 27, 27, 0.20))
+    drop-shadow(14px 30px 26px rgba(27, 27, 27, 0.14));
+}
+
+.coming-soon {
+  position: absolute;
+  /* .shop-item__figure's padding is 1.5rem top / 0 bottom, so the img's
+     own vertical center sits 12px (half that) below the figure's
+     geometric center, consistently regardless of each image's own
+     height — centering on the figure's midpoint alone left the badge
+     sitting visibly high above shorter/wider product shots. */
+  top: calc(50% + 12px);
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--navy);
+  background: var(--cream);
+  border: 1px solid var(--navy);
+  padding: 0.35rem 0.75rem;
+  pointer-events: none;
+}

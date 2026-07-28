@@ -425,6 +425,7 @@
   }
 
   .shop-tile__frame {
+    position: relative;
     padding: var(--sp-41) var(--sp-26) 0;
   }
 
@@ -449,6 +450,50 @@
     .shop-tile__frame img { transition: filter 0.22s ease; }
     .shop-tile:hover .shop-tile__frame img,
     .shop-tile:focus-visible .shop-tile__frame img { transform: none; }
+  }
+
+  /* Coming-soon mask — blur folded into the existing drop-shadow filter
+     (not a separate wrapper) so it survives the hover rule above, which
+     replaces .shop-tile__frame img's filter wholesale rather than
+     adding to it. Hover's lift/scale is switched off for these tiles
+     too: "zoom in for a closer look" works against blurring the product
+     on purpose. The badge itself is a sibling of the img, not a child,
+     so the img's blur filter has no way to bleed onto its text. */
+  .shop-tile--soon .shop-tile__frame img {
+    filter:
+      blur(9px)
+      drop-shadow(5px 8px 7px rgba(27, 27, 27, 0.20))
+      drop-shadow(14px 30px 26px rgba(27, 27, 27, 0.14));
+  }
+
+  .shop-tile--soon:hover .shop-tile__frame img,
+  .shop-tile--soon:focus-visible .shop-tile__frame img {
+    transform: none;
+    filter:
+      blur(9px)
+      drop-shadow(5px 8px 7px rgba(27, 27, 27, 0.20))
+      drop-shadow(14px 30px 26px rgba(27, 27, 27, 0.14));
+  }
+
+  .coming-soon {
+    position: absolute;
+    /* .shop-tile__frame's padding is 41px top / 0 bottom, so the img's
+       own vertical center sits 20.5px (half that) below the frame's
+       geometric center, consistently regardless of each image's own
+       height — centering on the frame's midpoint alone would have left
+       the badge sitting visibly high above shorter/wider product shots. */
+    top: calc(50% + 20.5px);
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: var(--ink-black);
+    background: var(--cream);
+    border: 1px solid var(--ink-black);
+    padding: var(--sp-6) var(--sp-13);
+    pointer-events: none;
   }
 
   .shop-tile__caption {
@@ -736,17 +781,19 @@
       <a href="shop.html" class="view-shop-link reveal">View the shop <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
 
       <div class="shop-tiles reveal-group">
-        <a href="shop/arc-vase.html" class="shop-tile reveal">
+        <a href="shop/arc-vase.html" class="shop-tile shop-tile--soon reveal">
           <div class="shop-tile__frame">
             <img src="assets/products/arc-vase.png" alt="Arc Vase">
+            <span class="coming-soon">Coming Soon</span>
           </div>
           <p class="caption shop-tile__caption">No. 01 — Arc Vase, hand-thrown stoneware</p>
           <span class="shop-tile__price">$180</span>
         </a>
 
-        <a href="shop/crosshair-tray.html" class="shop-tile reveal">
+        <a href="shop/crosshair-tray.html" class="shop-tile shop-tile--soon reveal">
           <div class="shop-tile__frame">
             <img src="assets/products/crosshair-tray.png" alt="Crosshair Tray">
+            <span class="coming-soon">Coming Soon</span>
           </div>
           <p class="caption shop-tile__caption">No. 02 — Crosshair Tray, turned walnut</p>
           <span class="shop-tile__price">$95</span>
