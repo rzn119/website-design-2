@@ -115,21 +115,24 @@
       transform: translateY(0);
     }
 
-    /* Vertical inset is -6px, not 0 — clip-path clips hard at exactly
-       its own box edge, and with line-height:1 several headlines'
-       descenders (the "g" in "Designs", for instance) sit just below
-       the line box's computed bottom edge. At 0px inset that sliver of
-       descender was being clipped off; -6px gives it (and any
-       ascender/accent overshoot) headroom on both edges without
-       changing the left-to-right wipe itself. */
+    /* Vertical inset is -0.15em, not 0 — clip-path clips hard at exactly
+       its own box edge, and with line-height under 1 several headlines'
+       ascenders/descenders (the tip of "W" in the hero, the "g" in
+       "Designs") sit just outside the line box's computed edges. A fixed
+       -6px buffer was enough for the ~64px section headlines but visibly
+       flat-cut the hero's ~110px "W" tips — this element's font-size
+       ranges from 33px to 113px across the page, so the buffer has to
+       scale with it. em is relative to the element's own font-size, so
+       -0.15em gives proportionally the same headroom at every size
+       without changing the left-to-right wipe itself. */
     .reveal-wipe__inner {
       display: block;
-      clip-path: inset(-6px 100% -6px 0px);
+      clip-path: inset(-0.15em 100% -0.15em 0px);
       transition: clip-path 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
     }
 
     .reveal-wipe.is-visible .reveal-wipe__inner {
-      clip-path: inset(-6px 0% -6px 0px);
+      clip-path: inset(-0.15em 0% -0.15em 0px);
     }
 
     .reveal-group > .reveal:nth-child(1) { transition-delay: 0ms; }
@@ -231,25 +234,32 @@
     pointer-events: none;
   }
 
-  .hero__headline {
+  /* Flex row so the description can bottom-align to the headline's
+     actual rendered bottom edge (align-items: flex-end) instead of a
+     guessed top offset — the headline's height varies with how many
+     lines it wraps to at a given viewport/clamp() size, so only layout
+     (not a hardcoded number) can track that reliably. */
+  .hero__content {
     position: absolute;
     top: 118px;
     left: 41px;
+    right: 41px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: clamp(24px, 4vw, 64px);
+  }
+
+  .hero__headline {
     max-width: min(900px, 58vw);
     color: var(--ink-black);
   }
 
-  /* Positioned in its own right-hand column, starting near the same
-     height as the headline, rather than centered under it — the
-     headline's max-width above is capped to leave this column clear
-     regardless of how many lines the headline wraps to. */
   .hero__description {
-    position: absolute;
-    top: 160px;
-    right: 41px;
     width: clamp(240px, 28vw, 420px);
+    flex: 0 0 auto;
     text-align: left;
-    color: var(--charcoal);
+    color: var(--ash-gray);
     font-size: 19px;
     line-height: 1.35;
   }
@@ -268,13 +278,25 @@
   }
 
   /* Below ~900px there's no spare right-hand column next to the
-     headline any more — revert the description to a bottom-anchored
-     band instead, well clear of the top-anchored headline given the
-     hero's own 100vh/560px-minimum height. */
+     headline any more — revert to a stacked layout: the flex row
+     becomes a static block (so it stops acting as the positioning
+     context) and both children go back to being independently
+     absolute-positioned against .hero itself, description in its own
+     bottom-anchored band well clear of the top-anchored headline. */
   @media (max-width: 900px) {
-    .hero__headline { max-width: none; right: 20px; }
+    .hero__content {
+      position: static;
+      display: block;
+    }
+    .hero__headline {
+      position: absolute;
+      top: 118px;
+      left: 20px;
+      right: 20px;
+      max-width: none;
+    }
     .hero__description {
-      top: auto;
+      position: absolute;
       right: 20px;
       left: 20px;
       bottom: 90px;
@@ -558,8 +580,10 @@
 
   <!-- HERO -->
   <header class="hero" id="hero" data-theme="light">
-    <h1 class="hero__headline headline-display reveal-wipe"><span class="reveal-wipe__inner">We design the space around your product</span></h1>
-    <p class="hero__description reveal">Adjectif Creation is a multidisciplinary design and research studio working across spatial design, product design, and furniture — for people and brands who want to be felt, not just seen.</p>
+    <div class="hero__content">
+      <h1 class="hero__headline headline-display reveal-wipe"><span class="reveal-wipe__inner">We design the space around your product</span></h1>
+      <p class="hero__description reveal">Adjectif Creation is a multidisciplinary design and research studio working across spatial design, product design, and furniture — for people and brands who want to be felt, not just seen.</p>
+    </div>
     <span class="hero__scroll" id="hero-scroll" aria-hidden="true">↓</span>
   </header>
 
