@@ -123,6 +123,17 @@ html {
   display: block;
 }
 
+/* Real project photography (Nordfolk, Mono Studio) alongside the SVG
+   line-art placeholders still used elsewhere -- object-fit: cover so a
+   photo fills its box the same way the SVGs' own viewBox scaling
+   already does, without distorting its aspect ratio. */
+.project__image img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
 /* ---- Gallery (large image only) --------------------------------------- */
 .project__gallery-track {
   position: absolute;
@@ -329,6 +340,19 @@ html {
 .lightbox__slide svg {
   width: 100%;
   height: 100%;
+  display: block;
+}
+
+/* Real photography clones .project__gallery-slide's own <img> as-is, so
+   without its own rule here it fell back to a plain img's default
+   sizing: width capped at the stage's 100% but height left to scale
+   proportionally, leaving a visible blank paper-colored gap below a
+   16:9 photo in the taller stage box instead of filling it edge to
+   edge the way the SVG placeholders already do above. */
+.lightbox__slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   display: block;
 }
 

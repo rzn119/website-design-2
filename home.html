@@ -487,10 +487,10 @@
   }
 
   /* -------------------------------------------------------------------------
-     Selected Work — full-bleed placeholder tiles, alternating aspect
-     ratio, Times captions. Placeholder-service imagery isn't wired up
-     (no external network dependency) — these are flat --fog-gray blocks
-     at the correct ratios, standing in for real project photography.
+     Selected Work — full-bleed tiles, alternating aspect ratio, Times
+     captions. Nordfolk/Mono Studio use real photography (object-fit:
+     cover keeps each image filling its aspect-ratio box the same way
+     the flat placeholder blocks used to before any real photos existed).
      ------------------------------------------------------------------------- */
   .work-tiles {
     margin-top: var(--sp-80);
@@ -502,6 +502,7 @@
   .work-tile__frame {
     width: 100%;
     background: var(--fog-gray);
+    object-fit: cover;
   }
 
   .work-tile__frame--16-9 { aspect-ratio: 16 / 9; }
@@ -824,25 +825,17 @@
       <span class="label reveal" data-en="SELECTED WORK" data-zh="精选作品">SELECTED WORK</span>
       <h2 class="headline-section reveal-wipe"><span class="reveal-wipe__inner" data-en="Case Studies." data-zh="案例研究。">Case Studies.</span></h2>
 
-      <!-- Placeholder imagery: flat --fog-gray blocks standing in for real
-           project photography, at the aspect ratios specified in the
-           brief. Swap in actual photos when available. -->
+      <!-- Real project photography for Nordfolk/Mono Studio; Aire and
+           Field (no photography yet) were dropped rather than left as
+           flat placeholder blocks alongside real photos. -->
       <div class="work-tiles">
         <article class="reveal">
-          <div class="work-tile__frame work-tile__frame--16-9" role="img" aria-label="Placeholder — Nordfolk project photography"></div>
+          <img class="work-tile__frame work-tile__frame--16-9" src="assets/work/nordfolk.jpg" alt="Nordfolk — pop-up retail environment">
           <p class="caption work-tile__caption" data-en="Nordfolk — Pop-up retail environment, three-week install" data-zh="Nordfolk——快闪零售空间,为期三周的搭建">Nordfolk — Pop-up retail environment, three-week install</p>
         </article>
         <article class="reveal">
-          <div class="work-tile__frame work-tile__frame--4-3" role="img" aria-label="Placeholder — Mono Studio project photography"></div>
+          <img class="work-tile__frame work-tile__frame--4-3" src="assets/work/mono-studio.jpg" alt="Mono Studio — flagship store design and signage system">
           <p class="caption work-tile__caption" data-en="Mono Studio — Flagship store design and signage system" data-zh="Mono Studio——旗舰店设计与导视系统">Mono Studio — Flagship store design and signage system</p>
-        </article>
-        <article class="reveal">
-          <div class="work-tile__frame work-tile__frame--16-9" role="img" aria-label="Placeholder — Aire project photography"></div>
-          <p class="caption work-tile__caption" data-en="Aire — Modular seating system for micro-retail spaces" data-zh="Aire——面向微型零售空间的模块化座椅系统">Aire — Modular seating system for micro-retail spaces</p>
-        </article>
-        <article class="reveal">
-          <div class="work-tile__frame work-tile__frame--4-3" role="img" aria-label="Placeholder — Field project photography"></div>
-          <p class="caption work-tile__caption" data-en="Field — Companion application for an outdoor equipment brand" data-zh="Field——户外装备品牌的配套应用程序">Field — Companion application for an outdoor equipment brand</p>
         </article>
       </div>
     </div>
