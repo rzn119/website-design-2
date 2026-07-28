@@ -74,7 +74,7 @@
   }
 
   .headline-display {
-    font-size: clamp(48px, 11vw, 162px);
+    font-size: clamp(33.6px, 7.7vw, 113.4px); /* -30% from the brief's clamp(48px, 11vw, 162px) */
     line-height: 0.90;
     letter-spacing: -0.024em;
   }
@@ -115,14 +115,21 @@
       transform: translateY(0);
     }
 
+    /* Vertical inset is -6px, not 0 — clip-path clips hard at exactly
+       its own box edge, and with line-height:1 several headlines'
+       descenders (the "g" in "Designs", for instance) sit just below
+       the line box's computed bottom edge. At 0px inset that sliver of
+       descender was being clipped off; -6px gives it (and any
+       ascender/accent overshoot) headroom on both edges without
+       changing the left-to-right wipe itself. */
     .reveal-wipe__inner {
       display: block;
-      clip-path: inset(0 100% 0 0);
+      clip-path: inset(-6px 100% -6px 0px);
       transition: clip-path 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
     }
 
     .reveal-wipe.is-visible .reveal-wipe__inner {
-      clip-path: inset(0 0% 0 0);
+      clip-path: inset(-6px 0% -6px 0px);
     }
 
     .reveal-group > .reveal:nth-child(1) { transition-delay: 0ms; }
