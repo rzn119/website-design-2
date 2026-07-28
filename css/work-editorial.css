@@ -39,7 +39,15 @@ html {
 /* -------------------------------------------------------------------------
    Project sections — alternating two-column editorial layout.
    ------------------------------------------------------------------------- */
+/* .project-list isn't wrapped in .container the way .page-header above
+   it is, so it was rendering full-bleed edge-to-edge — the image column
+   in particular read as pinned to the browser's left edge instead of
+   sitting inside the same margins as everything else on the page.
+   Matches .container's own max-width/centering/side-padding exactly. */
 .project-list {
+  max-width: var(--content-width);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
   padding-bottom: clamp(4rem, 8vw, 6rem);
 }
 

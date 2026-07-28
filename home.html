@@ -508,12 +508,23 @@
     align-items: start;
   }
 
+  .footer-brand__logo {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sp-13);
+    margin-bottom: var(--sp-13);
+  }
+
+  .footer-brand__mark {
+    width: 32px;
+    height: 32px;
+  }
+
   .footer-brand__name {
     font-size: 19px;
   }
 
   .footer-tagline {
-    margin-top: var(--sp-13);
     color: var(--ash-gray);
     max-width: 30ch;
   }
@@ -553,10 +564,18 @@
   }
 
   .footer-cta a {
+    display: inline-flex;
+    align-items: center;
     font-size: 16px;
     color: var(--ink-black);
-    border-bottom: 1px solid var(--ink-black);
-    padding-bottom: 2px;
+    border: 1px solid var(--ink-black);
+    padding: var(--sp-13) var(--sp-26);
+    transition: background-color 0.18s ease, color 0.18s ease;
+  }
+
+  .footer-cta a:hover {
+    background: var(--ink-black);
+    color: var(--cream);
   }
 
   .site-footer__bottom {
@@ -742,7 +761,10 @@
   <div class="wrap">
     <div class="footer-inner reveal-group">
       <div class="footer-brand reveal">
-        <a href="home.html" class="footer-brand__name">Adjectif Creation</a>
+        <a href="home.html" class="footer-brand__logo">
+          <img src="assets/logo-ink.png" alt="" class="footer-brand__mark">
+          <span class="footer-brand__name">Adjectif Creation</span>
+        </a>
         <p class="footer-tagline">Multidisciplinary design &amp; research studio.</p>
       </div>
 
