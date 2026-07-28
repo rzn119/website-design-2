@@ -5,6 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Adjectif Creation — Multidisciplinary Design &amp; Research Studio</title>
 <meta name="description" content="Adjectif Creation is a multidisciplinary design and research studio working across spatial design, product design, and an integrated shop for the studio's own objects.">
+<!-- Noto Sans SC: fallback for the Simplified Chinese toggle on systems
+     without Microsoft YaHei/PingFang SC installed (Linux, some Android
+     browsers) -- the only external font this otherwise self-contained
+     page loads, and only because CJK glyphs don't exist in Helvetica at
+     any weight, so there's no system-font-only way to cover this. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   /* ==========================================================================
      Adjectif Creation — homepage, rebuilt to the editorial oversized-type
@@ -37,6 +45,13 @@
     --sp-6: 6px; --sp-13: 13px; --sp-26: 26px; --sp-41: 41px;
     --sp-80: 80px; --sp-130: 130px;
     --content-width: 1400px;
+
+    /* Microsoft YaHei itself is Windows-only; PingFang SC/Hiragino Sans
+       GB cover macOS/iOS with the same humanist-sans look, and Noto
+       Sans SC (loaded above) is the last-resort net for everything
+       else so the appearance stays consistent instead of falling back
+       to each OS's default (often serif) CJK font. */
+    --font-zh: 'Microsoft YaHei', 'PingFang SC', 'Hiragino Sans GB', 'Noto Sans SC', sans-serif;
   }
 
   * { box-sizing: border-box; }
@@ -55,6 +70,41 @@
 
   img { max-width: 100%; display: block; }
   a { color: inherit; text-decoration: none; }
+
+  /* -------------------------------------------------------------------------
+     Simplified Chinese mode — swapped in by the nav language toggle. Font-
+     family alone (inherited from body by everything below that doesn't
+     redeclare it) covers most of the page; .caption is the one class that
+     sets its own font-family (Times New Roman, for the site's serif-
+     accent captions/index numerals) and needs its own override so
+     translated caption text doesn't fall through to each OS's default
+     CJK serif. Negative letter-spacing is a Latin display-type technique
+     that just cramps CJK glyphs together, so the two headline classes
+     reset it to normal here too.
+
+     line-height is the one that actually broke visibly: 0.90/1.0 were
+     tuned for Latin capitals, whose line box has headroom the glyphs
+     don't fill. CJK characters sit almost full-height in their own em
+     square, so at those same ratios a wrapped two-line headline's
+     second line packs in tightly enough to visually overlap the first
+     -- confirmed via screenshot, where the second line's overlapped
+     strokes anti-aliased into a washed-out gray despite an identical
+     computed color/opacity to the first line. 1.35 gives CJK glyphs the
+     vertical room they actually need.
+     ------------------------------------------------------------------------- */
+  body.lang-zh {
+    font-family: var(--font-zh);
+  }
+
+  body.lang-zh .caption {
+    font-family: var(--font-zh);
+  }
+
+  body.lang-zh .headline-display,
+  body.lang-zh .headline-section {
+    letter-spacing: normal;
+    line-height: 1.35;
+  }
 
   .wrap {
     max-width: var(--content-width);
@@ -180,7 +230,17 @@
   .site-nav__brand {
     grid-column: 2;
     justify-self: center;
-    font-size: 16px;
+    /* No font-size of its own -- inherits .site-nav's, which already
+       scales 16px -> 13px -> 11px at the breakpoints below. A fixed
+       16px here meant the wordmark stayed full-size while everything
+       else around it shrank, and once the language switch added real
+       width to the right-hand group, that mismatch was enough to push
+       "中文" off the right edge of the viewport entirely at 320px --
+       invisible and unclickable, but invisible to a scrollWidth check
+       too, since .site-nav is position:fixed and fixed elements don't
+       inflate document.documentElement.scrollWidth the way in-flow
+       overflow does (confirmed by measuring the button's own
+       getBoundingClientRect(), not just docWidth, at 320px). */
     white-space: nowrap;
   }
 
@@ -191,17 +251,49 @@
     gap: var(--sp-41);
   }
 
-  .site-nav__contact {
+  .site-nav__right {
     grid-column: 3;
     justify-self: end;
+    display: flex;
+    align-items: center;
+    gap: var(--sp-26);
+    white-space: nowrap;
   }
 
-  .site-nav a {
+  .lang-switch {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+
+  .lang-switch__option {
+    background: none;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    font: inherit;
+    color: var(--ash-gray);
+    cursor: pointer;
+    white-space: nowrap;
+  }
+
+  .lang-switch__option.is-active {
+    color: var(--ink-black);
+    cursor: default;
+  }
+
+  .lang-switch__divider {
+    color: var(--smoke-gray);
+  }
+
+  .site-nav a,
+  .lang-switch__option {
     position: relative;
     padding-bottom: 3px;
   }
 
-  .site-nav a::after {
+  .site-nav a::after,
+  .lang-switch__option::after {
     content: '';
     position: absolute;
     left: 0;
@@ -213,12 +305,16 @@
   }
 
   .site-nav a:hover::after,
-  .site-nav a:focus-visible::after {
+  .site-nav a:focus-visible::after,
+  .lang-switch__option:hover::after,
+  .lang-switch__option:focus-visible::after,
+  .lang-switch__option.is-active::after {
     right: 0;
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .site-nav a::after { transition: none; }
+    .site-nav a::after,
+    .lang-switch__option::after { transition: none; }
   }
 
   /* Links stay visible at every width (no hamburger, no hidden center
@@ -232,10 +328,13 @@
       padding-block: var(--sp-13);
     }
     .site-nav__center { gap: clamp(10px, 3vw, 20px); }
+    .site-nav__right { gap: clamp(8px, 2vw, 16px); }
   }
 
   @media (max-width: 400px) {
     .site-nav { font-size: 11px; }
+    .site-nav__right { gap: 8px; }
+    .lang-switch { gap: 4px; }
   }
 
   /* -------------------------------------------------------------------------
@@ -419,7 +518,7 @@
   .shop-tiles {
     margin-top: var(--sp-80);
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(3, 1fr);
     gap: var(--sp-80);
     align-items: start;
   }
@@ -430,15 +529,7 @@
   }
 
   .shop-tile__frame img {
-    /* The source asset is only 89x87px natively, well under the old
-       260px max-width cap -- max-width alone was never the thing
-       controlling its rendered size (a cap can't force an image larger
-       than its own intrinsic size), so it was rendering at 89px all
-       along regardless of that number. An explicit width is what
-       actually enlarges it: 178px is exactly 2x that true baseline.
-       max-width still guards against overflow below ~200px viewports. */
-    width: 178px;
-    max-width: 100%;
+    max-width: 260px;
     margin-inline: auto;
     filter:
       drop-shadow(5px 8px 7px rgba(27, 27, 27, 0.20))
@@ -537,6 +628,9 @@
     flex-shrink: 0;
   }
 
+  @media (max-width: 640px) {
+    .shop-tiles { grid-template-columns: 1fr; }
+  }
 
   /* -------------------------------------------------------------------------
      Footer — the site's full 4-column footer (brand/tagline, contact,
@@ -662,12 +756,19 @@
 
 <nav class="site-nav" id="site-nav" data-theme="light">
   <div class="site-nav__center">
-    <a href="studio.html">About</a>
-    <a href="work.html">Work</a>
-    <a href="shop.html">Shop</a>
+    <a href="studio.html" data-en="About" data-zh="关于">About</a>
+    <a href="work.html" data-en="Work" data-zh="作品">Work</a>
+    <a href="shop.html" data-en="Shop" data-zh="商店">Shop</a>
   </div>
   <a href="home.html" class="site-nav__brand">Adjectif Creation</a>
-  <a href="contact.html" class="site-nav__contact">Contact</a>
+  <div class="site-nav__right">
+    <a href="contact.html" class="site-nav__contact" data-en="Contact" data-zh="联系">Contact</a>
+    <div class="lang-switch" role="group" aria-label="Language / 语言">
+      <button type="button" class="lang-switch__option is-active" data-lang="en" aria-pressed="true">EN</button>
+      <span class="lang-switch__divider" aria-hidden="true">/</span>
+      <button type="button" class="lang-switch__option" data-lang="zh" aria-pressed="false">中文</button>
+    </div>
+  </div>
 </nav>
 
 <main>
@@ -675,8 +776,8 @@
   <!-- HERO -->
   <header class="hero" id="hero" data-theme="light">
     <div class="hero__content">
-      <h1 class="hero__headline headline-display reveal-wipe"><span class="reveal-wipe__inner">We design the space around your product</span></h1>
-      <p class="hero__description reveal">Adjectif Creation is a multidisciplinary design and research studio working across spatial design, product design, and furniture — for people and brands who want to be felt, not just seen.</p>
+      <h1 class="hero__headline headline-display reveal-wipe"><span class="reveal-wipe__inner" data-en="We design the space around your product" data-zh="我们为您的产品设计空间">We design the space around your product</span></h1>
+      <p class="hero__description reveal" data-en="Adjectif Creation is a multidisciplinary design and research studio working across spatial design, product design, and furniture — for people and brands who want to be felt, not just seen." data-zh="Adjectif Creation 是一家跨领域的设计与研究工作室,业务涵盖空间设计、产品设计与家具——服务于希望被真正感知、而非仅被看见的个人与品牌。">Adjectif Creation is a multidisciplinary design and research studio working across spatial design, product design, and furniture — for people and brands who want to be felt, not just seen.</p>
     </div>
     <span class="hero__scroll" id="hero-scroll" aria-hidden="true">↓</span>
   </header>
@@ -684,33 +785,33 @@
   <!-- STUDIO — PRACTICE -->
   <section class="section bg-cream" data-theme="light">
     <div class="wrap">
-      <span class="label reveal">STUDIO</span>
-      <h2 class="headline-section reveal-wipe"><span class="reveal-wipe__inner">Designs that redefine.</span></h2>
+      <span class="label reveal" data-en="STUDIO" data-zh="工作室">STUDIO</span>
+      <h2 class="headline-section reveal-wipe"><span class="reveal-wipe__inner" data-en="Designs that redefine." data-zh="重新定义设计。">Designs that redefine.</span></h2>
       <div class="section__body">
-        <p class="reveal">Our practice moves across scales without treating any one of them as the "real" work — a storefront, a chair, and a wellness assessment all start from the same question: what does this need to say, and how little can it say it with.</p>
-        <p class="reveal">Alongside client work, we design and produce a small collection of our own objects, sold directly through the studio — a way of keeping our hands in material and finish even between commissions.</p>
+        <p class="reveal" data-en="Our practice moves across scales without treating any one of them as the &quot;real&quot; work — a storefront, a chair, and a wellness assessment all start from the same question: what does this need to say, and how little can it say it with." data-zh="我们的实践跨越不同尺度,不将其中任何一项视为"真正的"工作——无论是店面、椅子,还是健康评估,都始于同一个问题:这件事物需要传达什么,又能以多简练的方式传达。">Our practice moves across scales without treating any one of them as the "real" work — a storefront, a chair, and a wellness assessment all start from the same question: what does this need to say, and how little can it say it with.</p>
+        <p class="reveal" data-en="Alongside client work, we design and produce a small collection of our own objects, sold directly through the studio — a way of keeping our hands in material and finish even between commissions." data-zh="除了客户项目,我们也设计并生产一小系列自有作品,直接通过工作室出售——这让我们在委托项目之间,依然能持续锤炼材料与工艺。">Alongside client work, we design and produce a small collection of our own objects, sold directly through the studio — a way of keeping our hands in material and finish even between commissions.</p>
       </div>
 
       <div class="plain-list reveal-group">
         <div class="plain-list__row reveal">
           <span class="plain-list__index">01</span>
           <div>
-            <h3>Spatial Design</h3>
-            <p>Retail interiors, pop-ups, and exhibition environments built around how people actually move through a space.</p>
+            <h3 data-en="Spatial Design" data-zh="空间设计">Spatial Design</h3>
+            <p data-en="Retail interiors, pop-ups, and exhibition environments built around how people actually move through a space." data-zh="零售室内空间、快闪店与展览环境的设计,围绕人们在空间中的真实动线展开。">Retail interiors, pop-ups, and exhibition environments built around how people actually move through a space.</p>
           </div>
         </div>
         <div class="plain-list__row reveal">
           <span class="plain-list__index">02</span>
           <div>
-            <h3>Product Design</h3>
-            <p>Furniture and objects designed for production — ours and our clients' — from first sketch to finished piece.</p>
+            <h3 data-en="Product Design" data-zh="产品设计">Product Design</h3>
+            <p data-en="Furniture and objects designed for production — ours and our clients' — from first sketch to finished piece." data-zh="为量产而设计的家具与器物——无论是我们自己的,还是客户的——从初稿草图到成品,全程参与。">Furniture and objects designed for production — ours and our clients' — from first sketch to finished piece.</p>
           </div>
         </div>
         <div class="plain-list__row reveal">
           <span class="plain-list__index">03</span>
           <div>
-            <h3>Wellness Analysis</h3>
-            <p>Research into how a space affects the people using it, feeding directly back into the design decisions we make.</p>
+            <h3 data-en="Wellness Analysis" data-zh="健康分析">Wellness Analysis</h3>
+            <p data-en="Research into how a space affects the people using it, feeding directly back into the design decisions we make." data-zh="研究空间如何影响使用者,并将研究成果直接反馈到我们的设计决策中。">Research into how a space affects the people using it, feeding directly back into the design decisions we make.</p>
           </div>
         </div>
       </div>
@@ -720,8 +821,8 @@
   <!-- SELECTED WORK — CASE STUDIES -->
   <section class="section bg-cream" data-theme="light">
     <div class="wrap">
-      <span class="label reveal">SELECTED WORK</span>
-      <h2 class="headline-section reveal-wipe"><span class="reveal-wipe__inner">Case Studies.</span></h2>
+      <span class="label reveal" data-en="SELECTED WORK" data-zh="精选作品">SELECTED WORK</span>
+      <h2 class="headline-section reveal-wipe"><span class="reveal-wipe__inner" data-en="Case Studies." data-zh="案例研究。">Case Studies.</span></h2>
 
       <!-- Placeholder imagery: flat --fog-gray blocks standing in for real
            project photography, at the aspect ratios specified in the
@@ -729,19 +830,19 @@
       <div class="work-tiles">
         <article class="reveal">
           <div class="work-tile__frame work-tile__frame--16-9" role="img" aria-label="Placeholder — Nordfolk project photography"></div>
-          <p class="caption work-tile__caption">Nordfolk — Pop-up retail environment, three-week install</p>
+          <p class="caption work-tile__caption" data-en="Nordfolk — Pop-up retail environment, three-week install" data-zh="Nordfolk——快闪零售空间,为期三周的搭建">Nordfolk — Pop-up retail environment, three-week install</p>
         </article>
         <article class="reveal">
           <div class="work-tile__frame work-tile__frame--4-3" role="img" aria-label="Placeholder — Mono Studio project photography"></div>
-          <p class="caption work-tile__caption">Mono Studio — Flagship store design and signage system</p>
+          <p class="caption work-tile__caption" data-en="Mono Studio — Flagship store design and signage system" data-zh="Mono Studio——旗舰店设计与导视系统">Mono Studio — Flagship store design and signage system</p>
         </article>
         <article class="reveal">
           <div class="work-tile__frame work-tile__frame--16-9" role="img" aria-label="Placeholder — Aire project photography"></div>
-          <p class="caption work-tile__caption">Aire — Modular seating system for micro-retail spaces</p>
+          <p class="caption work-tile__caption" data-en="Aire — Modular seating system for micro-retail spaces" data-zh="Aire——面向微型零售空间的模块化座椅系统">Aire — Modular seating system for micro-retail spaces</p>
         </article>
         <article class="reveal">
           <div class="work-tile__frame work-tile__frame--4-3" role="img" aria-label="Placeholder — Field project photography"></div>
-          <p class="caption work-tile__caption">Field — Companion application for an outdoor equipment brand</p>
+          <p class="caption work-tile__caption" data-en="Field — Companion application for an outdoor equipment brand" data-zh="Field——户外装备品牌的配套应用程序">Field — Companion application for an outdoor equipment brand</p>
         </article>
       </div>
     </div>
@@ -750,25 +851,25 @@
   <!-- WHO WE WORK WITH -->
   <section class="section bg-sand" data-theme="light">
     <div class="wrap">
-      <span class="label reveal">WHO WE WORK WITH</span>
-      <h2 class="headline-section reveal-wipe"><span class="reveal-wipe__inner">For people and brands who want their products felt in space.</span></h2>
+      <span class="label reveal" data-en="WHO WE WORK WITH" data-zh="合作对象">WHO WE WORK WITH</span>
+      <h2 class="headline-section reveal-wipe"><span class="reveal-wipe__inner" data-en="For people and brands who want their products felt in space." data-zh="献给希望产品在空间中被真切感知的个人与品牌。">For people and brands who want their products felt in space.</span></h2>
       <div class="section__body">
-        <p class="reveal">We split our time between two kinds of clients: individuals commissioning something of their own, and brands who market their products through physical space.</p>
+        <p class="reveal" data-en="We split our time between two kinds of clients: individuals commissioning something of their own, and brands who market their products through physical space." data-zh="我们的工作对象主要分为两类:委托定制自有作品的个人,以及通过实体空间推广产品的品牌。">We split our time between two kinds of clients: individuals commissioning something of their own, and brands who market their products through physical space.</p>
       </div>
 
       <div class="plain-list reveal-group">
         <div class="plain-list__row reveal">
           <span class="plain-list__index caption" style="font-family:'Times New Roman',Times,serif;color:var(--ash-gray);">—</span>
           <div>
-            <h3>Individuals</h3>
-            <p>Bespoke furniture and objects, designed and made for a specific person and a specific room.</p>
+            <h3 data-en="Individuals" data-zh="个人客户">Individuals</h3>
+            <p data-en="Bespoke furniture and objects, designed and made for a specific person and a specific room." data-zh="为特定的人与特定的空间量身设计与制作的定制家具与器物。">Bespoke furniture and objects, designed and made for a specific person and a specific room.</p>
           </div>
         </div>
         <div class="plain-list__row reveal">
           <span class="plain-list__index caption" style="font-family:'Times New Roman',Times,serif;color:var(--ash-gray);">—</span>
           <div>
-            <h3>Brands</h3>
-            <p>Pop-ups, store design, exhibition stands, and merchandise for brands that sell through physical space.</p>
+            <h3 data-en="Brands" data-zh="品牌客户">Brands</h3>
+            <p data-en="Pop-ups, store design, exhibition stands, and merchandise for brands that sell through physical space." data-zh="为通过实体空间销售的品牌提供快闪店、店面设计、展位与周边产品。">Pop-ups, store design, exhibition stands, and merchandise for brands that sell through physical space.</p>
           </div>
         </div>
       </div>
@@ -778,20 +879,36 @@
   <!-- STUDIO SHOP — ADJECTIF PROJECTS -->
   <section class="section bg-cream" data-theme="light">
     <div class="wrap">
-      <span class="label reveal">STUDIO SHOP</span>
-      <h2 class="headline-section reveal-wipe"><span class="reveal-wipe__inner">Our own collection.</span></h2>
+      <span class="label reveal" data-en="STUDIO SHOP" data-zh="工作室商店">STUDIO SHOP</span>
+      <h2 class="headline-section reveal-wipe"><span class="reveal-wipe__inner" data-en="Our own collection." data-zh="我们的自有系列。">Our own collection.</span></h2>
       <div class="section__body">
-        <p class="reveal">Objects designed, made, and sold directly by the studio — the same rigor as client work, with nobody to answer to but ourselves.</p>
+        <p class="reveal" data-en="Objects designed, made, and sold directly by the studio — the same rigor as client work, with nobody to answer to but ourselves." data-zh="由工作室亲自设计、制作并直接销售的器物——秉持与客户项目同等的严谨,只对自己负责。">Objects designed, made, and sold directly by the studio — the same rigor as client work, with nobody to answer to but ourselves.</p>
       </div>
-      <a href="shop.html" class="view-shop-link reveal">View the shop <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      <a href="shop.html" class="view-shop-link reveal"><span data-en="View the shop" data-zh="查看商店">View the shop</span> <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
 
       <div class="shop-tiles reveal-group">
         <a href="shop/arc-vase.html" class="shop-tile shop-tile--soon reveal">
           <div class="shop-tile__frame">
             <img src="assets/products/arc-vase.png" alt="Suit &amp; Ease furniture series">
-            <span class="coming-soon">Coming Soon</span>
+            <span class="coming-soon" data-en="Coming Soon" data-zh="即将上线">Coming Soon</span>
           </div>
-          <p class="caption shop-tile__caption">No. 01 — Suit &amp; Ease furniture series</p>
+          <p class="caption shop-tile__caption" data-en="No. 01 — Suit &amp; Ease furniture series" data-zh="No. 01 — Suit &amp; Ease 家具系列">No. 01 — Suit &amp; Ease furniture series</p>
+        </a>
+
+        <a href="shop/studio-stool-01.html" class="shop-tile shop-tile--soon reveal">
+          <div class="shop-tile__frame">
+            <img src="assets/products/studio-stool-01.png" alt="Studio Stool 01">
+            <span class="coming-soon" data-en="Coming Soon" data-zh="即将上线">Coming Soon</span>
+          </div>
+          <p class="caption shop-tile__caption" data-en="No. 02 — Studio Stool 01, solid oak" data-zh="No. 02 — Studio Stool 01,实木橡木">No. 02 — Studio Stool 01, solid oak</p>
+        </a>
+
+        <a href="shop/crosshair-tray.html" class="shop-tile shop-tile--soon reveal">
+          <div class="shop-tile__frame">
+            <img src="assets/products/crosshair-tray.png" alt="Crosshair Tray">
+            <span class="coming-soon" data-en="Coming Soon" data-zh="即将上线">Coming Soon</span>
+          </div>
+          <p class="caption shop-tile__caption" data-en="No. 03 — Crosshair Tray, turned walnut" data-zh="No. 03 — Crosshair Tray,车制胡桃木">No. 03 — Crosshair Tray, turned walnut</p>
         </a>
       </div>
     </div>
@@ -807,34 +924,73 @@
           <img src="assets/logo-ink.png" alt="" class="footer-brand__mark">
           <span class="footer-brand__name">Adjectif Creation</span>
         </a>
-        <p class="footer-tagline">Multidisciplinary design &amp; research studio.</p>
+        <p class="footer-tagline" data-en="Multidisciplinary design &amp; research studio." data-zh="跨领域设计与研究工作室。">Multidisciplinary design &amp; research studio.</p>
       </div>
 
       <div class="footer-col reveal">
-        <span class="label">Contact</span>
+        <span class="label" data-en="Contact" data-zh="联系方式">Contact</span>
         <a href="mailto:hello@adjectifcreation.com">hello@adjectifcreation.com</a>
-        <p>By appointment</p>
+        <p data-en="By appointment" data-zh="预约到访">By appointment</p>
       </div>
 
       <div class="footer-col reveal">
-        <span class="label">Quick Links</span>
-        <a href="studio.html">About</a>
-        <a href="work.html">Work</a>
-        <a href="shop.html">Shop</a>
+        <span class="label" data-en="Quick Links" data-zh="快速链接">Quick Links</span>
+        <a href="studio.html" data-en="About" data-zh="关于">About</a>
+        <a href="work.html" data-en="Work" data-zh="作品">Work</a>
+        <a href="shop.html" data-en="Shop" data-zh="商店">Shop</a>
       </div>
 
       <div class="footer-cta reveal">
-        <a href="contact.html">Start a project</a>
+        <a href="contact.html" data-en="Start a project" data-zh="开启合作">Start a project</a>
       </div>
     </div>
 
     <div class="site-footer__bottom">
-      <span class="caption">&copy; 2026 Adjectif Creation. All rights reserved.</span>
+      <span class="caption" data-en="© 2026 Adjectif Creation. All rights reserved." data-zh="© 2026 Adjectif Creation. 保留所有权利。">&copy; 2026 Adjectif Creation. All rights reserved.</span>
     </div>
   </div>
 </footer>
 
 <script>
+  // Language toggle — EN / Simplified Chinese. Every translatable node
+  // carries the English text as its own data-en (so this reads back the
+  // original rather than needing a second copy of it) plus a data-zh
+  // counterpart; switching just swaps textContent in place; nothing is
+  // duplicated in the DOM. Choice persists via localStorage so a reload
+  // (or a return visit) keeps whichever language was last picked.
+  (function () {
+    var STORAGE_KEY = 'adjectif-lang';
+    var options = document.querySelectorAll('.lang-switch__option');
+    var nodes = document.querySelectorAll('[data-en]');
+    if (!options.length || !nodes.length) return;
+
+    function apply(lang) {
+      nodes.forEach(function (el) {
+        var zh = el.getAttribute('data-zh');
+        el.textContent = (lang === 'zh' && zh) ? zh : el.getAttribute('data-en');
+      });
+      document.body.classList.toggle('lang-zh', lang === 'zh');
+      document.documentElement.lang = lang === 'zh' ? 'zh-Hans' : 'en';
+      options.forEach(function (btn) {
+        var isActive = btn.getAttribute('data-lang') === lang;
+        btn.classList.toggle('is-active', isActive);
+        btn.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+      });
+    }
+
+    var saved;
+    try { saved = localStorage.getItem(STORAGE_KEY); } catch (e) { saved = null; }
+    apply(saved === 'zh' ? 'zh' : 'en');
+
+    options.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var lang = btn.getAttribute('data-lang');
+        try { localStorage.setItem(STORAGE_KEY, lang); } catch (e) {}
+        apply(lang);
+      });
+    });
+  })();
+
   // Scroll-triggered reveal — brought back from the previous design.
   // Trigger-once via IntersectionObserver: once an element has settled
   // into view it's unobserved, so scrolling back up and down again
