@@ -156,28 +156,44 @@
      section is reintroduced later; every section currently resolves to
      "light" so the nav color never actually changes today.
      ------------------------------------------------------------------------- */
+  /* Three-column grid (not flex + space-between) so the brand wordmark
+     sits truly centered on the bar regardless of how wide the left
+     link group or the single right-hand "Contact" link happen to be —
+     space-between only centers a middle item when its neighbors are
+     equal width, which these aren't. */
   .site-nav {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     z-index: 20;
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
     align-items: center;
-    justify-content: space-between;
     padding: var(--sp-26) clamp(20px, 4vw, 41px);
     background: transparent;
     color: var(--ink-black);
     font-size: 16px;
+    gap: clamp(10px, 2.5vw, 24px);
   }
 
   .site-nav__brand {
+    grid-column: 2;
+    justify-self: center;
     font-size: 16px;
+    white-space: nowrap;
   }
 
   .site-nav__center {
+    grid-column: 1;
+    justify-self: start;
     display: flex;
     gap: var(--sp-41);
+  }
+
+  .site-nav__contact {
+    grid-column: 3;
+    justify-self: end;
   }
 
   .site-nav a {
@@ -205,8 +221,21 @@
     .site-nav a::after { transition: none; }
   }
 
-  @media (max-width: 760px) {
-    .site-nav__center { display: none; }
+  /* Links stay visible at every width (no hamburger, no hidden center
+     group) — instead the bar scales its own type size and gaps down as
+     the viewport narrows, so "About / Work / Shop", the wordmark, and
+     "Contact" keep fitting on one row. */
+  @media (max-width: 640px) {
+    .site-nav {
+      font-size: 13px;
+      gap: clamp(8px, 2vw, 16px);
+      padding-block: var(--sp-13);
+    }
+    .site-nav__center { gap: clamp(10px, 3vw, 20px); }
+  }
+
+  @media (max-width: 400px) {
+    .site-nav { font-size: 11px; }
   }
 
   /* -------------------------------------------------------------------------
@@ -238,10 +267,13 @@
      actual rendered bottom edge (align-items: flex-end) instead of a
      guessed top offset — the headline's height varies with how many
      lines it wraps to at a given viewport/clamp() size, so only layout
-     (not a hardcoded number) can track that reliably. */
+     (not a hardcoded number) can track that reliably.
+     Bottom-anchored (not top-anchored) so the whole block sits just
+     above the hero's own bottom edge, clear of the scroll indicator
+     (bottom: 41px below it) rather than pinned under the nav. */
   .hero__content {
     position: absolute;
-    top: 118px;
+    bottom: 130px;
     left: 41px;
     right: 41px;
     display: flex;
@@ -278,37 +310,30 @@
   }
 
   /* Below ~900px there's no spare right-hand column next to the
-     headline any more — revert to a stacked layout: the flex row
-     becomes a static block (so it stops acting as the positioning
-     context) and both children go back to being independently
-     absolute-positioned against .hero itself, description in its own
-     bottom-anchored band well clear of the top-anchored headline. */
+     headline any more — stack headline above description instead of
+     side-by-side, still bottom-anchored as one group so both sit just
+     above the hero's own bottom edge together. */
   @media (max-width: 900px) {
     .hero__content {
-      position: static;
-      display: block;
-    }
-    .hero__headline {
-      position: absolute;
-      top: 118px;
+      bottom: 90px;
       left: 20px;
       right: 20px;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 20px;
+    }
+    .hero__headline {
       max-width: none;
     }
     .hero__description {
-      position: absolute;
-      right: 20px;
-      left: 20px;
-      bottom: 90px;
       width: auto;
       text-align: left;
     }
   }
 
   @media (max-width: 640px) {
-    .hero__headline { top: 96px; left: 20px; }
+    .hero__content { bottom: 70px; }
     .hero__scroll { left: 20px; bottom: 20px; }
-    .hero__description { bottom: 70px; }
   }
 
   /* -------------------------------------------------------------------------
@@ -567,13 +592,13 @@
 <body>
 
 <nav class="site-nav" id="site-nav" data-theme="light">
-  <a href="home.html" class="site-nav__brand">Adjectif Creation</a>
   <div class="site-nav__center">
+    <a href="studio.html">About</a>
     <a href="work.html">Work</a>
-    <a href="studio.html">Studio</a>
     <a href="shop.html">Shop</a>
   </div>
-  <a href="contact.html">Contact</a>
+  <a href="home.html" class="site-nav__brand">Adjectif Creation</a>
+  <a href="contact.html" class="site-nav__contact">Contact</a>
 </nav>
 
 <main>
@@ -656,7 +681,7 @@
   <!-- WHO WE WORK WITH -->
   <section class="section bg-sand" data-theme="light">
     <div class="wrap">
-      <span class="label reveal">Who we work with</span>
+      <span class="label reveal">WHO WE WORK WITH</span>
       <h2 class="headline-section reveal-wipe"><span class="reveal-wipe__inner">For people and brands who want their products felt in space.</span></h2>
       <div class="section__body">
         <p class="reveal">We split our time between two kinds of clients: individuals commissioning something of their own, and brands who market their products through physical space.</p>
@@ -729,7 +754,7 @@
 
       <div class="footer-col reveal">
         <span class="label">Quick Links</span>
-        <a href="studio.html">Studio</a>
+        <a href="studio.html">About</a>
         <a href="work.html">Work</a>
         <a href="shop.html">Shop</a>
       </div>

@@ -1,0 +1,181 @@
+/* ==========================================================================
+   Home-consistent restyle — brings Studio (About), Work, and Shop visually
+   in line with the rebuilt homepage's editorial system (cream/gold/ink
+   palette, Helvetica-only type, zero radius, zero shadow, solid hairlines
+   instead of dashed dividers, shared nav bar) WITHOUT touching any of
+   these pages' existing HTML structure/grid/section layout.
+
+   How: style.css and editorial.css already read almost every color and
+   font-family through a handful of custom properties (--cream, --paper,
+   --navy, --navy-faint, --navy-soft, --ink, --ink-soft, --radius,
+   --dash-hairline, --dash-soft, --font-editorial, --font-geo) rather than
+   hardcoding values on each selector — editorial.css's own comments call
+   this out as the established pattern. Redefining those properties here
+   (loaded last) cascades the new look through every rule that already
+   references them, with no changes to style.css/editorial.css themselves
+   and no markup changes beyond the nav (see below).
+
+   One deliberate exception, matching the homepage's own: .shop-item's
+   hover-lift + drop-shadow product photography treatment is left alone.
+   The homepage's build brief explicitly keeps this exact effect ("no
+   shadows anywhere" except this one case) — same call applies here.
+   ========================================================================== */
+
+:root {
+  --cream: #f3f3f0;
+  --paper: #f7f7f5;
+  --navy: #141412;
+  --navy-faint: rgba(20, 20, 18, 0.15);
+  --navy-soft: rgba(20, 20, 18, 0.45);
+  --ink: #141412;
+  --ink-soft: #8a8a84;
+
+  --radius: 0;
+
+  /* Solid hairlines, not dashed — the homepage dropped the dashed/
+     crosshair motif for plain 1px rules. Same variable, same consumers
+     (.divider, .card__leader, .shop-item__shelf, etc.), new value. */
+  --dash-hairline: linear-gradient(var(--navy), var(--navy));
+  --dash-soft: linear-gradient(var(--smoke-gray), var(--smoke-gray));
+
+  /* Only new tokens actually needed beyond the remapped ones above. */
+  --smoke-gray: #d6d6d1;
+
+  --font-editorial: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-geo: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+/* work.html's own stylesheet redeclares --font-editorial with higher
+   selector specificity (body.work-editorial) than :root — match that
+   specificity here, loaded after work-editorial.css, to win the cascade. */
+body.work-editorial {
+  --font-editorial: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+/* -------------------------------------------------------------------------
+   Zero-radius, zero-shadow — the homepage's flat aesthetic. Buttons/pills
+   go from a 999px pill (editorial.css) to square; .btn's own border stays
+   (it's a border, not a shadow). Excludes .shop-item__figure entirely.
+   ------------------------------------------------------------------------- */
+.btn, .pill, .card__frame {
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.project__gallery-next,
+.lightbox__close,
+.lightbox__prev,
+.lightbox__next {
+  border-radius: 0;
+}
+
+/* .mark/.list-marks bullets are a background-image referencing
+   assets/mark-crosshair.svg, which has its navy stroke color (#2B3A6B)
+   baked into the file itself — a plain custom-property remap can't
+   reach into it the way it reaches every other color on the page, and
+   editing the shared SVG file directly would recolor it on every page
+   that still uses the old palette (index/contact/shop detail pages),
+   not just these three. Swapping background-image for a mask lets the
+   same file's shape be recolored with an ordinary CSS color instead. */
+.mark,
+.list-marks li::before {
+  background: var(--navy);
+  -webkit-mask: url('../assets/mark-crosshair.svg') no-repeat center / contain;
+  mask: url('../assets/mark-crosshair.svg') no-repeat center / contain;
+}
+
+/* -------------------------------------------------------------------------
+   Nav — identical bar to the homepage: left-aligned About/Work/Shop,
+   centered wordmark, right-aligned Contact, no hamburger, links never
+   hidden on mobile. Replaces .site-header/.logo/.nav-links/.nav-actions/
+   .nav-toggle visually (those rules stay in style.css, unused, for the
+   pages that still use that markup — index/contact/shop detail pages).
+   ------------------------------------------------------------------------- */
+.site-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 20;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  padding: 26px clamp(20px, 4vw, 41px);
+  background: transparent;
+  color: var(--navy);
+  font-family: var(--font-editorial);
+  font-size: 16px;
+  gap: clamp(10px, 2.5vw, 24px);
+}
+
+.site-nav__brand {
+  grid-column: 2;
+  justify-self: center;
+  font-size: 16px;
+  white-space: nowrap;
+  color: inherit;
+}
+
+.site-nav__center {
+  grid-column: 1;
+  justify-self: start;
+  display: flex;
+  gap: 41px;
+}
+
+.site-nav__contact {
+  grid-column: 3;
+  justify-self: end;
+}
+
+.site-nav a {
+  position: relative;
+  padding-bottom: 3px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.site-nav a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 100%;
+  bottom: 0;
+  height: 1px;
+  background: currentColor;
+  transition: right 0.25s ease;
+}
+
+.site-nav a:hover::after,
+.site-nav a:focus-visible::after {
+  right: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-nav a::after { transition: none; }
+}
+
+@media (max-width: 640px) {
+  .site-nav {
+    font-size: 13px;
+    gap: clamp(8px, 2vw, 16px);
+    padding-block: 13px;
+  }
+  .site-nav__center { gap: clamp(10px, 3vw, 20px); }
+}
+
+@media (max-width: 400px) {
+  .site-nav { font-size: 11px; }
+}
+
+/* Pages using the new nav are fixed-positioned (like the homepage), so
+   the page content needs top padding to clear it — .site-header used to
+   occupy normal document flow and push content down on its own; .site-nav
+   doesn't. Reuses each page's own first-section selector. */
+.page-header {
+  padding-top: 110px;
+}
+
+@media (max-width: 640px) {
+  .page-header { padding-top: 84px; }
+}

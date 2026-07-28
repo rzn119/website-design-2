@@ -22,6 +22,20 @@ body.work-editorial {
     -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
+/* .project__image--small/--large carry .reveal--left/--right (defined in
+   motion.css): before their IntersectionObserver fires they sit
+   off-screen at translateX(-36px)/(36px), which is real, scrollable
+   horizontal overflow at narrow viewports until each project scrolls
+   into view — confirmed by forcing window.scrollTo(500, 0) and watching
+   scrollX actually move to 36. overflow-x:hidden on body alone didn't
+   stop it (the viewport's real scrolling box is <html>, not <body>, and
+   propagation from body's overflow didn't take here); setting it on
+   <html> directly does. Bare element selector is safe: this stylesheet
+   only ever loads on work.html. */
+html {
+  overflow-x: hidden;
+}
+
 /* -------------------------------------------------------------------------
    Project sections — alternating two-column editorial layout.
    ------------------------------------------------------------------------- */
