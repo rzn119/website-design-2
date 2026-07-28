@@ -419,7 +419,7 @@
   .shop-tiles {
     margin-top: var(--sp-80);
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
     gap: var(--sp-80);
     align-items: start;
   }
@@ -430,7 +430,15 @@
   }
 
   .shop-tile__frame img {
-    max-width: 260px;
+    /* The source asset is only 89x87px natively, well under the old
+       260px max-width cap -- max-width alone was never the thing
+       controlling its rendered size (a cap can't force an image larger
+       than its own intrinsic size), so it was rendering at 89px all
+       along regardless of that number. An explicit width is what
+       actually enlarges it: 178px is exactly 2x that true baseline.
+       max-width still guards against overflow below ~200px viewports. */
+    width: 178px;
+    max-width: 100%;
     margin-inline: auto;
     filter:
       drop-shadow(5px 8px 7px rgba(27, 27, 27, 0.20))
@@ -529,9 +537,6 @@
     flex-shrink: 0;
   }
 
-  @media (max-width: 640px) {
-    .shop-tiles { grid-template-columns: 1fr; }
-  }
 
   /* -------------------------------------------------------------------------
      Footer — the site's full 4-column footer (brand/tagline, contact,
@@ -783,20 +788,10 @@
       <div class="shop-tiles reveal-group">
         <a href="shop/arc-vase.html" class="shop-tile shop-tile--soon reveal">
           <div class="shop-tile__frame">
-            <img src="assets/products/arc-vase.png" alt="Arc Vase">
+            <img src="assets/products/arc-vase.png" alt="Suit &amp; Ease furniture series">
             <span class="coming-soon">Coming Soon</span>
           </div>
-          <p class="caption shop-tile__caption">No. 01 — Arc Vase, hand-thrown stoneware</p>
-          <span class="shop-tile__price">$180</span>
-        </a>
-
-        <a href="shop/crosshair-tray.html" class="shop-tile shop-tile--soon reveal">
-          <div class="shop-tile__frame">
-            <img src="assets/products/crosshair-tray.png" alt="Crosshair Tray">
-            <span class="coming-soon">Coming Soon</span>
-          </div>
-          <p class="caption shop-tile__caption">No. 02 — Crosshair Tray, turned walnut</p>
-          <span class="shop-tile__price">$95</span>
+          <p class="caption shop-tile__caption">No. 01 — Suit &amp; Ease furniture series</p>
         </a>
       </div>
     </div>
