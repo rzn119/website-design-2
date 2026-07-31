@@ -180,6 +180,18 @@ body.work-editorial {
   .page-header { padding-top: 84px; }
 }
 
+/* Same fixed-nav clearance as .page-header, for pages whose first
+   element (the "Back to shop" link on each product detail page) isn't
+   .page-header itself -- just a plain .container that previously relied
+   on the old in-flow .site-header to push it down instead. */
+.page-offset {
+  padding-top: 110px;
+}
+
+@media (max-width: 640px) {
+  .page-offset { padding-top: 84px; }
+}
+
 /* -------------------------------------------------------------------------
    Shop — coming-soon mask. Blur folded into .shop-item__figure img's own
    filter (not a separate wrapper) so it survives style.css's :hover rule,
