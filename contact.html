@@ -54,13 +54,38 @@
       </div>
       <div class="statement__text">
         <span class="eyebrow" data-en="Get in touch" data-zh="联系我们">Get in touch</span>
-        <p style="margin-bottom: 2rem;" data-en="Email us directly — we read every inquiry ourselves. Include the type of project (spatial, product, or research), a rough timeline, and a budget range if you have one; it helps us tell you quickly whether we're a fit." data-zh="直接给我们发邮件——每一封询问我们都会亲自阅读。请注明项目类型(空间、产品或研究)、大致的时间安排,以及预算范围(如有);这能帮助我们更快判断是否合适。">Email us directly — we read every inquiry ourselves. Include the type of project (spatial, product, or research), a rough timeline, and a budget range if you have one; it helps us tell you quickly whether we're a fit.</p>
-        <a href="mailto:hello@adjectifcreation.com" class="btn btn--primary">hello@adjectifcreation.com</a>
+        <p style="margin-bottom: 2rem;" data-en="Send us a note directly through the form below — we read every inquiry ourselves. Include the type of project (spatial, product, or research), a rough timeline, and a budget range if you have one; it helps us tell you quickly whether we're a fit." data-zh="通过下方表单直接给我们留言——每一封询问我们都会亲自阅读。请注明项目类型(空间、产品或研究)、大致的时间安排,以及预算范围(如有);这能帮助我们更快判断是否合适。">Send us a note directly through the form below — we read every inquiry ourselves. Include the type of project (spatial, product, or research), a rough timeline, and a budget range if you have one; it helps us tell you quickly whether we're a fit.</p>
+
+        <form class="contact-form" id="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST" novalidate>
+          <div class="contact-form__field">
+            <label for="cf-name" data-en="Name" data-zh="姓名">Name</label>
+            <input type="text" id="cf-name" name="name" autocomplete="name" required>
+            <span class="contact-form__error" data-en="Please enter your name." data-zh="请填写您的姓名。">Please enter your name.</span>
+          </div>
+
+          <div class="contact-form__field">
+            <label for="cf-email" data-en="Email" data-zh="邮箱">Email</label>
+            <input type="email" id="cf-email" name="email" autocomplete="email" required>
+            <span class="contact-form__error" data-en="Please enter a valid email address." data-zh="请输入有效的邮箱地址。">Please enter a valid email address.</span>
+          </div>
+
+          <div class="contact-form__field">
+            <label for="cf-message" data-en="Message" data-zh="留言">Message</label>
+            <textarea id="cf-message" name="message" rows="5" required></textarea>
+            <span class="contact-form__error" data-en="Please enter a message." data-zh="请填写留言内容。">Please enter a message.</span>
+          </div>
+
+          <button type="submit" class="btn btn--text contact-form__submit" data-en="Get in touch" data-zh="联系我们">Get in touch</button>
+
+          <p class="contact-form__status" role="status" aria-live="polite" hidden></p>
+        </form>
+
+        <p class="contact-form__confirmation" data-en="Thanks — we'll be in touch." data-zh="谢谢——我们会尽快与您联系。" hidden>Thanks — we'll be in touch.</p>
 
         <ul class="list-marks" style="max-width: 46ch; margin-top: 2.75rem;">
           <li data-en="Studio visits are by appointment." data-zh="工作室来访需预约。">Studio visits are by appointment.</li>
           <li data-en="We typically reply within two business days." data-zh="我们通常在两个工作日内回复。">We typically reply within two business days.</li>
-          <li data-en="Shop orders: use the email above rather than this form for order questions." data-zh="商店订单:如有订单相关问题,请使用上方邮箱联系,而非本页表单。">Shop orders: use the email above rather than this form for order questions.</li>
+          <li data-en="Shop orders: include the details in your message below." data-zh="如有商店订单相关问题,请在下方留言中说明详情。">Shop orders: include the details in your message below.</li>
         </ul>
       </div>
     </div>
@@ -81,7 +106,7 @@
 
       <div class="footer-col">
         <span class="small-caps" data-en="Contact" data-zh="联系方式">Contact</span>
-        <a href="mailto:hello@adjectifcreation.com">hello@adjectifcreation.com</a>
+        <a href="contact.html" data-en="Get in touch" data-zh="联系我们">Get in touch</a>
         <p data-en="By appointment" data-zh="预约到访">By appointment</p>
       </div>
 
@@ -104,5 +129,6 @@
 </footer>
 <script src="js/main.js"></script>
 <script src="js/lang-switch.js"></script>
+<script src="js/contact-form.js"></script>
 </body>
 </html>
