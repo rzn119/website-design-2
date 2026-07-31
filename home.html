@@ -52,6 +52,10 @@
        else so the appearance stays consistent instead of falling back
        to each OS's default (often serif) CJK font. */
     --font-zh: 'Microsoft YaHei', 'PingFang SC', 'Hiragino Sans GB', 'Noto Sans SC', sans-serif;
+
+    /* Chinese-mode text color -- a muted forest green, swapped in for
+       ink-black across every text node while body.lang-zh is active. */
+    --green-zh: #2f4a38;
   }
 
   * { box-sizing: border-box; }
@@ -94,6 +98,18 @@
      ------------------------------------------------------------------------- */
   body.lang-zh {
     font-family: var(--font-zh);
+  }
+
+  /* Chinese-mode text color -- every text node (headings, body copy,
+     labels, captions, nav/footer links) switches from ink-black to a
+     muted forest green while Chinese is active. Uses !important since
+     nearly every selector on this page sets its own explicit color
+     rather than inheriting one, so a plain body-level override wouldn't
+     cascade down; this is the one deliberate use of !important on the
+     page, scoped to a single state class. */
+  body.lang-zh,
+  body.lang-zh * {
+    color: var(--green-zh) !important;
   }
 
   body.lang-zh .caption {
@@ -777,8 +793,8 @@
   <!-- HERO -->
   <header class="hero" id="hero" data-theme="light">
     <div class="hero__content">
-      <h1 class="hero__headline headline-display reveal-wipe"><span class="reveal-wipe__inner" data-en="We design the space around your product" data-zh="我们为您的产品设计空间">We design the space around your product</span></h1>
-      <p class="hero__description reveal" data-en="Adjectif Creation is a multidisciplinary design and research studio working across spatial design, product design, and furniture — for people and brands who want to be felt, not just seen." data-zh="Adjectif Creation 是一家跨领域的设计与研究工作室,业务涵盖空间设计、产品设计与家具——服务于希望被真正感知、而非仅被看见的个人与品牌。">Adjectif Creation is a multidisciplinary design and research studio working across spatial design, product design, and furniture — for people and brands who want to be felt, not just seen.</p>
+      <h1 class="hero__headline headline-display reveal-wipe"><span class="reveal-wipe__inner" data-en="Where space, product, and strategy meet." data-zh="空间、产品与策略的交汇">Where space, product, and strategy meet.</span></h1>
+      <p class="hero__description reveal" data-en="Adjectif Creation is a multidisciplinary design and research studio working across spatial design and product design." data-zh="Adjectif Creation 是一家跨学科设计与研究工作室，业务涵盖空间设计与产品设计">Adjectif Creation is a multidisciplinary design and research studio working across spatial design and product design.</p>
     </div>
     <span class="hero__scroll" id="hero-scroll" aria-hidden="true">↓</span>
   </header>
@@ -789,8 +805,7 @@
       <span class="label reveal" data-en="STUDIO" data-zh="工作室">STUDIO</span>
       <h2 class="headline-section reveal-wipe"><span class="reveal-wipe__inner" data-en="Designs that redefine." data-zh="重新定义设计。">Designs that redefine.</span></h2>
       <div class="section__body">
-        <p class="reveal" data-en="Our practice moves across scales without treating any one of them as the &quot;real&quot; work — a storefront, a chair, and a wellness assessment all start from the same question: what does this need to say, and how little can it say it with." data-zh="我们的实践跨越不同尺度,不将其中任何一项视为"真正的"工作——无论是店面、椅子,还是健康评估,都始于同一个问题:这件事物需要传达什么,又能以多简练的方式传达。">Our practice moves across scales without treating any one of them as the "real" work — a storefront, a chair, and a wellness assessment all start from the same question: what does this need to say, and how little can it say it with.</p>
-        <p class="reveal" data-en="Alongside client work, we design and produce a small collection of our own objects, sold directly through the studio — a way of keeping our hands in material and finish even between commissions." data-zh="除了客户项目,我们也设计并生产一小系列自有作品,直接通过工作室出售——这让我们在委托项目之间,依然能持续锤炼材料与工艺。">Alongside client work, we design and produce a small collection of our own objects, sold directly through the studio — a way of keeping our hands in material and finish even between commissions.</p>
+        <p class="reveal" data-en="Space and objects on their own are just raw nouns (a room, a chair, an app). Adjectif provides the character, mood, texture, and intelligence that turns them into memorable experiences. We don't just ask how space looks — we research how space behaves. Every space, furniture piece, and digital tool we design is backed by contextual research and built to quantify physical engagement." data-zh="空间与物件本身只是单薄的名词（一间房、一把椅、一款应用）。Adjectif 为其注入性格、情绪、质感与智慧，将它们转化为过目难忘的体验。我们不仅探索空间的外形，更深入研究空间的行为方式。我们所设计的每一个空间、每一件家具及每一款数字工具，皆立足于语境化的深度研究，旨在对物理层面的互动体验进行量化评估。">Space and objects on their own are just raw nouns (a room, a chair, an app). Adjectif provides the character, mood, texture, and intelligence that turns them into memorable experiences. We don't just ask how space looks — we research how space behaves. Every space, furniture piece, and digital tool we design is backed by contextual research and built to quantify physical engagement.</p>
       </div>
 
       <div class="plain-list reveal-group">
@@ -798,21 +813,21 @@
           <span class="plain-list__index">01</span>
           <div>
             <h3 data-en="Spatial Design" data-zh="空间设计">Spatial Design</h3>
-            <p data-en="Retail interiors, pop-ups, and exhibition environments built around how people actually move through a space." data-zh="零售室内空间、快闪店与展览环境的设计,围绕人们在空间中的真实动线展开。">Retail interiors, pop-ups, and exhibition environments built around how people actually move through a space.</p>
+            <p data-en="Physical space such as retail interiors, pop-ups creating brand narrative." data-zh="商业零售空间、快闪店等物理空间设计，打造极具叙事感的品牌体验。">Physical space such as retail interiors, pop-ups creating brand narrative.</p>
           </div>
         </div>
         <div class="plain-list__row reveal">
           <span class="plain-list__index">02</span>
           <div>
             <h3 data-en="Product Design" data-zh="产品设计">Product Design</h3>
-            <p data-en="Furniture and objects designed for production — ours and our clients' — from first sketch to finished piece." data-zh="为量产而设计的家具与器物——无论是我们自己的,还是客户的——从初稿草图到成品,全程参与。">Furniture and objects designed for production — ours and our clients' — from first sketch to finished piece.</p>
+            <p data-en="Changes of small details in life as major steps to solve your daily problems." data-zh="通过生活中细微的改变，解决日常生活中的大问题。">Changes of small details in life as major steps to solve your daily problems.</p>
           </div>
         </div>
         <div class="plain-list__row reveal">
           <span class="plain-list__index">03</span>
           <div>
             <h3 data-en="Wellness Analysis" data-zh="健康分析">Wellness Analysis</h3>
-            <p data-en="Research into how a space affects the people using it, feeding directly back into the design decisions we make." data-zh="研究空间如何影响使用者,并将研究成果直接反馈到我们的设计决策中。">Research into how a space affects the people using it, feeding directly back into the design decisions we make.</p>
+            <p data-en="Research into how a space affects the people using it, feeding directly back into the design decisions we make." data-zh="深入研究空间如何对使用者产生影响，并将研究成果直接反馈并指导我们的设计决策。">Research into how a space affects the people using it, feeding directly back into the design decisions we make.</p>
           </div>
         </div>
       </div>
@@ -830,12 +845,12 @@
            flat placeholder blocks alongside real photos. -->
       <div class="work-tiles">
         <article class="reveal">
-          <img class="work-tile__frame work-tile__frame--16-9" src="assets/work/nordfolk.jpg" alt="Nordfolk — pop-up retail environment">
-          <p class="caption work-tile__caption" data-en="Nordfolk — Pop-up retail environment, three-week install" data-zh="Nordfolk——快闪零售空间,为期三周的搭建">Nordfolk — Pop-up retail environment, three-week install</p>
+          <img class="work-tile__frame work-tile__frame--16-9" src="assets/work/nordfolk.jpg" alt="Soilware — a circular dining museum of cutlery, Australia">
+          <p class="caption work-tile__caption" data-en="Soilware — a circular dining museum of cutlery, Australia" data-zh="Soilware — 循环餐饮餐具博物馆，澳大利亚">Soilware — a circular dining museum of cutlery, Australia</p>
         </article>
         <article class="reveal">
-          <img class="work-tile__frame work-tile__frame--4-3" src="assets/work/mono-studio.jpg" alt="Mono Studio — flagship store design and signage system">
-          <p class="caption work-tile__caption" data-en="Mono Studio — Flagship store design and signage system" data-zh="Mono Studio——旗舰店设计与导视系统">Mono Studio — Flagship store design and signage system</p>
+          <img class="work-tile__frame work-tile__frame--4-3" src="assets/work/mono-studio.jpg" alt="20-yr old house interior renovation, Australia">
+          <p class="caption work-tile__caption" data-en="20-yr old house interior renovation, Australia" data-zh="20年老宅室内改造，澳大利亚">20-yr old house interior renovation, Australia</p>
         </article>
       </div>
     </div>
@@ -847,7 +862,7 @@
       <span class="label reveal" data-en="WHO WE WORK WITH" data-zh="合作对象">WHO WE WORK WITH</span>
       <h2 class="headline-section reveal-wipe"><span class="reveal-wipe__inner" data-en="For people and brands who want their products felt in space." data-zh="献给希望产品在空间中被真切感知的个人与品牌。">For people and brands who want their products felt in space.</span></h2>
       <div class="section__body">
-        <p class="reveal" data-en="We split our time between two kinds of clients: individuals commissioning something of their own, and brands who market their products through physical space." data-zh="我们的工作对象主要分为两类:委托定制自有作品的个人,以及通过实体空间推广产品的品牌。">We split our time between two kinds of clients: individuals commissioning something of their own, and brands who market their products through physical space.</p>
+        <p class="reveal" data-en="We collaborate with retail brands, cultural institutions, and individuals who treat physical space as a vital medium for narrative, wellness, and engagement. From immersive pop-up environments to bespoke furniture design and spatial diagnostic tools, we partner with clients who believe that high-performance, wellness-driven spaces are valuable assets." data-zh="我们与零售品牌、文化机构及个人紧密合作，将物理空间视为传递叙事、健康与互动的重要媒介。从沉浸式快闪环境到定制家具设计及空间诊断工具，我们致力于与那些同样相信&quot;高性能、健康导向的空间具有核心价值&quot;的客户携手同行。">We collaborate with retail brands, cultural institutions, and individuals who treat physical space as a vital medium for narrative, wellness, and engagement. From immersive pop-up environments to bespoke furniture design and spatial diagnostic tools, we partner with clients who believe that high-performance, wellness-driven spaces are valuable assets.</p>
       </div>
 
       <div class="plain-list reveal-group">
@@ -875,7 +890,7 @@
       <span class="label reveal" data-en="STUDIO SHOP" data-zh="工作室商店">STUDIO SHOP</span>
       <h2 class="headline-section reveal-wipe"><span class="reveal-wipe__inner" data-en="Our own collection." data-zh="我们的自有系列。">Our own collection.</span></h2>
       <div class="section__body">
-        <p class="reveal" data-en="Objects designed, made, and sold directly by the studio — the same rigor as client work, with nobody to answer to but ourselves." data-zh="由工作室亲自设计、制作并直接销售的器物——秉持与客户项目同等的严谨,只对自己负责。">Objects designed, made, and sold directly by the studio — the same rigor as client work, with nobody to answer to but ourselves.</p>
+        <p class="reveal" data-en="Changes of small details in life as major steps to solve your daily problems." data-zh="通过生活中细微的改变，解决日常生活中的大问题。">Changes of small details in life as major steps to solve your daily problems.</p>
       </div>
       <a href="shop.html" class="view-shop-link reveal"><span data-en="View the shop" data-zh="查看商店">View the shop</span> <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
 
@@ -893,7 +908,7 @@
             <img src="assets/products/studio-stool-01.png" alt="Studio Stool 01">
             <span class="coming-soon" data-en="Coming Soon" data-zh="即将上线">Coming Soon</span>
           </div>
-          <p class="caption shop-tile__caption" data-en="No. 02 — Studio Stool 01, solid oak" data-zh="No. 02 — Studio Stool 01,实木橡木">No. 02 — Studio Stool 01, solid oak</p>
+          <p class="caption shop-tile__caption" data-en="No. 02 — Suit &amp; Ease series" data-zh="No. 02 — Suit &amp; Ease 系列">No. 02 — Suit &amp; Ease series</p>
         </a>
 
         <a href="shop/crosshair-tray.html" class="shop-tile shop-tile--soon reveal">
@@ -901,7 +916,7 @@
             <img src="assets/products/crosshair-tray.png" alt="Crosshair Tray">
             <span class="coming-soon" data-en="Coming Soon" data-zh="即将上线">Coming Soon</span>
           </div>
-          <p class="caption shop-tile__caption" data-en="No. 03 — Crosshair Tray, turned walnut" data-zh="No. 03 — Crosshair Tray,车制胡桃木">No. 03 — Crosshair Tray, turned walnut</p>
+          <p class="caption shop-tile__caption" data-en="No. 03 — Suit &amp; Ease series" data-zh="No. 03 — Suit &amp; Ease 系列">No. 03 — Suit &amp; Ease series</p>
         </a>
       </div>
     </div>

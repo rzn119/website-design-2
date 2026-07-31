@@ -276,6 +276,17 @@ html {
   line-height: 1.6;
 }
 
+.project__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 1.5rem;
+  margin-top: 1rem;
+  font-family: var(--font-body);
+  font-size: var(--size-small);
+  letter-spacing: 0.04em;
+  color: var(--ink-soft);
+}
+
 @media (max-width: 860px) {
   .project {
     grid-template-columns: 1fr;
