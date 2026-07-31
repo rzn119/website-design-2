@@ -48,10 +48,11 @@
      cover macOS/iOS with the same humanist-sans look, and Noto Sans SC
      (loaded via each page's own <link>) is the last-resort net for
      everything else, matching home.html's own --font-zh exactly. */
-  --font-zh: 'Microsoft YaHei', 'PingFang SC', 'Hiragino Sans GB', 'Noto Sans SC', sans-serif;
-
-  /* Chinese-mode text color -- matches home.html's own --green-zh token. */
-  --green-zh: #2f4a38;
+  /* Helvetica leads the stack so any Latin text mixed into an
+     otherwise-Chinese string (a proper noun, "Suit & Ease", etc.)
+     renders in the same font as the English version -- see home.html's
+     own --font-zh for the full rationale. */
+  --font-zh: 'Helvetica Neue', Helvetica, Arial, 'Microsoft YaHei', 'PingFang SC', 'Hiragino Sans GB', 'Noto Sans SC', sans-serif;
 }
 
 /* work.html's own stylesheet redeclares --font-editorial with higher
@@ -72,20 +73,6 @@ body.work-editorial {
    tie on work.html, where both classes can be present on <body> at once. */
 body.lang-zh {
   --font-editorial: var(--font-zh);
-}
-
-/* Chinese-mode text color -- every text node switches from ink-black to
-   a muted forest green while Chinese is active, matching home.html's own
-   treatment. Uses !important + a universal selector rather than the
-   --font-editorial-style variable swap above: color is split across
-   --ink/--ink-soft/--navy on these pages, and --navy alone also drives
-   non-text chrome (borders, button fills, hairlines), so redefining it
-   would tint buttons/dividers green along with the text. Overriding the
-   `color` property directly leaves those other properties (which read
-   --navy's original value) untouched. */
-body.lang-zh,
-body.lang-zh * {
-  color: var(--green-zh) !important;
 }
 
 /* Negative letter-spacing is a Latin display-type technique that just

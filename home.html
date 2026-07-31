@@ -51,11 +51,13 @@
        Sans SC (loaded above) is the last-resort net for everything
        else so the appearance stays consistent instead of falling back
        to each OS's default (often serif) CJK font. */
-    --font-zh: 'Microsoft YaHei', 'PingFang SC', 'Hiragino Sans GB', 'Noto Sans SC', sans-serif;
-
-    /* Chinese-mode text color -- a muted forest green, swapped in for
-       ink-black across every text node while body.lang-zh is active. */
-    --green-zh: #2f4a38;
+    /* Helvetica leads the stack so any Latin text mixed into an
+       otherwise-Chinese string (a proper noun, "Suit & Ease", etc.)
+       renders in the same font as the English version — Helvetica has
+       no CJK glyphs, so per-character font matching falls through to
+       the CJK fonts below automatically for the actual Chinese text,
+       with no markup changes needed to separate the two scripts. */
+    --font-zh: 'Helvetica Neue', Helvetica, Arial, 'Microsoft YaHei', 'PingFang SC', 'Hiragino Sans GB', 'Noto Sans SC', sans-serif;
   }
 
   * { box-sizing: border-box; }
@@ -98,18 +100,6 @@
      ------------------------------------------------------------------------- */
   body.lang-zh {
     font-family: var(--font-zh);
-  }
-
-  /* Chinese-mode text color -- every text node (headings, body copy,
-     labels, captions, nav/footer links) switches from ink-black to a
-     muted forest green while Chinese is active. Uses !important since
-     nearly every selector on this page sets its own explicit color
-     rather than inheriting one, so a plain body-level override wouldn't
-     cascade down; this is the one deliberate use of !important on the
-     page, scoped to a single state class. */
-  body.lang-zh,
-  body.lang-zh * {
-    color: var(--green-zh) !important;
   }
 
   body.lang-zh .caption {
@@ -803,9 +793,9 @@
   <section class="section bg-cream" data-theme="light">
     <div class="wrap">
       <span class="label reveal" data-en="STUDIO" data-zh="工作室">STUDIO</span>
-      <h2 class="headline-section reveal-wipe"><span class="reveal-wipe__inner" data-en="Designs that redefine." data-zh="重新定义设计。">Designs that redefine.</span></h2>
+      <h2 class="headline-section reveal-wipe"><span class="reveal-wipe__inner" data-en="Designs that redefine." data-zh="重新定义设计">Designs that redefine.</span></h2>
       <div class="section__body">
-        <p class="reveal" data-en="Space and objects on their own are just raw nouns (a room, a chair, an app). Adjectif provides the character, mood, texture, and intelligence that turns them into memorable experiences. We don't just ask how space looks — we research how space behaves. Every space, furniture piece, and digital tool we design is backed by contextual research and built to quantify physical engagement." data-zh="空间与物件本身只是单薄的名词（一间房、一把椅、一款应用）。Adjectif 为其注入性格、情绪、质感与智慧，将它们转化为过目难忘的体验。我们不仅探索空间的外形，更深入研究空间的行为方式。我们所设计的每一个空间、每一件家具及每一款数字工具，皆立足于语境化的深度研究，旨在对物理层面的互动体验进行量化评估。">Space and objects on their own are just raw nouns (a room, a chair, an app). Adjectif provides the character, mood, texture, and intelligence that turns them into memorable experiences. We don't just ask how space looks — we research how space behaves. Every space, furniture piece, and digital tool we design is backed by contextual research and built to quantify physical engagement.</p>
+        <p class="reveal" data-en="Space and objects on their own are just raw nouns (a room, a chair, an app). Adjectif provides the character, mood, texture, and intelligence that turns them into memorable experiences. We don't just ask how space looks — we research how space behaves. Every space, furniture piece, and digital tool we design is backed by contextual research and built to quantify physical engagement." data-zh="空间与物件本身只是单薄的名词（一间房、一把椅、一款应用）。Adjectif 为其注入性格、情绪、质感与智慧，将它们转化为过目难忘的体验。我们不仅探索空间的外形，更深入研究空间的行为方式。我们所设计的每一个空间、每一件家具及每一款数字工具，皆立足于语境化的深度研究，旨在对物理层面的互动体验进行量化评估">Space and objects on their own are just raw nouns (a room, a chair, an app). Adjectif provides the character, mood, texture, and intelligence that turns them into memorable experiences. We don't just ask how space looks — we research how space behaves. Every space, furniture piece, and digital tool we design is backed by contextual research and built to quantify physical engagement.</p>
       </div>
 
       <div class="plain-list reveal-group">
@@ -813,21 +803,21 @@
           <span class="plain-list__index">01</span>
           <div>
             <h3 data-en="Spatial Design" data-zh="空间设计">Spatial Design</h3>
-            <p data-en="Physical space such as retail interiors, pop-ups creating brand narrative." data-zh="商业零售空间、快闪店等物理空间设计，打造极具叙事感的品牌体验。">Physical space such as retail interiors, pop-ups creating brand narrative.</p>
+            <p data-en="Physical space such as retail interiors, pop-ups creating brand narrative." data-zh="商业零售空间、快闪店等物理空间设计，打造极具叙事感的品牌体验">Physical space such as retail interiors, pop-ups creating brand narrative.</p>
           </div>
         </div>
         <div class="plain-list__row reveal">
           <span class="plain-list__index">02</span>
           <div>
             <h3 data-en="Product Design" data-zh="产品设计">Product Design</h3>
-            <p data-en="Changes of small details in life as major steps to solve your daily problems." data-zh="通过生活中细微的改变，解决日常生活中的大问题。">Changes of small details in life as major steps to solve your daily problems.</p>
+            <p data-en="Changes of small details in life as major steps to solve your daily problems." data-zh="通过生活中细微的改变，解决日常生活中的大问题">Changes of small details in life as major steps to solve your daily problems.</p>
           </div>
         </div>
         <div class="plain-list__row reveal">
           <span class="plain-list__index">03</span>
           <div>
             <h3 data-en="Wellness Analysis" data-zh="健康分析">Wellness Analysis</h3>
-            <p data-en="Research into how a space affects the people using it, feeding directly back into the design decisions we make." data-zh="深入研究空间如何对使用者产生影响，并将研究成果直接反馈并指导我们的设计决策。">Research into how a space affects the people using it, feeding directly back into the design decisions we make.</p>
+            <p data-en="Research into how a space affects the people using it, feeding directly back into the design decisions we make." data-zh="深入研究空间如何对使用者产生影响，并将研究成果直接反馈并指导我们的设计决策">Research into how a space affects the people using it, feeding directly back into the design decisions we make.</p>
           </div>
         </div>
       </div>
@@ -838,7 +828,7 @@
   <section class="section bg-cream" data-theme="light">
     <div class="wrap">
       <span class="label reveal" data-en="SELECTED WORK" data-zh="精选作品">SELECTED WORK</span>
-      <h2 class="headline-section reveal-wipe"><span class="reveal-wipe__inner" data-en="Case Studies." data-zh="案例研究。">Case Studies.</span></h2>
+      <h2 class="headline-section reveal-wipe"><span class="reveal-wipe__inner" data-en="Spatial Design" data-zh="空间设计">Spatial Design</span></h2>
 
       <!-- Real project photography for Nordfolk/Mono Studio; Aire and
            Field (no photography yet) were dropped rather than left as
@@ -846,7 +836,7 @@
       <div class="work-tiles">
         <article class="reveal">
           <img class="work-tile__frame work-tile__frame--16-9" src="assets/work/nordfolk.jpg" alt="Soilware — a circular dining museum of cutlery, Australia">
-          <p class="caption work-tile__caption" data-en="Soilware — a circular dining museum of cutlery, Australia" data-zh="Soilware — 循环餐饮餐具博物馆，澳大利亚">Soilware — a circular dining museum of cutlery, Australia</p>
+          <p class="caption work-tile__caption" data-en="Soilware — a circular dining museum of cutlery, Australia" data-zh="循环餐具博物馆, 澳大利亚">Soilware — a circular dining museum of cutlery, Australia</p>
         </article>
         <article class="reveal">
           <img class="work-tile__frame work-tile__frame--4-3" src="assets/work/mono-studio.jpg" alt="20-yr old house interior renovation, Australia">
@@ -860,9 +850,9 @@
   <section class="section bg-sand" data-theme="light">
     <div class="wrap">
       <span class="label reveal" data-en="WHO WE WORK WITH" data-zh="合作对象">WHO WE WORK WITH</span>
-      <h2 class="headline-section reveal-wipe"><span class="reveal-wipe__inner" data-en="For people and brands who want their products felt in space." data-zh="献给希望产品在空间中被真切感知的个人与品牌。">For people and brands who want their products felt in space.</span></h2>
+      <h2 class="headline-section reveal-wipe"><span class="reveal-wipe__inner" data-en="For people and brands who want their products felt in space." data-zh="献给希望产品在空间中被真切感知的个人与品牌">For people and brands who want their products felt in space.</span></h2>
       <div class="section__body">
-        <p class="reveal" data-en="We collaborate with retail brands, cultural institutions, and individuals who treat physical space as a vital medium for narrative, wellness, and engagement. From immersive pop-up environments to bespoke furniture design and spatial diagnostic tools, we partner with clients who believe that high-performance, wellness-driven spaces are valuable assets." data-zh="我们与零售品牌、文化机构及个人紧密合作，将物理空间视为传递叙事、健康与互动的重要媒介。从沉浸式快闪环境到定制家具设计及空间诊断工具，我们致力于与那些同样相信&quot;高性能、健康导向的空间具有核心价值&quot;的客户携手同行。">We collaborate with retail brands, cultural institutions, and individuals who treat physical space as a vital medium for narrative, wellness, and engagement. From immersive pop-up environments to bespoke furniture design and spatial diagnostic tools, we partner with clients who believe that high-performance, wellness-driven spaces are valuable assets.</p>
+        <p class="reveal" data-en="We collaborate with retail brands, cultural institutions, and individuals who treat physical space as a vital medium for narrative, wellness, and engagement. From immersive pop-up environments to bespoke furniture design and spatial diagnostic tools, we partner with clients who believe that high-performance, wellness-driven spaces are valuable assets." data-zh="我们与零售品牌、文化机构及个人紧密合作，将物理空间视为传递叙事、健康与互动的重要媒介。从沉浸式快闪环境到定制家具设计及空间诊断工具，我们致力于与那些同样相信&quot;高性能、健康导向的空间具有核心价值&quot;的客户携手同行">We collaborate with retail brands, cultural institutions, and individuals who treat physical space as a vital medium for narrative, wellness, and engagement. From immersive pop-up environments to bespoke furniture design and spatial diagnostic tools, we partner with clients who believe that high-performance, wellness-driven spaces are valuable assets.</p>
       </div>
 
       <div class="plain-list reveal-group">
@@ -870,14 +860,14 @@
           <span class="plain-list__index caption" style="font-family:'Times New Roman',Times,serif;color:var(--ash-gray);">—</span>
           <div>
             <h3 data-en="Individuals" data-zh="个人客户">Individuals</h3>
-            <p data-en="Bespoke furniture and objects, designed and made for a specific person and a specific room." data-zh="为特定的人与特定的空间量身设计与制作的定制家具与器物。">Bespoke furniture and objects, designed and made for a specific person and a specific room.</p>
+            <p data-en="Bespoke furniture and objects, designed and made for a specific person and a specific room." data-zh="为特定的人与特定的空间量身设计与制作的定制家具与器物">Bespoke furniture and objects, designed and made for a specific person and a specific room.</p>
           </div>
         </div>
         <div class="plain-list__row reveal">
           <span class="plain-list__index caption" style="font-family:'Times New Roman',Times,serif;color:var(--ash-gray);">—</span>
           <div>
             <h3 data-en="Brands" data-zh="品牌客户">Brands</h3>
-            <p data-en="Pop-ups, store design, exhibition stands, and merchandise for brands that sell through physical space." data-zh="为通过实体空间销售的品牌提供快闪店、店面设计、展位与周边产品。">Pop-ups, store design, exhibition stands, and merchandise for brands that sell through physical space.</p>
+            <p data-en="Pop-ups, store design, exhibition stands, and merchandise for brands that sell through physical space." data-zh="为通过实体空间销售的品牌提供快闪店、店面设计、展位与周边产品">Pop-ups, store design, exhibition stands, and merchandise for brands that sell through physical space.</p>
           </div>
         </div>
       </div>
@@ -888,9 +878,9 @@
   <section class="section bg-cream" data-theme="light">
     <div class="wrap">
       <span class="label reveal" data-en="STUDIO SHOP" data-zh="工作室商店">STUDIO SHOP</span>
-      <h2 class="headline-section reveal-wipe"><span class="reveal-wipe__inner" data-en="Our own collection." data-zh="我们的自有系列。">Our own collection.</span></h2>
+      <h2 class="headline-section reveal-wipe"><span class="reveal-wipe__inner" data-en="Our own collection." data-zh="我们的产品设计">Our own collection.</span></h2>
       <div class="section__body">
-        <p class="reveal" data-en="Changes of small details in life as major steps to solve your daily problems." data-zh="通过生活中细微的改变，解决日常生活中的大问题。">Changes of small details in life as major steps to solve your daily problems.</p>
+        <p class="reveal" data-en="Changes of small details in life as major steps to solve your daily problems." data-zh="通过生活中细微的改变，解决日常生活中的大问题">Changes of small details in life as major steps to solve your daily problems.</p>
       </div>
       <a href="shop.html" class="view-shop-link reveal"><span data-en="View the shop" data-zh="查看商店">View the shop</span> <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
 
@@ -932,7 +922,7 @@
           <img src="assets/logo-ink.png" alt="" class="footer-brand__mark">
           <span class="footer-brand__name">Adjectif Creation</span>
         </a>
-        <p class="footer-tagline" data-en="Multidisciplinary design &amp; research studio." data-zh="跨领域设计与研究工作室。">Multidisciplinary design &amp; research studio.</p>
+        <p class="footer-tagline" data-en="Multidisciplinary design &amp; research studio." data-zh="跨领域设计与研究工作室">Multidisciplinary design &amp; research studio.</p>
       </div>
 
       <div class="footer-col reveal">
@@ -954,7 +944,7 @@
     </div>
 
     <div class="site-footer__bottom">
-      <span class="caption" data-en="© 2026 Adjectif Creation. All rights reserved." data-zh="© 2026 Adjectif Creation. 保留所有权利。">&copy; 2026 Adjectif Creation. All rights reserved.</span>
+      <span class="caption" data-en="© 2026 Adjectif Creation. All rights reserved." data-zh="© 2026 Adjectif Creation. 保留所有权利">&copy; 2026 Adjectif Creation. All rights reserved.</span>
     </div>
   </div>
 </footer>
