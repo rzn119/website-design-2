@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Suit &amp; Ease Series — Adjectif Creation Shop</title>
 <meta name="description" content="Suit &amp; Ease Series — coming soon from Adjectif Creation.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../css/style.css">
 <link rel="stylesheet" href="../css/editorial.css">
 <link rel="stylesheet" href="../css/home-consistent.css">
@@ -13,30 +16,37 @@
 
 <nav class="site-nav" id="site-nav">
   <div class="site-nav__center">
-    <a href="../studio.html">About</a>
-    <a href="../work.html">Work</a>
-    <a href="../shop.html">Shop</a>
+    <a href="../studio.html" data-en="About" data-zh="关于">About</a>
+    <a href="../work.html" data-en="Work" data-zh="作品">Work</a>
+    <a href="../shop.html" data-en="Shop" data-zh="商店">Shop</a>
   </div>
   <a href="../home.html" class="site-nav__brand">Adjectif Creation</a>
-  <a href="../contact.html" class="site-nav__contact">Contact</a>
+  <div class="site-nav__right">
+    <a href="../contact.html" class="site-nav__contact" data-en="Contact" data-zh="联系">Contact</a>
+    <div class="lang-switch" role="group" aria-label="Language / 语言">
+      <button type="button" class="lang-switch__option is-active" data-lang="en" aria-pressed="true">EN</button>
+      <span class="lang-switch__divider" aria-hidden="true">/</span>
+      <button type="button" class="lang-switch__option" data-lang="zh" aria-pressed="false">中文</button>
+    </div>
+  </div>
 </nav>
 
 <main>
 
   <div class="container page-offset">
-    <a href="../shop.html" class="view-all"><span class="mark mark--sm"></span>Back to shop</a>
+    <a href="../shop.html" class="view-all"><span class="mark mark--sm"></span><span data-en="Back to shop" data-zh="返回商店">Back to shop</span></a>
   </div>
 
   <section class="section bg-cream">
     <div class="container product-detail product-detail--soon">
     <div class="product-detail__figure">
       <img src="../assets/products/studio-stool-01.png" alt="Studio Stool 01">
-      <span class="coming-soon">Coming Soon</span>
+      <span class="coming-soon" data-en="Coming Soon" data-zh="即将上线">Coming Soon</span>
       <span class="product-detail__shelf"></span>
     </div>
     <div>
-      <h1>Suit &amp; Ease Series</h1>
-      <a href="../shop.html" class="view-all" style="margin-top: 2rem;"><span class="mark mark--sm"></span>Back to shop</a>
+      <h1 data-en="Suit &amp; Ease Series" data-zh="Suit &amp; Ease 系列">Suit &amp; Ease Series</h1>
+      <a href="../shop.html" class="view-all" style="margin-top: 2rem;"><span class="mark mark--sm"></span><span data-en="Back to shop" data-zh="返回商店">Back to shop</span></a>
     </div>
     </div>
   </section>
@@ -51,32 +61,33 @@
           <img src="../assets/logo-ink.png" alt="" class="logo__mark">
           <span class="logo__word">ADJECTIF CREATION</span>
         </a>
-        <p class="footer-tagline">Multidisciplinary design &amp; research studio.</p>
+        <p class="footer-tagline" data-en="Multidisciplinary design &amp; research studio." data-zh="跨领域设计与研究工作室。">Multidisciplinary design &amp; research studio.</p>
       </div>
 
       <div class="footer-col">
-        <span class="small-caps">Contact</span>
+        <span class="small-caps" data-en="Contact" data-zh="联系方式">Contact</span>
         <a href="mailto:hello@adjectifcreation.com">hello@adjectifcreation.com</a>
-        <p>By appointment</p>
+        <p data-en="By appointment" data-zh="预约到访">By appointment</p>
       </div>
 
       <div class="footer-col">
-        <span class="small-caps">Quick Links</span>
-        <a href="../studio.html">About</a>
-        <a href="../work.html">Work</a>
-        <a href="../shop.html">Shop</a>
+        <span class="small-caps" data-en="Quick Links" data-zh="快速链接">Quick Links</span>
+        <a href="../studio.html" data-en="About" data-zh="关于">About</a>
+        <a href="../work.html" data-en="Work" data-zh="作品">Work</a>
+        <a href="../shop.html" data-en="Shop" data-zh="商店">Shop</a>
       </div>
 
       <div class="footer-cta">
-        <a href="../contact.html" class="btn btn--outline">Start a project</a>
+        <a href="../contact.html" class="btn btn--outline" data-en="Start a project" data-zh="开启合作">Start a project</a>
       </div>
     </div>
 
     <div class="footer-bottom">
-      <p>&copy; 2026 Adjectif Creation. All rights reserved.</p>
+      <p data-en="© 2026 Adjectif Creation. All rights reserved." data-zh="© 2026 Adjectif Creation. 保留所有权利。">&copy; 2026 Adjectif Creation. All rights reserved.</p>
     </div>
   </div>
 </footer>
 <script src="../js/main.js"></script>
+<script src="../js/lang-switch.js"></script>
 </body>
 </html>

@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Selected Work — Adjectif Creation</title>
 <meta name="description" content="Selected work from Adjectif Creation across spatial and product design.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet" href="css/editorial.css">
 <link rel="stylesheet" href="css/motion.css">
@@ -15,20 +18,27 @@
 
 <nav class="site-nav" id="site-nav">
   <div class="site-nav__center">
-    <a href="studio.html">About</a>
-    <a href="work.html">Work</a>
-    <a href="shop.html">Shop</a>
+    <a href="studio.html" data-en="About" data-zh="关于">About</a>
+    <a href="work.html" data-en="Work" data-zh="作品">Work</a>
+    <a href="shop.html" data-en="Shop" data-zh="商店">Shop</a>
   </div>
   <a href="home.html" class="site-nav__brand">Adjectif Creation</a>
-  <a href="contact.html" class="site-nav__contact">Contact</a>
+  <div class="site-nav__right">
+    <a href="contact.html" class="site-nav__contact" data-en="Contact" data-zh="联系">Contact</a>
+    <div class="lang-switch" role="group" aria-label="Language / 语言">
+      <button type="button" class="lang-switch__option is-active" data-lang="en" aria-pressed="true">EN</button>
+      <span class="lang-switch__divider" aria-hidden="true">/</span>
+      <button type="button" class="lang-switch__option" data-lang="zh" aria-pressed="false">中文</button>
+    </div>
+  </div>
 </nav>
 
 <main>
 
   <div class="container page-header">
-    <span class="eyebrow reveal">Selected Work</span>
-    <h1 class="reveal-wipe"><span class="reveal-wipe__inner">Space, product, and everything drawn between them</span></h1>
-    <p class="reveal">Pop-ups, retail interiors, furniture, and digital objects — every project below started as a question about what a space or object needed to do.</p>
+    <span class="eyebrow reveal" data-en="Selected Work" data-zh="精选作品">Selected Work</span>
+    <h1 class="reveal-wipe"><span class="reveal-wipe__inner" data-en="Space, product, and everything drawn between them" data-zh="空间、产品,以及介于两者之间被描绘的一切">Space, product, and everything drawn between them</span></h1>
+    <p class="reveal" data-en="Pop-ups, retail interiors, furniture, and digital objects — every project below started as a question about what a space or object needed to do." data-zh="快闪店、零售室内空间、家具与数字产品——以下每个项目都始于同一个问题:这个空间或物件需要实现什么。">Pop-ups, retail interiors, furniture, and digital objects — every project below started as a question about what a space or object needed to do.</p>
   </div>
 
   <div class="project-list">
@@ -38,8 +48,8 @@
       <div class="project__text">
         <span class="project__number reveal">01</span>
         <h2 class="project__name reveal-wipe"><span class="reveal-wipe__inner">Nordfolk</span></h2>
-        <span class="project__tagline reveal">A pop-up retail environment, three-week install</span>
-        <p class="project__description reveal">Three weeks on site, a wooded backdrop instead of a storefront, and a brief to make a temporary retail space feel like part of the landscape rather than dropped into it. We built the whole install around timber framing and corrugated roofing that echoes the site's own outbuildings, with furniture and fixtures light enough to strike in a day. The result reads as considered rather than provisional: a pop-up that doesn't announce itself as one.</p>
+        <span class="project__tagline reveal" data-en="A pop-up retail environment, three-week install" data-zh="快闪零售空间,为期三周的搭建">A pop-up retail environment, three-week install</span>
+        <p class="project__description reveal" data-en="Three weeks on site, a wooded backdrop instead of a storefront, and a brief to make a temporary retail space feel like part of the landscape rather than dropped into it. We built the whole install around timber framing and corrugated roofing that echoes the site's own outbuildings, with furniture and fixtures light enough to strike in a day. The result reads as considered rather than provisional: a pop-up that doesn't announce itself as one." data-zh="三周的现场搭建,以树林为背景取代传统店面,任务是让一个临时零售空间读起来像是融入了地景,而非被生硬地放置其中。我们围绕木构框架与波纹屋顶搭建了整个空间,呼应场地本身的附属建筑,家具与设施轻便到足以一天之内搭起或撤下。最终呈现的效果显得深思熟虑,而非临时凑合——一个不自我标榜为快闪店的快闪店。">Three weeks on site, a wooded backdrop instead of a storefront, and a brief to make a temporary retail space feel like part of the landscape rather than dropped into it. We built the whole install around timber framing and corrugated roofing that echoes the site's own outbuildings, with furniture and fixtures light enough to strike in a day. The result reads as considered rather than provisional: a pop-up that doesn't announce itself as one.</p>
       </div>
 
       <div class="project__images">
@@ -75,8 +85,8 @@
       <div class="project__text">
         <span class="project__number reveal">02</span>
         <h2 class="project__name reveal-wipe"><span class="reveal-wipe__inner">Mono Studio</span></h2>
-        <span class="project__tagline reveal">Flagship store design and signage system</span>
-        <p class="project__description reveal">A single flagship space designed to carry the brand's full range without a single point-of-sale fixture in sight — circulation, lighting, and a wayfinding system built from the same material palette as the product itself. We treated the signage as furniture: cut from the same materials, finished the same way, meant to be lived with rather than noticed. The store reads like a considered room, not a retail set.</p>
+        <span class="project__tagline reveal" data-en="Flagship store design and signage system" data-zh="旗舰店设计与导视系统">Flagship store design and signage system</span>
+        <p class="project__description reveal" data-en="A single flagship space designed to carry the brand's full range without a single point-of-sale fixture in sight — circulation, lighting, and a wayfinding system built from the same material palette as the product itself. We treated the signage as furniture: cut from the same materials, finished the same way, meant to be lived with rather than noticed. The store reads like a considered room, not a retail set." data-zh="一个独立的旗舰空间,承载品牌的完整产品线,却看不见任何一件收银设施——动线、照明与导视系统均采用与产品本身相同的材料语言。我们将标识当作家具来处理:取材相同,工艺相同,意在被日常使用,而非被刻意注目。这家店读起来像是一间用心布置的房间,而非一个零售场景。">A single flagship space designed to carry the brand's full range without a single point-of-sale fixture in sight — circulation, lighting, and a wayfinding system built from the same material palette as the product itself. We treated the signage as furniture: cut from the same materials, finished the same way, meant to be lived with rather than noticed. The store reads like a considered room, not a retail set.</p>
       </div>
 
       <div class="project__images">
@@ -119,35 +129,35 @@
           <img src="assets/logo-ink.png" alt="" class="logo__mark">
           <span class="logo__word">ADJECTIF CREATION</span>
         </a>
-        <p class="footer-tagline">Multidisciplinary design &amp; research studio.</p>
+        <p class="footer-tagline" data-en="Multidisciplinary design &amp; research studio." data-zh="跨领域设计与研究工作室。">Multidisciplinary design &amp; research studio.</p>
       </div>
 
       <div class="footer-col">
-        <span class="small-caps">Contact</span>
+        <span class="small-caps" data-en="Contact" data-zh="联系方式">Contact</span>
         <a href="mailto:hello@adjectifcreation.com">hello@adjectifcreation.com</a>
-        <p>By appointment</p>
+        <p data-en="By appointment" data-zh="预约到访">By appointment</p>
       </div>
 
       <div class="footer-col">
-        <span class="small-caps">Quick Links</span>
-        <a href="studio.html">About</a>
-        <a href="work.html">Work</a>
-        <a href="shop.html">Shop</a>
+        <span class="small-caps" data-en="Quick Links" data-zh="快速链接">Quick Links</span>
+        <a href="studio.html" data-en="About" data-zh="关于">About</a>
+        <a href="work.html" data-en="Work" data-zh="作品">Work</a>
+        <a href="shop.html" data-en="Shop" data-zh="商店">Shop</a>
       </div>
 
       <div class="footer-cta">
-        <a href="contact.html" class="btn btn--outline">Start a project</a>
+        <a href="contact.html" class="btn btn--outline" data-en="Start a project" data-zh="开启合作">Start a project</a>
       </div>
     </div>
 
     <div class="footer-bottom">
-      <p>&copy; 2026 Adjectif Creation. All rights reserved.</p>
+      <p data-en="© 2026 Adjectif Creation. All rights reserved." data-zh="© 2026 Adjectif Creation. 保留所有权利。">&copy; 2026 Adjectif Creation. All rights reserved.</p>
     </div>
   </div>
 </footer>
 
 <div class="lightbox" id="lightbox" aria-hidden="true">
-  <button class="lightbox__close" type="button" aria-label="Close">Close</button>
+  <button class="lightbox__close" type="button" aria-label="Close" data-en="Close" data-zh="关闭">Close</button>
   <div class="lightbox__stage">
     <div class="lightbox__slides"></div>
     <button class="lightbox__prev" type="button" aria-label="Previous photo">
@@ -163,5 +173,6 @@
 <script src="js/main.js"></script>
 <script src="js/motion.js"></script>
 <script src="js/work-gallery.js"></script>
+<script src="js/lang-switch.js"></script>
 </body>
 </html>

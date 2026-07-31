@@ -43,6 +43,12 @@
 
   --font-editorial: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   --font-geo: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+
+  /* Microsoft YaHei itself is Windows-only; PingFang SC/Hiragino Sans GB
+     cover macOS/iOS with the same humanist-sans look, and Noto Sans SC
+     (loaded via each page's own <link>) is the last-resort net for
+     everything else, matching home.html's own --font-zh exactly. */
+  --font-zh: 'Microsoft YaHei', 'PingFang SC', 'Hiragino Sans GB', 'Noto Sans SC', sans-serif;
 }
 
 /* work.html's own stylesheet redeclares --font-editorial with higher
@@ -50,6 +56,29 @@
    specificity here, loaded after work-editorial.css, to win the cascade. */
 body.work-editorial {
   --font-editorial: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+/* Simplified Chinese mode — every selector on these pages already reads
+   its font through var(--font-editorial) (editorial.css's own doing, on
+   nearly every text-bearing selector at once), so overriding just that
+   one custom property when .lang-zh is active cascades everywhere
+   automatically -- no need to hunt down individual selectors the way
+   home.html had to for its one hardcoded Times New Roman holdout
+   (.caption, which here already goes through --font-editorial too).
+   Declared after body.work-editorial above so it wins the specificity
+   tie on work.html, where both classes can be present on <body> at once. */
+body.lang-zh {
+  --font-editorial: var(--font-zh);
+}
+
+/* Negative letter-spacing is a Latin display-type technique that just
+   cramps CJK glyphs together -- reset it on the headline-scale
+   selectors that carry it (editorial.css's h1/h2/h3/.pull-quote). */
+body.lang-zh h1, body.lang-zh .h1,
+body.lang-zh h2, body.lang-zh .h2,
+body.lang-zh h3, body.lang-zh .h3,
+body.lang-zh .pull-quote {
+  letter-spacing: normal;
 }
 
 /* -------------------------------------------------------------------------
@@ -123,19 +152,51 @@ body.work-editorial {
   gap: 41px;
 }
 
-.site-nav__contact {
+.site-nav__right {
   grid-column: 3;
   justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: 26px;
+  white-space: nowrap;
 }
 
-.site-nav a {
+.lang-switch {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.lang-switch__option {
+  background: none;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  color: var(--ink-soft);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.lang-switch__option.is-active {
+  color: var(--navy);
+  cursor: default;
+}
+
+.lang-switch__divider {
+  color: var(--smoke-gray);
+}
+
+.site-nav a,
+.lang-switch__option {
   position: relative;
   padding-bottom: 3px;
   color: inherit;
   text-decoration: none;
 }
 
-.site-nav a::after {
+.site-nav a::after,
+.lang-switch__option::after {
   content: '';
   position: absolute;
   left: 0;
@@ -147,12 +208,16 @@ body.work-editorial {
 }
 
 .site-nav a:hover::after,
-.site-nav a:focus-visible::after {
+.site-nav a:focus-visible::after,
+.lang-switch__option:hover::after,
+.lang-switch__option:focus-visible::after,
+.lang-switch__option.is-active::after {
   right: 0;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .site-nav a::after { transition: none; }
+  .site-nav a::after,
+  .lang-switch__option::after { transition: none; }
 }
 
 @media (max-width: 640px) {
@@ -162,10 +227,13 @@ body.work-editorial {
     padding-block: 13px;
   }
   .site-nav__center { gap: clamp(10px, 3vw, 20px); }
+  .site-nav__right { gap: clamp(8px, 2vw, 16px); }
 }
 
 @media (max-width: 400px) {
   .site-nav { font-size: 11px; }
+  .site-nav__right { gap: 8px; }
+  .lang-switch { gap: 4px; }
 }
 
 /* Pages using the new nav are fixed-positioned (like the homepage), so

@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Studio — Adjectif Creation</title>
 <meta name="description" content="How Adjectif Creation works: our approach, process, and the three disciplines we work across.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet" href="css/editorial.css">
 <link rel="stylesheet" href="css/home-consistent.css">
@@ -13,20 +16,27 @@
 
 <nav class="site-nav" id="site-nav">
   <div class="site-nav__center">
-    <a href="studio.html">About</a>
-    <a href="work.html">Work</a>
-    <a href="shop.html">Shop</a>
+    <a href="studio.html" data-en="About" data-zh="关于">About</a>
+    <a href="work.html" data-en="Work" data-zh="作品">Work</a>
+    <a href="shop.html" data-en="Shop" data-zh="商店">Shop</a>
   </div>
   <a href="home.html" class="site-nav__brand">Adjectif Creation</a>
-  <a href="contact.html" class="site-nav__contact">Contact</a>
+  <div class="site-nav__right">
+    <a href="contact.html" class="site-nav__contact" data-en="Contact" data-zh="联系">Contact</a>
+    <div class="lang-switch" role="group" aria-label="Language / 语言">
+      <button type="button" class="lang-switch__option is-active" data-lang="en" aria-pressed="true">EN</button>
+      <span class="lang-switch__divider" aria-hidden="true">/</span>
+      <button type="button" class="lang-switch__option" data-lang="zh" aria-pressed="false">中文</button>
+    </div>
+  </div>
 </nav>
 
 <main>
 
   <div class="container page-header">
-    <span class="eyebrow">Studio</span>
-    <h1>How we work</h1>
-    <p>Adjectif Creation is a multidisciplinary design and research studio. We work across spatial design, product design, and an integrated shop for the studio's own objects — for brands and individuals who use physical space to sell what they make.</p>
+    <span class="eyebrow" data-en="Studio" data-zh="工作室">Studio</span>
+    <h1 data-en="How we work" data-zh="我们如何工作">How we work</h1>
+    <p data-en="Adjectif Creation is a multidisciplinary design and research studio. We work across spatial design, product design, and an integrated shop for the studio's own objects — for brands and individuals who use physical space to sell what they make." data-zh="Adjectif Creation 是一家跨领域的设计与研究工作室。我们的业务涵盖空间设计、产品设计,以及工作室自有作品的一体化商店——服务于通过实体空间销售产品的品牌与个人。">Adjectif Creation is a multidisciplinary design and research studio. We work across spatial design, product design, and an integrated shop for the studio's own objects — for brands and individuals who use physical space to sell what they make.</p>
   </div>
 
   <!-- APPROACH -->
@@ -44,9 +54,9 @@
         </svg>
       </div>
       <div class="statement__text">
-        <span class="eyebrow">Approach</span>
-        <p>Every brief starts as a question, not a form. We treat a retail interior and a table with the same rigor: what does this object need to say, and how little can it say it with? The work that comes out the other side reads as drafted rather than decorated — precise lines, deliberate materials, nothing left to explain itself twice.</p>
-        <p style="margin-top: 1.25rem;">We keep research and production close together. The same team that measures a site or tests a material also draws the final line — nothing is handed off far enough away to lose the reason it was drawn that way.</p>
+        <span class="eyebrow" data-en="Approach" data-zh="理念">Approach</span>
+        <p data-en="Every brief starts as a question, not a form. We treat a retail interior and a table with the same rigor: what does this object need to say, and how little can it say it with? The work that comes out the other side reads as drafted rather than decorated — precise lines, deliberate materials, nothing left to explain itself twice." data-zh="每一个项目都始于一个问题,而非一份表格。我们以同等的严谨对待零售空间与一张桌子:这件事物需要传达什么,又能以多简练的方式传达?最终呈现的作品读起来更像是草图,而非装饰——线条精确,材料考究,不留一丝多余的解释。">Every brief starts as a question, not a form. We treat a retail interior and a table with the same rigor: what does this object need to say, and how little can it say it with? The work that comes out the other side reads as drafted rather than decorated — precise lines, deliberate materials, nothing left to explain itself twice.</p>
+        <p style="margin-top: 1.25rem;" data-en="We keep research and production close together. The same team that measures a site or tests a material also draws the final line — nothing is handed off far enough away to lose the reason it was drawn that way." data-zh="我们让研究与生产始终紧密相连。测量场地、测试材料的同一支团队,也负责绘制最终的线条——工作从不被交接到足以让人遗忘初衷的地方。">We keep research and production close together. The same team that measures a site or tests a material also draws the final line — nothing is handed off far enough away to lose the reason it was drawn that way.</p>
       </div>
     </div>
   </section>
@@ -55,22 +65,22 @@
   <section class="section bg-paper">
     <div class="container">
       <div class="section-head">
-        <span class="eyebrow">Process</span>
-        <h2>From question to object</h2>
+        <span class="eyebrow" data-en="Process" data-zh="流程">Process</span>
+        <h2 data-en="From question to object" data-zh="从问题到成品">From question to object</h2>
       </div>
 
       <div class="grid grid--3">
         <div>
-          <span class="small-caps label--navy">01 — Research</span>
-          <p style="margin-top: 0.9rem;">We start on site or in the studio with the brand, the material, and the constraint — mapping what the space or object actually needs to do before drawing anything.</p>
+          <span class="small-caps label--navy" data-en="01 — Research" data-zh="01 — 研究">01 — Research</span>
+          <p style="margin-top: 0.9rem;" data-en="We start on site or in the studio with the brand, the material, and the constraint — mapping what the space or object actually needs to do before drawing anything." data-zh="我们从现场或工作室出发,研究品牌、材料与限制条件——在动笔之前,先厘清空间或物件真正需要实现的功能。">We start on site or in the studio with the brand, the material, and the constraint — mapping what the space or object actually needs to do before drawing anything.</p>
         </div>
         <div>
-          <span class="small-caps label--navy">02 — Draft</span>
-          <p style="margin-top: 0.9rem;">Ideas get tested as drawings first: plans, elevations, line studies. Nothing goes to production until the drawing can explain itself without us in the room.</p>
+          <span class="small-caps label--navy" data-en="02 — Draft" data-zh="02 — 草图">02 — Draft</span>
+          <p style="margin-top: 0.9rem;" data-en="Ideas get tested as drawings first: plans, elevations, line studies. Nothing goes to production until the drawing can explain itself without us in the room." data-zh="想法首先以图纸形式接受检验:平面图、立面图、线条研究。除非图纸本身足以说明一切,无需我们在场解释,否则不会进入生产。">Ideas get tested as drawings first: plans, elevations, line studies. Nothing goes to production until the drawing can explain itself without us in the room.</p>
         </div>
         <div>
-          <span class="small-caps label--navy">03 — Build</span>
-          <p style="margin-top: 0.9rem;">We stay close through fabrication and install, on pop-ups and products alike, so the built thing matches the drawing — not a simplified version of it.</p>
+          <span class="small-caps label--navy" data-en="03 — Build" data-zh="03 — 建造">03 — Build</span>
+          <p style="margin-top: 0.9rem;" data-en="We stay close through fabrication and install, on pop-ups and products alike, so the built thing matches the drawing — not a simplified version of it." data-zh="无论是快闪空间还是产品,我们都全程紧跟制作与安装,确保成品与图纸一致——而非其简化版本。">We stay close through fabrication and install, on pop-ups and products alike, so the built thing matches the drawing — not a simplified version of it.</p>
         </div>
       </div>
     </div>
@@ -80,17 +90,17 @@
   <section class="section bg-cream">
     <div class="container">
       <div class="section-head">
-        <span class="eyebrow">Disciplines</span>
-        <h2>Three ways we work</h2>
+        <span class="eyebrow" data-en="Disciplines" data-zh="业务方向">Disciplines</span>
+        <h2 data-en="Three ways we work" data-zh="我们的三种工作方式">Three ways we work</h2>
       </div>
 
       <ul class="list-marks" style="max-width: 56ch;">
-        <li><strong>Spatial design</strong> — pop-ups and retail environments for brands that use physical space to market what they make.</li>
-        <li><strong>Product design</strong> — furniture and digital objects, drawn with the same rigor as a room.</li>
-        <li><strong>Studio shop</strong> — objects we design, make, and sell directly, in small runs.</li>
+        <li><strong data-en="Spatial design" data-zh="空间设计">Spatial design</strong> <span data-en="— pop-ups and retail environments for brands that use physical space to market what they make." data-zh="——为通过实体空间推广产品的品牌打造快闪店与零售环境。">— pop-ups and retail environments for brands that use physical space to market what they make.</span></li>
+        <li><strong data-en="Product design" data-zh="产品设计">Product design</strong> <span data-en="— furniture and digital objects, drawn with the same rigor as a room." data-zh="——以设计一个房间同等的严谨,绘制家具与数字产品。">— furniture and digital objects, drawn with the same rigor as a room.</span></li>
+        <li><strong data-en="Studio shop" data-zh="工作室商店">Studio shop</strong> <span data-en="— objects we design, make, and sell directly, in small runs." data-zh="——我们亲自设计、制作并直接销售的小批量作品。">— objects we design, make, and sell directly, in small runs.</span></li>
       </ul>
 
-      <a href="contact.html" class="btn btn--primary" style="margin-top: 2.5rem;">Start a project</a>
+      <a href="contact.html" class="btn btn--primary" style="margin-top: 2.5rem;" data-en="Start a project" data-zh="开启合作">Start a project</a>
     </div>
   </section>
 
@@ -104,32 +114,33 @@
           <img src="assets/logo-ink.png" alt="" class="logo__mark">
           <span class="logo__word">ADJECTIF CREATION</span>
         </a>
-        <p class="footer-tagline">Multidisciplinary design &amp; research studio.</p>
+        <p class="footer-tagline" data-en="Multidisciplinary design &amp; research studio." data-zh="跨领域设计与研究工作室。">Multidisciplinary design &amp; research studio.</p>
       </div>
 
       <div class="footer-col">
-        <span class="small-caps">Contact</span>
+        <span class="small-caps" data-en="Contact" data-zh="联系方式">Contact</span>
         <a href="mailto:hello@adjectifcreation.com">hello@adjectifcreation.com</a>
-        <p>By appointment</p>
+        <p data-en="By appointment" data-zh="预约到访">By appointment</p>
       </div>
 
       <div class="footer-col">
-        <span class="small-caps">Quick Links</span>
-        <a href="studio.html">About</a>
-        <a href="work.html">Work</a>
-        <a href="shop.html">Shop</a>
+        <span class="small-caps" data-en="Quick Links" data-zh="快速链接">Quick Links</span>
+        <a href="studio.html" data-en="About" data-zh="关于">About</a>
+        <a href="work.html" data-en="Work" data-zh="作品">Work</a>
+        <a href="shop.html" data-en="Shop" data-zh="商店">Shop</a>
       </div>
 
       <div class="footer-cta">
-        <a href="contact.html" class="btn btn--outline">Start a project</a>
+        <a href="contact.html" class="btn btn--outline" data-en="Start a project" data-zh="开启合作">Start a project</a>
       </div>
     </div>
 
     <div class="footer-bottom">
-      <p>&copy; 2026 Adjectif Creation. All rights reserved.</p>
+      <p data-en="© 2026 Adjectif Creation. All rights reserved." data-zh="© 2026 Adjectif Creation. 保留所有权利。">&copy; 2026 Adjectif Creation. All rights reserved.</p>
     </div>
   </div>
 </footer>
 <script src="js/main.js"></script>
+<script src="js/lang-switch.js"></script>
 </body>
 </html>
