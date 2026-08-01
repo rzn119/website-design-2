@@ -2,13 +2,14 @@
 // carries the English text as its own data-en (so this reads back the
 // original rather than needing a second copy of it) plus a data-zh
 // counterpart; switching just swaps textContent in place; nothing is
-// duplicated in the DOM. Choice persists via localStorage so a reload
-// (or navigating to another page) keeps whichever language was last
-// picked. Same logic as home.html's own copy (which stays inline there
-// since that page is otherwise self-contained) -- shared here so every
-// other page doesn't need to duplicate it.
+// duplicated in the DOM. English is always the starting language on
+// every page load -- no persistence across visits or navigation, by
+// design, so a returning visitor always lands in English first and
+// switches to Chinese explicitly if they want it. Same logic as
+// home.html's own copy (which stays inline there since that page is
+// otherwise self-contained) -- shared here so every other page doesn't
+// need to duplicate it.
 (function () {
-  var STORAGE_KEY = 'adjectif-lang';
   var options = document.querySelectorAll('.lang-switch__option');
   var nodes = document.querySelectorAll('[data-en]');
   if (!options.length || !nodes.length) return;
@@ -27,15 +28,11 @@
     });
   }
 
-  var saved;
-  try { saved = localStorage.getItem(STORAGE_KEY); } catch (e) { saved = null; }
-  apply(saved === 'zh' ? 'zh' : 'en');
+  apply('en');
 
   options.forEach(function (btn) {
     btn.addEventListener('click', function () {
-      var lang = btn.getAttribute('data-lang');
-      try { localStorage.setItem(STORAGE_KEY, lang); } catch (e) {}
-      apply(lang);
+      apply(btn.getAttribute('data-lang'));
     });
   });
 })();

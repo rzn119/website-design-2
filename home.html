@@ -817,7 +817,7 @@
           <span class="plain-list__index">03</span>
           <div>
             <h3 data-en="Wellness Analysis" data-zh="健康分析">Wellness Analysis</h3>
-            <p data-en="Research into how a space affects the people using it, feeding directly back into the design decisions we make." data-zh="深入研究空间如何对使用者产生影响，并将研究成果直接反馈并指导我们的设计决策">Research into how a space affects the people using it, feeding directly back into the design decisions we make.</p>
+            <p data-en="Research into how a space affects the people using it, feeding directly back into the design decisions we make." data-zh="深入研究空间如何对使用者产生影响，并将研究成果直接落实到我们的设计决策。">Research into how a space affects the people using it, feeding directly back into the design decisions we make.</p>
           </div>
         </div>
       </div>
@@ -850,7 +850,7 @@
   <section class="section bg-sand" data-theme="light">
     <div class="wrap">
       <span class="label reveal" data-en="WHO WE WORK WITH" data-zh="合作对象">WHO WE WORK WITH</span>
-      <h2 class="headline-section reveal-wipe"><span class="reveal-wipe__inner" data-en="For people and brands who want their products felt in space." data-zh="献给希望产品在空间中被真切感知的个人与品牌">For people and brands who want their products felt in space.</span></h2>
+      <h2 class="headline-section reveal-wipe"><span class="reveal-wipe__inner" data-en="For those who wants to create a narrative through multidisciplinary design" data-zh="希望通过多元设计传递叙事和体验">For those who wants to create a narrative through multidisciplinary design</span></h2>
       <div class="section__body">
         <p class="reveal" data-en="We collaborate with retail brands, cultural institutions, and individuals who treat physical space as a vital medium for narrative, wellness, and engagement. From immersive pop-up environments to bespoke furniture design and spatial diagnostic tools, we partner with clients who believe that high-performance, wellness-driven spaces are valuable assets." data-zh="我们与零售品牌、文化机构及个人紧密合作，将物理空间视为传递叙事、健康与互动的重要媒介。从沉浸式快闪环境到定制家具设计及空间诊断工具，我们致力于与那些同样相信&quot;高性能、健康导向的空间具有核心价值&quot;的客户携手同行">We collaborate with retail brands, cultural institutions, and individuals who treat physical space as a vital medium for narrative, wellness, and engagement. From immersive pop-up environments to bespoke furniture design and spatial diagnostic tools, we partner with clients who believe that high-performance, wellness-driven spaces are valuable assets.</p>
       </div>
@@ -954,10 +954,11 @@
   // carries the English text as its own data-en (so this reads back the
   // original rather than needing a second copy of it) plus a data-zh
   // counterpart; switching just swaps textContent in place; nothing is
-  // duplicated in the DOM. Choice persists via localStorage so a reload
-  // (or a return visit) keeps whichever language was last picked.
+  // duplicated in the DOM. English is always the starting language on
+  // every page load -- no persistence across visits or navigation, by
+  // design, so a returning visitor always lands in English first and
+  // switches to Chinese explicitly if they want it.
   (function () {
-    var STORAGE_KEY = 'adjectif-lang';
     var options = document.querySelectorAll('.lang-switch__option');
     var nodes = document.querySelectorAll('[data-en]');
     if (!options.length || !nodes.length) return;
@@ -976,15 +977,11 @@
       });
     }
 
-    var saved;
-    try { saved = localStorage.getItem(STORAGE_KEY); } catch (e) { saved = null; }
-    apply(saved === 'zh' ? 'zh' : 'en');
+    apply('en');
 
     options.forEach(function (btn) {
       btn.addEventListener('click', function () {
-        var lang = btn.getAttribute('data-lang');
-        try { localStorage.setItem(STORAGE_KEY, lang); } catch (e) {}
-        apply(lang);
+        apply(btn.getAttribute('data-lang'));
       });
     });
   })();
